@@ -1,17 +1,17 @@
-const CommentsService = require('../services/comments-service.js')
+const RelationsService = require('../services/relations-service.js')
 
-class CommentsController {
+class RelationsController {
     async get(req, res) {
         try {
-            const comment = await CommentsService.get()
-            res.json(comment.rows)
+            const relation = await RelationsService.get()
+            res.json(relation.rows)
         } catch(e) {
             console.log(e)
         }
     }
     async post(req, res) {
         try {
-            await CommentsService.post(req.body)
+            await RelationsService.post(req.body)
             res.json(req.body)
         } catch(e) {
             console.log(e)
@@ -19,7 +19,7 @@ class CommentsController {
     }
     async update(req, res) {
         try {
-            await CommentsService.update(req.params, req.body)
+            await RelationsService.update(req.params, req.body)
             res.json('ИЗМЕНЕНО')
         } catch(e) {
             console.log(e)
@@ -27,7 +27,7 @@ class CommentsController {
     }
     async delete(req, res) {
         try {
-            await CommentsService.delete(req.params)
+            await RelationsService.delete(req.params)
             res.json('УДАЛЕНО')
         } catch(e) {
             console.log(e)
@@ -35,4 +35,4 @@ class CommentsController {
     }
 }
 
-module.exports = new CommentsController()
+module.exports = new RelationsController()

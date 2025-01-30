@@ -1,9 +1,9 @@
-const UserModel = require('./model.js')
+const Model = require('./model.js')
 
 class UserService {
     async get() {
         try {
-            const users = await UserModel.get('users')
+            const users = await Model.get('users')
             return users
         } catch(e) {
             console.log(e)
@@ -11,21 +11,21 @@ class UserService {
     }
     async post(data) {
         try {
-            await UserModel.post(data, 'users')
+            await Model.post(data, 'users')
         } catch(e) {
             console.log(e)
         }
     }
     async update({ id }, data) {
         try {
-            await UserModel.update(id, data, 'users')
+            await Model.update(id, data, 'users')
         } catch(e) {
             console.log(e)
         }
     }   
     async delete({ id }) {
         try {
-            await UserModel.delete(id, 'users')
+            await Model.delete(id, 'users')
         } catch(e) {
             console.log(e)
         }
