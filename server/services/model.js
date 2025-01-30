@@ -1,4 +1,13 @@
+// async () {
+//     try {
+//         
+//     }  catch(e) {
+//         console.log(e)
+//     }
+// }
+
 const db = require('../db.js')
+const bcrypt = require('bcrypt')
 
 class UserModel {
     async get(table) {
@@ -33,6 +42,23 @@ class UserModel {
         try {
             await db.query(`DELETE FROM ${table} WHERE id = ${id}`)
         } catch(e) {
+            console.log(e)
+        }
+    }
+    async login(mail, password) {
+        try {
+            const data = await db.query(`SELECT * FROM users WHERE mail = '${mail}' AND password = '${password}'`)
+            console.log(data.rows.length == 0)
+        }  catch(e) {
+            console.log(e)
+        }
+    }
+    async registration(nickname, mail, password) {
+        try {
+            const salt = await bcrypt.genSalt(10)
+            const passwordHash = await bcrypt.hash(password, salt)
+            return await db.query(`INSERT INTO users(nickname, mail, password) VALUES($1, $2, $3) RETURNING *`, [nickname, mail, passwordHash])
+        }  catch(e) {
             console.log(e)
         }
     }

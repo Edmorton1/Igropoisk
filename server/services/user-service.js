@@ -1,5 +1,13 @@
 const Model = require('./model.js')
 
+// async () {
+//     try {
+//         
+//     }  catch(e) {
+//         console.log(e)
+//     }
+// }
+
 class UserService {
     async get() {
         try {
@@ -27,6 +35,22 @@ class UserService {
         try {
             await Model.delete(id, 'users')
         } catch(e) {
+            console.log(e)
+        }
+    }
+    async login(mail, password) {
+        try {
+            await Model.login(mail, password)
+        }  catch(e) {
+            console.log(e)
+        }
+    }
+    async registration(data) {
+        try {
+            const {nickname, mail, password} = data
+            const func = await Model.registration(nickname, mail, password)
+            console.log(func)
+        }  catch(e) {
             console.log(e)
         }
     }

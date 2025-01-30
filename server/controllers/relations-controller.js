@@ -1,9 +1,9 @@
-const RelationsService = require('../services/relations-service.js')
+const RelationService = require('../services/relations-service.js')
 
 class RelationsController {
     async get(req, res) {
         try {
-            const relation = await RelationsService.get()
+            const relation = await RelationService.get()
             res.json(relation.rows)
         } catch(e) {
             console.log(e)
@@ -11,7 +11,7 @@ class RelationsController {
     }
     async post(req, res) {
         try {
-            await RelationsService.post(req.body)
+            await RelationService.post(req.body)
             res.json(req.body)
         } catch(e) {
             console.log(e)
@@ -19,7 +19,7 @@ class RelationsController {
     }
     async update(req, res) {
         try {
-            await RelationsService.update(req.params, req.body)
+            await RelationService.update(req.params, req.body)
             res.json('ИЗМЕНЕНО')
         } catch(e) {
             console.log(e)
@@ -27,7 +27,7 @@ class RelationsController {
     }
     async delete(req, res) {
         try {
-            await RelationsService.delete(req.params)
+            await RelationService.delete(req.params)
             res.json('УДАЛЕНО')
         } catch(e) {
             console.log(e)
