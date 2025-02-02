@@ -11,21 +11,21 @@ class RelationService {
     }
     async post(data) {
         try {
-            await Model.post(data, 'relations')
+            return await Model.post(data, 'relations')
         } catch(e) {
             console.log(e)
         }
     }
     async update({ id }, data) {
         try {
-            await Model.update(id, data, 'relations')
+            return await Model.update(id, data, 'relations')
         } catch(e) {
             console.log(e)
         }
     }   
     async delete({ id }) {
         try {
-            await Model.delete(id, 'relations')
+            return await Model.delete(id, 'relations')
         } catch(e) {
             console.log(e)
         }

@@ -23,7 +23,8 @@ class UserModel {
             const keys = Object.keys(data)
             const values = Object.values(data)
             const dollars = values.map((e, i) => (`$${i + 1}`))
-            await db.query(`INSERT INTO ${table}(${keys}) VALUES(${dollars})`, values)
+            const zapros = await db.query(`INSERT INTO ${table}(${keys}) VALUES(${dollars}) RETURNING *`, values)
+            return zapros.rows
         } catch(e) {
             console.log(e)
         }
@@ -32,23 +33,37 @@ class UserModel {
         try {
             const keys = Object.keys(data)
             const values = Object.values(data)
-            const requeest = keys.map((e, i) => (`${e} = '${values[i]}'`)).join(', ')
-            await db.query(`UPDATE ${table} SET ${requeest} WHERE id = ${id}`)
+            const requeest = keys.map((e, i) => (`${e} = $${i + 1}`)).join(', ')
+            const zapros = await db.query(`UPDATE ${table} SET ${requeest} WHERE id = $${keys.length + 1} RETURNING *`, [...values, id])
+            return zapros.rows
         } catch(e) {
             console.log(e)
         }
     }
-    async delete(id, table) {
+    async delete(key, value, table) {
         try {
-            await db.query(`DELETE FROM ${table} WHERE id = ${id}`)
+            const zapros = await db.query(`DELETE FROM ${table} WHERE ${key} = $1 RETURNING *`, [value])
+            return zapros.rows
         } catch(e) {
             console.log(e)
         }
+    }
+    async getByToken(refreshToken) {
+        const userId = refreshToken.id
+        const user = await db.query(`SELECT * FROM users WHERE id = $1`, [userId])
+        return user.rows[0]
     }
     async login(mail, password) {
         try {
-            const data = await db.query(`SELECT * FROM users WHERE mail = '${mail}' AND password = '${password}'`)
-            console.log(data.rows.length == 0)
+            const zapros = await db.query(`SELECT * FROM users WHERE mail = $1`, [mail])
+            if (zapros.rows.length == 0) {
+                throw new Error('Такого пользователя не существует')
+            }
+            const passwordCompare = await bcrypt.compare(password, zapros.rows[0].password)
+            if (passwordCompare) {
+                return zapros.rows[0]
+            }
+            throw new Error('Неверная почта или пароль')
         }  catch(e) {
             console.log(e)
         }
@@ -57,7 +72,8 @@ class UserModel {
         try {
             const salt = await bcrypt.genSalt(10)
             const passwordHash = await bcrypt.hash(password, salt)
-            return await db.query(`INSERT INTO users(nickname, mail, password) VALUES($1, $2, $3) RETURNING *`, [nickname, mail, passwordHash])
+            const user = await db.query(`INSERT INTO users(nickname, mail, password) VALUES($1, $2, $3) RETURNING *`, [nickname, mail, passwordHash])
+            return user.rows[0]
         }  catch(e) {
             console.log(e)
         }

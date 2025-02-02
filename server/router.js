@@ -20,7 +20,7 @@ router.delete('/relations/:id', RelationsController.delete)
 
 router.post('/login', UserController.login)
 router.post('/registration', UserController.registration)
-// router.put('/logout', RelationsController.update)
-// router.delete('/refresh', RelationsController.delete)
+router.get('/logout', UserController.logout)
+router.post('/refresh', UserController.refresh)
 
 module.exports = router

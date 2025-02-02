@@ -17,6 +17,7 @@ const config = (env: EnvInterface): webpack.Configuration => {
         output: {
             path: path.resolve(__dirname, 'build'),
             filename: '[name].js',
+            assetModuleFilename: 'assets/[name][ext]',
             clean: true,
         },
         plugins: [
@@ -27,6 +28,10 @@ const config = (env: EnvInterface): webpack.Configuration => {
         ],
         module: {
             rules: [
+                {
+                    test: /\.(png|jpe?g|gif|jpg|mp3)$/i,
+                    type: 'asset/resource',
+                  },
                 {
                     test: /\.s[ac]ss$/i,
                     use: [
@@ -46,9 +51,15 @@ const config = (env: EnvInterface): webpack.Configuration => {
             extensions: ['.tsx', '.ts', '.js'],
         },
         devServer: {
+            historyApiFallback: {
+                rewrites: [
+                    { from: /./, to: '/index.html' }, // Перенаправление всех путей на index.html
+                ],
+            },
+            hot: true,
             port: env.port,
             open: true,
-        },
+        }
     };
 
     return config;

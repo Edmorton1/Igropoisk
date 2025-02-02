@@ -1,0 +1,36 @@
+header {
+    background: #343434;
+    height: 5vh;
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 12% 1fr 60% 10%;
+
+    select {
+        border: none;
+        background-color: #454545;
+        color: white;
+        text-align: center;
+        transition: 0.3s;
+        margin-right: 25%;
+    }
+    select:focus {
+        border: none;
+        background: #656565;
+        outline: none;
+    }
+    .img-wrapper {
+        align-self: center;
+    }
+    
+    input {
+        align-self: center;
+        height: 55%;
+    }
+    
+    a {
+        color: white;
+        display: flex;
+        align-self: center;
+        justify-content: center;
+    }
+}

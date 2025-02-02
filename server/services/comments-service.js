@@ -11,21 +11,21 @@ class UserService {
     }
     async post(data) {
         try {
-            await Model.post(data, 'comments')
+            return await Model.post(data, 'comments')
         } catch(e) {
             console.log(e)
         }
     }
     async update({ id }, data) {
         try {
-            await Model.update(id, data, 'comments')
+            return await Model.update(id, data, 'comments')
         } catch(e) {
             console.log(e)
         }
     }   
     async delete({ id }) {
         try {
-            await Model.delete(id, 'comments')
+            return await Model.delete(id, 'comments')
         } catch(e) {
             console.log(e)
         }

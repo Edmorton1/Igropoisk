@@ -10,9 +10,12 @@ app.get('/', (req, res) => {
 })
 
 app.use(express.json())
-app.use(cors())
+app.use(cors({
+    origin: process.env.FRONTEND_CLIENT,
+    credentials: true
+}))
 app.use(cookieParser())
 
 app.use('/api', router)
 
-app.listen(process.env.PORT, () => {console.log(`СЕРВЕР ЗАПУЩЕН НА ПОРТУ: http://localhost:${process.env.PORT}`)})
+app.listen(process.env.PORT, () => {console.log(`СЕРВЕР ЗАПУЩЕН НА ПОРТУ: ${process.env.BACKEND_SERVER}`)})

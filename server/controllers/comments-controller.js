@@ -11,24 +11,24 @@ class CommentsController {
     }
     async post(req, res) {
         try {
-            await CommentService.post(req.body)
-            res.json(req.body)
+            const zapros = await CommentService.post(req.body)
+            res.json(zapros)
         } catch(e) {
             console.log(e)
         }
     }
     async update(req, res) {
         try {
-            await CommentService.update(req.params, req.body)
-            res.json('ИЗМЕНЕНО')
+            const zapros = await CommentService.update(req.params, req.body)
+            res.json(zapros)
         } catch(e) {
             console.log(e)
         }
     }
     async delete(req, res) {
         try {
-            await CommentService.delete(req.params)
-            res.json('УДАЛЕНО')
+            const zapros = await CommentService.delete(req.params)
+            res.json(zapros)
         } catch(e) {
             console.log(e)
         }

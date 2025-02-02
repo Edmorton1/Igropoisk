@@ -11,24 +11,24 @@ class RelationsController {
     }
     async post(req, res) {
         try {
-            await RelationService.post(req.body)
-            res.json(req.body)
+            const zapros = await RelationService.post(req.body)
+            res.json(zapros)
         } catch(e) {
             console.log(e)
         }
     }
     async update(req, res) {
         try {
-            await RelationService.update(req.params, req.body)
-            res.json('ИЗМЕНЕНО')
+            const zapros = await RelationService.update(req.params, req.body)
+            res.json(zapros)
         } catch(e) {
             console.log(e)
         }
     }
     async delete(req, res) {
         try {
-            await RelationService.delete(req.params)
-            res.json('УДАЛЕНО')
+            const zapros = await RelationService.delete(req.params)
+            res.json(zapros)
         } catch(e) {
             console.log(e)
         }
