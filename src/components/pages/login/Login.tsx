@@ -13,17 +13,17 @@ function Login():React.ReactNode {
     }
       
     return (
-        <>
-        <form onSubmit={handleSubmit((data) => login(data))}>
-            <p><strong>Авторизация</strong></p>
-            <p><input {...register('mail')} type="text" placeholder="Почта" value='test@gmail.com' /></p>
-            <p><input {...register('password')} type="text" placeholder="Пароль" value='123' /></p>
-            <p><button>Готово</button> <Link to="/registration">Зарегестрироваться</Link></p>
-        </form>
-        <button onClick={() => store.refresh()}>REFRESH</button>
-        <p></p>
-        <button onClick={() => store.logout()}>LOGOUT</button>
-        </>
+        <main>
+            <form onSubmit={handleSubmit((data) => login(data))}>
+                <p><strong>Авторизация</strong></p>
+                <p><input {...register('mail')} type="text" placeholder="Почта" value='test@gmail.com' /></p>
+                <p><input {...register('password')} type="text" placeholder="Пароль" value='123' /></p>
+                <p><button>Готово</button> <Link to="/registration">Зарегестрироваться</Link></p>
+            </form>
+            <button onClick={() => store.refresh()}>REFRESH</button>
+            <p></p>
+            <button onClick={() => store.logout()}>LOGOUT</button>
+        </main>
     )
 }
 

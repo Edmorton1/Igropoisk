@@ -1,0 +1,31 @@
+@keyframes fadeInOut  {
+    0% {
+        transform: translateY(-7vh);
+    }
+    100% {
+        transform: translateY(0vh);
+    }
+}
+
+@keyframes ending {
+    0% {
+        opacity: 100%;
+    }
+    100% {
+        opacity: 0%;
+    }
+}
+
+.snackbar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: red;
+    margin-top: 2vh;
+    margin-right: 2vh;
+    width: 35vw;
+    height: 5vh;
+    animation: 
+        fadeInOut 0.2s ease-in-out, 
+        ending 0.2s linear 3.8s;
+}

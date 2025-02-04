@@ -9,6 +9,13 @@ class UserService {
             console.log(e)
         }
     }
+    async getByGame(game) {
+        try {
+            return await Model.getWithNick(game)
+        } catch(e) {
+            console.log(e)
+        }
+    }
     async post(data) {
         try {
             return await Model.post(data, 'comments')

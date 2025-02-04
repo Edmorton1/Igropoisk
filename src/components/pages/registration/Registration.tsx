@@ -12,16 +12,18 @@ function Registration():React.ReactNode {
     }
 
     return (
-        <form onSubmit={handleSubmit(data => registration(data))}>
-            <p><strong>РЕГИСТРАЦИЯ</strong></p>
-            <label>Никнейм</label>
-            <p><input {...register('nickname')} type="text" /></p>
-            <label>Почта</label>
-            <p><input {...register('mail')} type="text" /></p>
-            <label>Пароль</label>
-            <p><input {...register('password')} type="text" /></p>
-            <p><button>Готово</button></p>
-        </form>
+        <main>
+            <form onSubmit={handleSubmit(data => registration(data))}>
+                <p><strong>РЕГИСТРАЦИЯ</strong></p>
+                <label>Никнейм</label>
+                <p><input {...register('nickname')} type="text" /></p>
+                <label>Почта</label>
+                <p><input {...register('mail')} type="text" /></p>
+                <label>Пароль</label>
+                <p><input {...register('password')} type="text" /></p>
+                <p><button>Готово</button></p>
+            </form>
+        </main>
     )
 }
 

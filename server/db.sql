@@ -13,6 +13,7 @@ CREATE TABLE comments(
 
     CONSTRAINT user_id_fk_comment FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
+ALTER TABLE comments ADD COLUMN created_at DATE DEFAULT NOW() NOT NULL;
 
 CREATE TABLE relations(
     id SERIAL PRIMARY KEY,

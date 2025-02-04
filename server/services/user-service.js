@@ -18,6 +18,13 @@ class UserService {
             console.log(e)
         }
     }
+    async getByNickname(nickname) {
+        try {
+            return await Model.getByCategory(nickname, 'nickname', 'users')
+        } catch(e) {
+            console.log(e)
+        }
+    }
     async post(data) {
         try {
             return await Model.post(data, 'users')

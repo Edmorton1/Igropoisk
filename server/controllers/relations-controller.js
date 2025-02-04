@@ -9,6 +9,15 @@ class RelationsController {
             console.log(e)
         }
     }
+    async getByUser(req, res) {
+        try {
+            const {user_id} = req.params
+            const relation = await RelationService.getByUser(user_id)
+            res.json(relation.rows)
+        } catch(e) {
+            console.log(e)
+        }
+    }
     async post(req, res) {
         try {
             const zapros = await RelationService.post(req.body)

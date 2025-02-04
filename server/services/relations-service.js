@@ -9,8 +9,20 @@ class RelationService {
             console.log(e)
         }
     }
+    async getByUser(user_id) {
+        try {
+            return await Model.getByCategory(user_id, 'user_id', 'relations')
+        } catch(e) {
+            console.log(e)
+        }
+    }
     async post(data) {
         try {
+            const {game, status, user_id} = data
+            const get = ((await Model.get('relations')).rows).filter(e => (e.game == game && e.user_id == user_id))[0]
+            if (get != undefined) {
+                return await Model.update(get.id, data, 'relations')
+            }
             return await Model.post(data, 'relations')
         } catch(e) {
             console.log(e)

@@ -12,11 +12,16 @@ const bcrypt = require('bcrypt')
 class UserModel {
     async get(table) {
         try {
-            const response = await db.query(`SELECT * FROM ${table} ORDER BY id DESC`)
-            return response
+            return await db.query(`SELECT * FROM ${table} ORDER BY id DESC`)
         } catch(e) {
             console.log(e)
         }
+    }
+    async getByCategory(param, category, table) {
+        return await db.query(`SELECT * FROM ${table} WHERE ${category} = $1 ORDER BY id DESC` + ``, [param])
+    }
+    async getWithNick(game) {
+        return await db.query(`SELECT comments.id, game, text, nickname, created_at FROM comments JOIN users ON comments.user_id = users.id WHERE game = ${game} ORDER BY id DESC`)
     }
     async post(data, table) {
         try {

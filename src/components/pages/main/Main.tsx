@@ -1,6 +1,6 @@
 function Main():React.ReactNode {
     return (
-        <div>МЕЙН</div>
+        <main>МЕЙН</main>
     )
 }
 

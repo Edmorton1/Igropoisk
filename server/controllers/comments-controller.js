@@ -9,6 +9,15 @@ class CommentsController {
             console.log(e)
         }
     }
+    async getByGame(req, res) {
+        try {
+            const {game} = req.params
+            const comment = await CommentService.getByGame(game)
+            res.json(comment.rows)
+        } catch(e) {
+            console.log(e)
+        }
+    }
     async post(req, res) {
         try {
             const zapros = await CommentService.post(req.body)

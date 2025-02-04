@@ -5,8 +5,9 @@ import Store from "./store/store"
 import Header from "./pages/Header"
 import Registration from "./pages/registration/Registration"
 import Main from "./pages/main/Main"
-import Games from "./pages/Games/Games"
-import Game from "./pages/Games/Game"
+import Games from "./pages/games/Games"
+import Game from "./pages/games/Game"
+import Profile from "./pages/profile/Profile"
 import "./css/App.scss"
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 
@@ -35,6 +36,7 @@ function App() {
                         <Route path="registration" element={<Registration />} />
                         <Route path="games" element={<Games />} />
                         <Route path="games/:id" element={<Game />} />
+                        <Route path="/:nickname" element={<Profile />}/>
                         <Route index element={<Main />} />
                     </Routes>
                 </BrowserRouter>

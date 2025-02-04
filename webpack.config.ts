@@ -18,6 +18,7 @@ const config = (env: EnvInterface): webpack.Configuration => {
             path: path.resolve(__dirname, 'build'),
             filename: '[name].js',
             assetModuleFilename: 'assets/[name][ext]',
+            publicPath: "/",
             clean: true,
         },
         plugins: [
@@ -52,10 +53,9 @@ const config = (env: EnvInterface): webpack.Configuration => {
         },
         devServer: {
             historyApiFallback: {
-                rewrites: [
-                    { from: /./, to: '/index.html' }, // Перенаправление всех путей на index.html
-                ],
+                index: "/index.html", // Указывает, что при 404 возвращаем index.html
             },
+            static: path.resolve(__dirname, "public"), // Раздаем файлы из public
             hot: true,
             port: env.port,
             open: true,

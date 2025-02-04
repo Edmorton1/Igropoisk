@@ -26,7 +26,7 @@ function Header():React.ReactNode {
                 <option value="/games">Игры</option>
             </select>
             <input type="text" placeholder="Поиск..." />
-            {user ? <a href="#">{user.nickname}</a> : <Link to="/login">Вход</Link>}
+            {user ? <Link to={user.nickname}>{user.nickname}</Link> : <Link to="/login">Вход</Link>}
         </header>
     )
 }

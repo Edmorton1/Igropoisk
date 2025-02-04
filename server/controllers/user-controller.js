@@ -18,6 +18,15 @@ class UserController {
             console.log(e)
         }
     }
+    async getByNickname(req, res) {
+        try {
+            const {nickname} = req.params
+            const user = await UserService.getByNickname(nickname)
+            res.json(user.rows)
+        } catch(e) {
+            console.log(e)
+        }
+    }
     async post(req, res) {
         try {
             const zapros = await UserService.post(req.body)
