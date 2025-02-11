@@ -12,10 +12,21 @@ const bcrypt = require('bcrypt')
 class UserModel {
     async get(table) {
         try {
-            return await db.query(`SELECT * FROM ${table} ORDER BY id DESC`)
+            return await db.query(`SELECT * FROM ${table}`)
         } catch(e) {
             console.log(e)
         }
+    }
+    async getGamesFastNoReleaseDate() {
+        try {
+            return await db.query(`select * from games WHERE release_date != 'Скоро выйдет' ORDER BY steam_id`)
+        } catch(e) {
+            console.log(e)
+        }
+    }
+    async getSteamAppid() {
+        const response =  (await db.query(`SELECT * FROM games ORDER BY steam_id`)).rows
+        return (response.map(e => (e.steam_id)))
     }
     async getByCategory(param, category, table) {
         return await db.query(`SELECT * FROM ${table} WHERE ${category} = $1 ORDER BY id DESC` + ``, [param])
@@ -31,6 +42,43 @@ class UserModel {
             const zapros = await db.query(`INSERT INTO ${table}(${keys}) VALUES(${dollars}) RETURNING *`, values)
             return zapros.rows
         } catch(e) {
+            console.log(e)
+        }
+    }
+    async postArray(data, table) {
+        try {
+            data.forEach(async (e) => {
+                const keys = Object.keys(e)
+                const values = Object.values(e)
+                const dollars = values.map((e, i) => (`$${i + 1}`))
+                const zapros = await db.query(`INSERT INTO ${table}(${keys}) VALUES(${dollars}) ON CONFLICT (steam_id) DO NOTHING RETURNING *`, values)
+                return zapros.rows
+            })
+        } catch(e) {
+            console.log(e)
+        }
+    }
+    async postEasy(data) {
+        try {
+            return await db.query(`INSERT INTO appids (appid) SELECT unnest($1::int[]) ON CONFLICT (appid) DO NOTHING RETURNING *`, [data])
+        }  catch(e) {
+            console.log(e)
+        }
+    }
+    async updateArray(data) {
+        try {
+            data.forEach(async (e) => {
+                const zapros = await db.query(`UPDATE games SET header_image = $1, capsule_image = $2 WHERE steam_id = $3`, [e.header_image, e.capsule_image, e.steam_id])
+                return zapros.rows
+            })
+        } catch(e) {
+            console.log(e)
+        }
+    }
+    async deleteEasy(table) {
+        try {
+            await db.query(`DELETE FROM ${table} RETURNING *`)
+        }  catch(e) {
             console.log(e)
         }
     }

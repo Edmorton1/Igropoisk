@@ -1,0 +1,27 @@
+.game-section {
+    display: inline-block;
+}
+
+.game-main {
+    display: grid;
+    grid-template-columns: 1fr 20%;
+}
+
+.gameCard {
+    width: 230px;
+    display: inline-block;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    
+    .gameInfo {
+        font-size: 13px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 20px;
+    }
+
+    img {
+        width: 100%;
+    }
+}

@@ -6,6 +6,7 @@
 
 body {
     margin: 0px;
+    background-color: #aaaaaa;
 }
 
 a {
@@ -15,4 +16,44 @@ a {
 main {
     margin-left: 15%;
     margin-right: 15%;
+    background-color: #ffffff;
+    min-height: 92vh;
+    padding: 15px;
+    padding-bottom: 0px;
+}
+
+h1 {
+    margin-top: 0px;
+}
+.slider {
+    position: relative;
+    background-color: white;
+    display: flex;
+    overflow: hidden;
+    align-items: center;
+    width: 100%;
+}
+.slider-but {
+    position: absolute;
+    z-index: 1;
+    right: 5px;
+    width: 128px !important;
+    height: 128px;
+    opacity: 0;
+    transition: all 0.15s linear;
+    cursor: pointer;
+}
+.slider-but:hover {
+    opacity: 0.4;
+}
+.right {
+    right: 5px;
+}
+.left {
+    left: 5px;
+}
+.slider-img {
+    transition: all 0.15s ease-in-out;
+    height: 200px;
+    margin-right: 5px;
 }

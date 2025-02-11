@@ -28,5 +28,12 @@ router.get('/logout', UserController.logout)
 router.post('/refresh', UserController.refresh)
 
 router.get('/game/:id', steamController.game)
+router.get('/allGamesAPI', steamController.WrapperPush)
+// router.post('/refreshAllGames', steamController.getHun)
+// router.delete('/refreshAllGames', steamController.deleteAll)
+router.get('/allGames', steamController.getAll)
+router.get(`/appids`, steamController.appids)
+router.get('/getEverything', steamController.getEverything)
+// router.get('/getByRating', steamController.getByRating)
 
 module.exports = router

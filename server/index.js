@@ -4,11 +4,13 @@ const cors =require('cors')
 const cookieParser = require('cookie-parser')
 const router = require('./router')
 const app = express()
+const compression = require('compression')
+const bodyParser = require('body-parser')
 
-app.get('/', (req, res) => {
-    res.json('')
-})
+app.use(bodyParser.json({limit: "50mb"}))
+app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 
+app.use(compression())
 app.use(express.json())
 app.use(cors({
     origin: process.env.FRONTEND_CLIENT,

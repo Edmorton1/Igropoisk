@@ -10,18 +10,21 @@ import Game from "./pages/games/Game"
 import Profile from "./pages/profile/Profile"
 import "./css/App.scss"
 import { BrowserRouter, Route, Routes } from "react-router-dom"
+import axios from "axios"
+import Test from "./Test"
 
 export const Context = createContext<Store>(null)
 
 function App() {
     const [store] = useState(new Store());
     const [load, setLoad] = useState(false)
+    const [games, setGames] = useState(null)
 
     useEffect(() => {
         const fetchData = async () => {
             await store.refresh();
             setLoad(true);
-        };
+            }
     
         fetchData();
     }, [])
@@ -37,6 +40,7 @@ function App() {
                         <Route path="games" element={<Games />} />
                         <Route path="games/:id" element={<Game />} />
                         <Route path="/:nickname" element={<Profile />}/>
+                        <Route path="/test" element={<Test />}/>
                         <Route index element={<Main />} />
                     </Routes>
                 </BrowserRouter>

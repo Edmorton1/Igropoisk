@@ -33,7 +33,25 @@ CREATE TABLE tokens(
 
 CREATE TYPE relation_status AS ENUM ('passed', 'dropped', 'planned', 'play')
 
+-- create table games(
+-- 	id SERIAL PRIMARY KEY,
+-- 	game INT
+-- );
 
+create table games(
+	steam_id INT PRIMARY KEY,
+	name VARCHAR(255),
+	genres INT[],
+	release_date VARCHAR(255),
+	developers TEXT[],
+	publishers TEXT[],
+	total_reviews INT,
+	total_negative INT
+);
+
+create table appids(
+	appid int pRIMARY KEY
+);
 
 DROP TABLE users;
 DROP TABLE comment;
