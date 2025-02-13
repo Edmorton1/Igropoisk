@@ -62,8 +62,13 @@ export interface gameInAllInterface {
     publishers: string[],
     total_reviews: number,
     total_negative: number,
-    capsule_imagev5: string,
+    capsule_image: string,
     header_image: string,
 }
 
 export type allGameType = gameInAllInterface[]
+
+export interface genresInterface{
+    id: number,
+    description: string
+}

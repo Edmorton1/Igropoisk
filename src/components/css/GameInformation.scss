@@ -4,11 +4,11 @@
 
 .game-main {
     display: grid;
-    grid-template-columns: 1fr 20%;
+    grid-template-columns: 1fr 16vw;
 }
 
 .gameCard {
-    width: 230px;
+    width: 15vw;
     display: inline-block;
     margin-right: 10px;
     margin-bottom: 10px;

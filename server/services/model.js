@@ -24,6 +24,27 @@ class UserModel {
             console.log(e)
         }
     }
+    async getFilter(genreString, order, developer, publisher, release_date) {
+        const orderTypes = ['popularity', 'total_reviews', 'release_date']
+        orderTypes.includes(order) ? order : order = 'total_reviews'
+        order == 'popularity' ? order = "total_reviews - total_negative" : order
+        // console.log(genreString, order, developer, publisher, release_date)
+        try {
+            const developerSQL = developer ? `AND developers @> ARRAY['${developer}']` : ``
+            const publisherSQL = publisher ? `AND publishers @> ARRAY['${publisher}']` : ``
+            const release_dateSQL = release_date ? `AND release_date = '${release_date}'` : ``
+            // console.log(`SELECT * FROM games WHERE release_date !='Скоро выйдет' ${developerSQL} ${publisherSQL} ${release_dateSQL} ORDER BY ${order} DESC;`)
+            if (genreString) {
+                const genre = genreString.split(',')
+                const genreSQL = genre ? `AND genres @> ARRAY[${genre}]` : ``
+                return (await db.query(`SELECT * FROM games WHERE release_date !='Скоро выйдет' ${genreSQL} ${developerSQL} ${publisherSQL} ${release_dateSQL} ORDER BY ${order} DESC;`)).rows
+            }
+            return (await db.query(`SELECT * FROM games WHERE release_date !='Скоро выйдет' ${developerSQL} ${publisherSQL} ${release_dateSQL} ORDER BY ${order} DESC;`)).rows
+        } catch(e) {
+            console.log('ОШИБКА В ПАРАМЕТРАХ', e)
+            return (await db.query(`SELECT * FROM games WHERE release_date !='Скоро выйдет' ORDER BY ${order} DESC;`)).rows
+        }
+    }
     async getSteamAppid() {
         const response =  (await db.query(`SELECT * FROM games ORDER BY steam_id`)).rows
         return (response.map(e => (e.steam_id)))

@@ -4,6 +4,9 @@ header {
     display: grid;
     grid-template-rows: 1fr;
     grid-template-columns: 12% 1fr 60% 10%;
+    position: fixed;
+    width: 100%;
+    z-index: 1;
 
     select {
         border: none;
@@ -32,5 +35,42 @@ header {
         display: flex;
         align-self: center;
         justify-content: center;
+    }
+}
+
+.search-game {
+    top: 5vh;
+    left: 25%;
+    width: 50%;
+    display: flex;
+    background-color: white;
+    position: fixed;
+    overflow: hidden;
+    flex-direction: column;
+    color: #176093;
+    z-index: 2;
+    font-size: 1vw;
+
+    img {
+        height: 6vw;
+    }
+
+    div {
+        display: grid;
+        grid-template-columns: 17vw 1fr;
+        grid-template-rows: 1fr;
+        height: 100%;
+        padding: 10px;
+        border-bottom: 1px solid black;
+        border-top: 1px solid black;
+        transition: 0.3s linear;
+    }
+    div:hover {
+        background-color: #d9e8ff;
+        border-bottom: 1px solid black;
+        border-top: 1px solid black;
+    }
+    p {
+        margin: 0px;
     }
 }

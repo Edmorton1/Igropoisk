@@ -5,17 +5,89 @@ const path = require('path')
 const filePath = path.join(__dirname, 'slice.txt')
 
 class steamController {
-    async getAll(req, res) {
-        const appids = await Model.get('appids')
-        const clean = appids.rows.map(e => (e.appid))
-        res.json(clean)
-    }
+    // async getAll(req, res) {
+    //     const appids = await Model.get('appids')
+    //     const clean = appids.rows.map(e => (e.appid))
+    //     res.json(clean)
+    // }
     async game(req, res) {
         const {id} = req.params
         const response = await fetch(`https://store.steampowered.com/api/appdetails?appids=${id}&l=russian`);
         const data = await response.json();
         res.send(data)
     }
+    async appids(req, res) {
+        const games = (await Model.get('appids')).rows
+        const total = games.map(e => e.appid)
+        console.log(total)
+        res.json(total)
+    }
+    async getEverything(req, res) {
+        const genre = req.query.genre
+        let order = req.query.order
+        const developer = req.query.developer
+        const publisher = req.query.publisher
+        const release_date = req.query.release_date
+        order ? order : order = 'total_reviews'
+        try {
+            const games = await Model.getFilter(genre, order, developer, publisher, release_date)
+            res.json(games)
+        } catch(e) {
+            console.log('ОШИБКА В ПАРАМЕТРАХ ПЕРЕБРОС НА СТАНДАРТНЫЙ', e)
+            const games = (await Model.getGamesFastNoReleaseDate('games')).rows
+            res.json(games)
+        }
+    }
+    async postAppids(req, res) {
+        const response = await fetch(`https://raw.githubusercontent.com/jsnli/steamappidlist/refs/heads/master/data/games_appid.json`);
+        const data = await response.json();
+        const response2 = await Model.get('games')
+        const inDatabase = response2.rows.map(e => e.steam_id)
+        const data_id = data.map(e => e.appid)
+        const total = data_id.filter(e => !inDatabase.includes(e))
+        await Model.postEasy(total)
+        res.json(total)
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
     static async pushTo(list, spice, modificator) {
         const gameClean = await Promise.all(list.slice(spice, spice + modificator).map(async (id) => {
             const gameResponse = await fetch(`https://store.steampowered.com/api/appdetails?appids=${id}&l=russian`);
@@ -28,11 +100,11 @@ class steamController {
             //     return null;
             // }
             // ПРОВЕРКА НА ТИП
-            // try {
-            //     console.log(gameData[`${id}`].data.type, id)
-            // } catch {
-            //     console.log(null, id)
-            // }
+            try {
+                console.log(gameData[`${id}`].data.type, id)
+            } catch {
+                console.log(null, id)
+            }
             if (gameData && gameData[`${id}`].success && gameData[`${id}`].data.type == "game" ? gameData : null) {
                 try {
                     const revResponse = await fetch(`https://store.steampowered.com/appreviews/${id}?json=1&language=all`)
@@ -47,7 +119,9 @@ class steamController {
                         developers: game.developers,
                         publishers: game.publishers,
                         total_reviews: reviews['query_summary']['total_reviews'],
-                        total_negative: reviews['query_summary']['total_negative']
+                        total_negative: reviews['query_summary']['total_negative'],
+                        capsule_image: game.capsule_image,
+                        header_image: game.header_image
                     };
                 } catch(err) {
                     console.log(id);
@@ -143,41 +217,11 @@ class steamController {
     }
     async WrapperPush() {
         try {
-            await steamController.updateToDB();
+            await steamController.pushToDB();
         } catch {
             console.log('ПЕРЕЗАПУСК ЧЕРЕЗ 2 МИНУТ')
-            setTimeout(() => {steamController.updateToDB(), 120000})
+            setTimeout(() => {steamController.pushToDB(), 120000})
         }
-    }
-    
-    async appids(req, res) {
-        const games = await Model.getSteamAppid()
-        console.log(games)
-        res.json(games)
-    }
-    async getEverything(req, res) {
-        const games = (await Model.getGamesFastNoReleaseDate('games')).rows
-        res.json(games)
-    }
-
-
-
-
-
-
-    // async getHun(req, res) {
-    //     const body = req.body
-    //     await Model.postEasy(body)
-    //     await res.json(body)
-    // }
-    // async deleteAll(req, res) {
-    //     await Model.deleteEasy('games')
-    //     await res.json('Все игры стёрты')
-    // }
-    async getByRating(req, res) {
-        const response = await fetch(`http://localhost:3000/api/allGamesAPI`)
-        const games = await response.json()
-        games.slice(0, 10).forEach(e => console.log(e))
     }
 }
 
