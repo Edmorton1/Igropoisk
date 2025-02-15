@@ -23,8 +23,8 @@ function Header():React.ReactNode {
     const user = store.user
     useEffect(() => {
         allGames.search('')
-        console.log('USEEFFECT')
-        console.log(genresJSON)
+        // console.log('USEEFFECT')
+        // console.log(genresJSON)
     }, [])
 
     function goTo(link: string) {
@@ -37,7 +37,7 @@ function Header():React.ReactNode {
     }
 
     function returnSearch(games: gameInAllInterface[]) {
-        console.log(games)
+        // console.log(games)
         return games.map((e, i) => (
             <div key={i}>
                 <img src={e.capsule_image} />

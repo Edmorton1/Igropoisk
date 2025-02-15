@@ -17,7 +17,7 @@ function Games(): React.ReactNode {
     const newParams = new URLSearchParams(searchParams)
     const updateParams = useUpdateParams()
 
-    const order = searchParams.get('order') || 'total_reviews'
+    const order = searchParams.get('order') || 'rating'
     const page = searchParams.get('page') || 1
     const genre = searchParams.get('genre') || ''
     
@@ -51,7 +51,6 @@ function Games(): React.ReactNode {
     }, [])
     
     if (load) {
-        console.log(genre)
         return (
             <>
                 <main className="game-main">

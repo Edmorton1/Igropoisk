@@ -10,12 +10,13 @@ function Genres() {
     const updateParams = useUpdateParams()
     const [searchParams, setSearchParams] = useSearchParams()
 
-    const order = searchParams.get('order') || 'total_reviews'
+    const order = searchParams.get('order') || 'rating'
     const genre = searchParams.get('genre') || ''
     const developer = searchParams.get('developer') || ''
     const publisher = searchParams.get('publisher') || ''
     const release_date = searchParams.get('release_date') || ''
-    const everything = {order, genre, developer, publisher, release_date}
+    const status = searchParams.get('status') || ''
+    const everything = {order, genre, developer, publisher, release_date, status}
 
     // const genres = (searchParams.get('genre')).split(',')
     // // console.log(genres)
@@ -23,9 +24,8 @@ function Genres() {
     // allGames.filter(genres)
 
     useEffect(() => {
-        console.log(developer, publisher, release_date)
+        // console.log(developer, publisher, release_date)
         allGames.filter(everything)
-        console.log(genre.split(','))
     }, [genre, order])
     
     function genresParse() {

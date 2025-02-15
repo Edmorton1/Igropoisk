@@ -24,22 +24,27 @@ class UserModel {
             console.log(e)
         }
     }
-    async getFilter(genreString, order, developer, publisher, release_date) {
-        const orderTypes = ['popularity', 'total_reviews', 'release_date']
-        orderTypes.includes(order) ? order : order = 'total_reviews'
-        order == 'popularity' ? order = "total_reviews - total_negative" : order
-        // console.log(genreString, order, developer, publisher, release_date)
+    async getFilter(query) {
+        const {genre, developer, publisher, release_date, status} = query
+        let {order} = query
+        order ? order : order = 'rating'
+        const orderTypes = ['popularity', 'rating', 'release_date']
+        orderTypes.includes(order) ? order : order = 'rating'
+        order == 'rating' ? order = "total_reviews - total_negative" : order
+        order == 'popularity' ? order = "total_reviews" : order
+        // console.log(genre, order, developer, publisher, release_date, status)
         try {
             const developerSQL = developer ? `AND developers @> ARRAY['${developer}']` : ``
             const publisherSQL = publisher ? `AND publishers @> ARRAY['${publisher}']` : ``
             const release_dateSQL = release_date ? `AND release_date = '${release_date}'` : ``
-            // console.log(`SELECT * FROM games WHERE release_date !='Скоро выйдет' ${developerSQL} ${publisherSQL} ${release_dateSQL} ORDER BY ${order} DESC;`)
-            if (genreString) {
-                const genre = genreString.split(',')
-                const genreSQL = genre ? `AND genres @> ARRAY[${genre}]` : ``
-                return (await db.query(`SELECT * FROM games WHERE release_date !='Скоро выйдет' ${genreSQL} ${developerSQL} ${publisherSQL} ${release_dateSQL} ORDER BY ${order} DESC;`)).rows
+            const statusSQL = status == 'soon' ? `WHERE release_date = 'Скоро выйдет'` : `WHERE release_date !='Скоро выйдет'`
+            // console.log(`SELECT * FROM games ${statusSQL} ${developerSQL} ${publisherSQL} ${release_dateSQL} ORDER BY ${order} DESC;`)
+            if (genre) {
+                const genreString = genre.split(',')
+                const genreSQL = genre ? `AND genres @> ARRAY[${genreString}]` : ``
+                return (await db.query(`SELECT * FROM games ${statusSQL} ${genreSQL} ${developerSQL} ${publisherSQL} ${release_dateSQL} ORDER BY ${order} DESC;`)).rows
             }
-            return (await db.query(`SELECT * FROM games WHERE release_date !='Скоро выйдет' ${developerSQL} ${publisherSQL} ${release_dateSQL} ORDER BY ${order} DESC;`)).rows
+            return (await db.query(`SELECT * FROM games ${statusSQL} ${developerSQL} ${publisherSQL} ${release_dateSQL} ORDER BY ${order} DESC;`)).rows
         } catch(e) {
             console.log('ОШИБКА В ПАРАМЕТРАХ', e)
             return (await db.query(`SELECT * FROM games WHERE release_date !='Скоро выйдет' ORDER BY ${order} DESC;`)).rows

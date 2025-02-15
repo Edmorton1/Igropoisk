@@ -1,14 +1,15 @@
 import { makeAutoObservable, runInAction, toJS } from "mobx";
 import { allGameType } from "../pages/games/GameInterface";
 
-export type paramTypes = 'release_date' | 'steam_id' | 'total_reviews' | 'total_negative' // 'total_negative' - ЭТО РЕЙТИНГ
+export type paramTypes = 'release_date' | 'popularity' | 'rating'  // 'total_negative' - ЭТО РЕЙТИНГ
 
 interface filterInterface {
     order?: string,
     genre?: any,
     developer?: string,
     publisher?: string,
-    release_date?: string
+    release_date?: string,
+    status?: string
 }
 
 class allGames {
@@ -19,15 +20,15 @@ class allGames {
     games:allGameType = []
 
     async getAllGames(order?: any, genre?: any) {
-        console.log(`http://localhost:3000/api/getEverything?order=${order}&genre=${genre}`)
+        // console.log(`http://localhost:3000/api/getEverything?order=${order}&genre=${genre}`)
         const response = await fetch(`http://localhost:3000/api/getEverything?order=${order}&genre=${genre}`)
         const data: allGameType = await response.json()
         return this.games = data
     }
 
     async orderBy(param: paramTypes) {
-        console.log('ОБНОВА')
-        this.games = this.games.slice().sort((a, b) => Number(b[param]) - Number(a[param]))
+        // console.log('ОБНОВА')
+        // this.games = this.games.slice().sort((a, b) => Number(b[param]) - Number(a[param]))
     }
     // async orderBy(param: paramTypes) {
     //     console.log(param)
@@ -36,9 +37,10 @@ class allGames {
     //     this.games = data
     // }
     async filter(values: filterInterface) {
-        const {order, genre, developer, publisher, release_date} = values
-        console.log(order, genre, developer, publisher, release_date)
-        const response = await fetch(`http://localhost:3000/api/getEverything?genre=${genre}&order=${order}&developer=${developer}&publisher=${publisher}&release_date=${release_date}`)
+        console.log('ПЕРЕРЕНДЕР')
+        const {order, genre, developer, publisher, release_date, status} = values
+        // console.log(status)
+        const response = await fetch(`http://localhost:3000/api/getEverything?genre=${genre}&order=${order}&developer=${developer}&publisher=${publisher}&release_date=${release_date}&status=${status}`)
         const data: allGameType = await response.json()
         runInAction(() => {
             return this.games = data

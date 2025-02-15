@@ -23,14 +23,8 @@ class steamController {
         res.json(total)
     }
     async getEverything(req, res) {
-        const genre = req.query.genre
-        let order = req.query.order
-        const developer = req.query.developer
-        const publisher = req.query.publisher
-        const release_date = req.query.release_date
-        order ? order : order = 'total_reviews'
         try {
-            const games = await Model.getFilter(genre, order, developer, publisher, release_date)
+            const games = await Model.getFilter(req.query)
             res.json(games)
         } catch(e) {
             console.log('ОШИБКА В ПАРАМЕТРАХ ПЕРЕБРОС НА СТАНДАРТНЫЙ', e)
@@ -157,7 +151,7 @@ class steamController {
             await steamController.pushTo(games, slice, modificator)
             slice = slice + modificator
             console.log(`СЛАЙС ПОСЛЕ ПЕРВОГО ВЫЗОВА ${slice} / ${games.length}`)
-            setInterval(() => {steamController.pushTo(games, slice, modificator); slice += modificator; console.log(`СЛАЙС В ИНТЕРВАЛЕ ${slice} / ${games.length}`); fs.writeFileSync(filePath, (slice - 30).toString());}, 8000)
+            setInterval(() => {steamController.pushTo(games, slice, modificator); slice += modificator; console.log(`СЛАЙС В ИНТЕРВАЛЕ ${slice} / ${games.length}`); fs.writeFileSync(filePath, (slice - 30).toString());}, 10000)
         } catch(error) {
             console.log(error)
             console.log('ОШИБКА STEAM API')
