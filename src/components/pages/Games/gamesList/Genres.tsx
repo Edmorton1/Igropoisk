@@ -2,7 +2,7 @@ import { useSearchParams } from "react-router-dom";
 import { useUpdateParams } from "../../../hooks/useUpdateParams";
 import allGames from "../../../store/allGames";
 import { observer } from "mobx-react-lite";
-import { useEffect } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { genresInterface } from "../GameInterface";
 
 function Genres() {
@@ -46,11 +46,13 @@ function Genres() {
         ))
     }
 
+    const genreParse = useMemo(() => genresParse(), [genre])
+    // console.log('genres')
     return (
     <>
     <h3>Жанры</h3>
     <ul>
-        {genresParse()}
+        {genreParse}
     </ul>
     </>
     )

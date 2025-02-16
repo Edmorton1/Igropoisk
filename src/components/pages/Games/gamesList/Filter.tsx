@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react"
+import { useMemo, useState, useCallback } from "react"
 import "../../../css/GameInformation.scss"
 import { useSearchParams  } from "react-router-dom"
 import allGames, { paramTypes } from "../../../store/allGames"
@@ -6,12 +6,10 @@ import { useUpdateParams } from "../../../hooks/useUpdateParams"
 import Genres from "./Genres"
 
 function Filter() {
-    const [load, setLoad] = useState(false)
+    // console.log('FILTER')
     const [currentPage, setCurrentPage] = useState(1)
     const [perPage, setPerPage] = useState(15)
     const [searchParams, setSearchParams] = useSearchParams();
-    const [modal, setModal] = useState(false)
-    const newParams = new URLSearchParams(searchParams)
     const updateParams = useUpdateParams()
     
     const order = searchParams.get('order') || ''
@@ -21,16 +19,18 @@ function Filter() {
     const lastCardIndex = currentPage * perPage
     const firstCardIndex = lastCardIndex - perPage
 
-    function radioButtonCheck(key: string, keyName: string, value: paramTypes) {
-        console.log('РАДИО БАТТОН')
-        return {
-            checked: key == value,
-            type: "radio",
-            onClick: () => {updateParams(keyName, value); allGames.orderBy(value)}
-        }
-    }
-
-    const radar = (key: string, keyName: string, value: paramTypes) => useMemo(() => radioButtonCheck(key, keyName, value), [order])
+    const radioButtonCheck = useCallback(
+        (key: string, keyName: string, value: paramTypes) => 
+            useMemo(() => {
+                // console.log('РАДИО БАТТОН')
+                return {
+                    checked: key == value,
+                    type: "radio",
+                    onClick: () => {updateParams(keyName, value); allGames.orderBy(value)}
+                }
+            }, [key, keyName, value, order]), 
+        []
+    );
 
     return (
         <section>

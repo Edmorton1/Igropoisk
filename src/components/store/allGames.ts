@@ -17,13 +17,16 @@ class allGames {
         makeAutoObservable(this)
     }
 
+    page = 1
     games:allGameType = []
+    optimized:allGameType = []
 
-    async getAllGames(order?: any, genre?: any) {
+    async getAllGames(order?: any, genre?: any, page?: number) {
+        console.log(toJS(this.optimized))
         // console.log(`http://localhost:3000/api/getEverything?order=${order}&genre=${genre}`)
         const response = await fetch(`http://localhost:3000/api/getEverything?order=${order}&genre=${genre}`)
         const data: allGameType = await response.json()
-        return this.games = data
+        this.optimized = data.slice(page * 15, (page * 15) + 15)
     }
 
     async orderBy(param: paramTypes) {
@@ -36,12 +39,13 @@ class allGames {
     //     const data: allGameType = await response.json()
     //     this.games = data
     // }
-    async filter(values: filterInterface) {
-        console.log('ПЕРЕРЕНДЕР')
+    async filter(values: filterInterface, page?: number) {
+        console.log(toJS(this.optimized))
         const {order, genre, developer, publisher, release_date, status} = values
         // console.log(status)
         const response = await fetch(`http://localhost:3000/api/getEverything?genre=${genre}&order=${order}&developer=${developer}&publisher=${publisher}&release_date=${release_date}&status=${status}`)
         const data: allGameType = await response.json()
+        this.optimized = data.slice(page * 15, (page * 15) + 15)
         runInAction(() => {
             return this.games = data
         })

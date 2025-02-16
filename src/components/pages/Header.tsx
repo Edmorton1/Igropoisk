@@ -5,39 +5,41 @@ import { Link, useNavigate } from "react-router-dom"
 import Main from "./main/Main"
 import Login from "./login/Login"
 import Modal from "./Modal"
-import { useContext, useEffect, useState } from "react"
+import { memo, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react"
 import { Context } from "../App"
 import allGames from "../store/allGames"
 import { gameInAllInterface, genresInterface } from "./games/GameInterface"
+import useDebounce from "../hooks/useDebounce"
 
 function Header():React.ReactNode {
+    // console.log('HEADER')
     const store = useContext(Context)
-    const navigate = useNavigate()
     const genresJSON: genresInterface = require('./games/gamesList/genres.json');
     const URL = `http://localhost:5000/games`
 
-    const [filgames, setFilgames] = useState<gameInAllInterface[]>(null)
+    const [filgames, setFilgames] = useState<gameInAllInterface[]>([])
     const [value, setValue] = useState('')
     const [modal, setModal] = useState(false)
     const [showGameList, setShowGameList] = useState(false)
-    const user = store.user
+    const user = useMemo(() => store.user, [store.user]) 
     useEffect(() => {
+        console.log('USE EFFECT')
         allGames.search('')
-        // console.log('USEEFFECT')
-        // console.log(genresJSON)
     }, [])
 
     function goTo(link: string) {
-        navigate(link)
+        console.log('ГО ТУ')
+        window.location.href = link
     }
 
-    function HideModalSearch(bool: boolean) {
+    const HideModalSearch = useDebounce((bool: boolean) => {
+        console.log('ХИД МОДАЛ')
         setModal(bool);
         setShowGameList(bool)
-    }
+    }, 300)
 
     function returnSearch(games: gameInAllInterface[]) {
-        // console.log(games)
+        console.log('РЕТУРН СЕРЁ')
         return games.map((e, i) => (
             <div key={i}>
                 <img src={e.capsule_image} />
@@ -58,6 +60,11 @@ function Header():React.ReactNode {
         ))
     }
 
+    const searchGames = useDebounce(async (value: any) => {
+        console.log('filgames')
+        setValue(value); setFilgames((await allGames.search(value)).slice(0, 5))
+    }, 500)
+
     return (
         <>
         {modal && <Modal setModal={setModal} setShowGameList={setShowGameList}></Modal>}
@@ -75,7 +82,7 @@ function Header():React.ReactNode {
                 <option value="/games">Игры</option>
             </select>
             <input type="text" placeholder="Поиск..." onChange={
-                async (event) => {setValue(event.target.value); setFilgames((await allGames.search(event.target.value)).slice(0, 5)); HideModalSearch(true)}
+                async (event) => {searchGames(event.target.value); HideModalSearch(true)}
             } onClick={() => {filgames && HideModalSearch(true)}} />
             {user ? <Link to={user.nickname}>{user.nickname}</Link> : <Link to="/login">Вход</Link>}
         </header>

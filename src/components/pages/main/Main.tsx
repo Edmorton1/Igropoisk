@@ -1,6 +1,8 @@
 function Main():React.ReactNode {
     return (
-        <main>МЕЙН</main>
+        <main>
+            <button>МЕЙН</button>
+        </main>
     )
 }
 
