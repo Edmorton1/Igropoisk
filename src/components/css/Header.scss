@@ -45,11 +45,12 @@ header {
     display: flex;
     background-color: white;
     position: fixed;
-    overflow: hidden;
+    max-height: 95vh;
     flex-direction: column;
     color: #176093;
     z-index: 2;
     font-size: 1vw;
+    overflow: auto;
 
     img {
         height: 6vw;

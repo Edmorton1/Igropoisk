@@ -1,0 +1,43 @@
+$font-head: 15px;
+$image: 100px;
+
+.image-game {
+    transition: 1s ease-in;
+    width: $image;
+}
+.game {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+    background-color: #f1f1f1;
+}
+li {
+    padding: none;
+}
+.game-content {
+    display: grid;
+}
+.head-section {
+    display: grid;
+    grid-template-columns: 40% repeat(3, 1fr);
+    margin-left: $image + 40px;
+    justify-content: space-around;
+
+    span {
+        font-size: $font-head;
+        text-align: center;
+    }
+}
+
+.head-inside {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 40% repeat(3, 1fr);
+    justify-content: space-around;
+    font-size: $font-head;
+
+    span {
+        display: flex;
+        justify-content: center;
+    }
+}

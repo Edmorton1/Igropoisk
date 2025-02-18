@@ -18,6 +18,12 @@ class RelationsController {
             console.log(e)
         }
     }
+    async getGradeGames(req, res) {
+        const id = req.query.game
+        const response = await RelationService.getGradeGames(id)
+        res.json(response)
+    }
+
     async post(req, res) {
         try {
             const zapros = await RelationService.post(req.body)

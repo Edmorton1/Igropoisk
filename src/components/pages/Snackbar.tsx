@@ -1,3 +1,4 @@
+import { memo } from "react"
 import "../css/Snackbar.scss"
 
 function SnackBar():React.ReactNode {
@@ -6,4 +7,4 @@ function SnackBar():React.ReactNode {
     )
 }
 
-export default SnackBar
+export default memo(SnackBar)

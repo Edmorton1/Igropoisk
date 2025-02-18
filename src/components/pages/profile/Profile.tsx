@@ -3,6 +3,7 @@ import relationsResponse from "../../store/relations"
 import { useParams } from "react-router-dom"
 import axios from "axios"
 import { relationArrInterface, userInterface, relationStatus } from "../games/GameInterface"
+import "../../css/Profile.scss"
 
 function Profile():React.ReactNode {
     const [load, setLoad] = useState(false)
@@ -24,23 +25,37 @@ function Profile():React.ReactNode {
     }, [])
     
     function generateRelations(name: relationStatus): React.ReactNode {
-        console.log(relations[name])
         return (
-            <ol>{relations[name].map(e => (
-                <li>{e.game}</li>
+            <ol>{relations[name].map((e, i) => (
+                <li key={i} className="game">
+                    <img src={e.capsule_image} className="image-game" />
+                    <span className="head-inside">
+                        <span>{e.name}</span>
+                        <span>{e.grade ? e.grade : 'Нет оценки'}</span>
+                        <span>{e.gradeSite ? e.gradeSite : 'Нет отзывов'}</span>
+                        <span>{e.rating}</span>
+                    </span>
+                    
+                </li>
             ))}</ol>
         )
     }
 
     if (load) {
-        console.log(relations)
+        console.log(relations.planned)
         return (
             <main>
                 <h1>{nickname}</h1>
                 <div>Запланировано: {relations.planned.length} / Играю: {relations.play.length} / Пройдено: {relations.passed.length} / Брошено: {relations.dropped.length} </div>
-                <p>Список игр</p>
-                <input type="text" placeholder="Поиск по названию..." />
+                {/* <p>Список игр</p>
+                <input type="text" placeholder="Поиск по названию..." /> */}
                 <p>Запланировано</p>
+                <span className="head-section">
+                    <span>Название</span>
+                    <span>Оценка</span>
+                    <span>Рейтинг на Igropoisk</span>
+                    <span>Рейтинг STEAM</span>
+                </span>
                 {generateRelations('planned')}
                 <p>Играю</p>
                 {generateRelations('play')}

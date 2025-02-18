@@ -16,6 +16,9 @@ class RelationService {
             console.log(e)
         }
     }
+    async getGradeGames(id) {
+        return await Model.getGradeGames(id)
+    }
     async post(data) {
         try {
             const {game, status, user_id} = data

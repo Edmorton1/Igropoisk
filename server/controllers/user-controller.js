@@ -35,6 +35,10 @@ class UserController {
             console.log(e)
         }
     }
+    async uploadAvatar(req, res) {
+        const response = await UserService.uploadAvatar(req.file)
+        res.json(response)
+    }
     async update(req, res) {
         try {
             const zapros = await UserService.update(req.params, req.body)

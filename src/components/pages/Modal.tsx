@@ -1,3 +1,4 @@
+import { memo } from "react";
 import "../css/Modal.scss"
 
 interface ModalInterface {
@@ -7,6 +8,7 @@ interface ModalInterface {
 }
 
 function Modal({setModal, children, setShowGameList}: ModalInterface):React.ReactNode {
+    // console.log('МОДАЛ')
     return (
         <>
         <div className="modal" onClick={() => {setModal(false); setShowGameList && setShowGameList(false)}}>
@@ -17,4 +19,4 @@ function Modal({setModal, children, setShowGameList}: ModalInterface):React.Reac
     )
 }
 
-export default Modal
+export default memo(Modal)

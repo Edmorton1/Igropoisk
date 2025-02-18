@@ -2,17 +2,15 @@ import "../css/Header.scss"
 import { observer } from "mobx-react-lite"
 import logo from "../assets/logo.png"
 import { Link, useNavigate } from "react-router-dom"
-import Main from "./main/Main"
-import Login from "./login/Login"
 import Modal from "./Modal"
-import { memo, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react"
+import { useContext, useEffect, useMemo, useState } from "react"
 import { Context } from "../App"
 import allGames from "../store/allGames"
 import { gameInAllInterface, genresInterface } from "./games/GameInterface"
 import useDebounce from "../hooks/useDebounce"
+import { Navigate } from "react-router-dom"
 
 function Header():React.ReactNode {
-    // console.log('HEADER')
     const store = useContext(Context)
     const genresJSON: genresInterface = require('./games/gamesList/genres.json');
     const URL = `http://localhost:5000/games`
@@ -21,25 +19,22 @@ function Header():React.ReactNode {
     const [value, setValue] = useState('')
     const [modal, setModal] = useState(false)
     const [showGameList, setShowGameList] = useState(false)
-    const user = useMemo(() => store.user, [store.user]) 
+    const user = useMemo(() => store.user, [store.user])
+    const navigate = useNavigate()
     useEffect(() => {
-        console.log('USE EFFECT')
         allGames.search('')
     }, [])
 
     function goTo(link: string) {
-        console.log('ГО ТУ')
-        window.location.href = link
+        navigate(link)
     }
 
     const HideModalSearch = useDebounce((bool: boolean) => {
-        console.log('ХИД МОДАЛ')
         setModal(bool);
         setShowGameList(bool)
     }, 300)
 
     function returnSearch(games: gameInAllInterface[]) {
-        console.log('РЕТУРН СЕРЁ')
         return games.map((e, i) => (
             <div key={i}>
                 <img src={e.capsule_image} />
@@ -61,8 +56,7 @@ function Header():React.ReactNode {
     }
 
     const searchGames = useDebounce(async (value: any) => {
-        console.log('filgames')
-        setValue(value); setFilgames((await allGames.search(value)).slice(0, 5))
+        setValue(value); setFilgames((await allGames.search(value)).slice(0, 100))
     }, 500)
 
     return (
@@ -74,16 +68,16 @@ function Header():React.ReactNode {
             </div>
         }
         <header>
-            <Link to="/" className="img-wrapper">
+            <Link to="/games" className="img-wrapper">
                 <img src= {logo} />
             </Link>
             <select onChange={(event) => goTo(event.target.value)}>
-                <option value="/main">Главная</option>
                 <option value="/games">Игры</option>
+                <option value="/users">Пользователи</option>
             </select>
             <input type="text" placeholder="Поиск..." onChange={
-                async (event) => {searchGames(event.target.value); HideModalSearch(true)}
-            } onClick={() => {filgames && HideModalSearch(true)}} />
+                async (event) => {searchGames(event.target.value)}
+            } onClick={() => {filgames && setModal(true); setShowGameList(true)}} />
             {user ? <Link to={user.nickname}>{user.nickname}</Link> : <Link to="/login">Вход</Link>}
         </header>
         </>

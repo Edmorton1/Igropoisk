@@ -9,14 +9,23 @@ function Relatiions({user}: any) {
     const {checkAuth, showSnackBar} = useCheckAuth()
 
     function createRelation(relation: string) {
-        const data = {
-            game: id,
-            status: relation,
-            user_id: user.id
+        try {
+            const accessToken = localStorage.getItem('accessToken')
+            const payload = JSON.parse(atob(accessToken.split('.')[1]))
+            if ((payload.exp * 1000 - Date.now()) > 0) {
+                const data = {
+                    game: id,
+                    status: relation,
+                    user_id: user.id
+                }
+                //@ts-ignore
+                relations.post(data)
+            } else {
+                throw new Error('ACCESS TOKEN ПРОСРОЧИЛСЯ 401')
+            }
+        } catch(e) {
+            throw new Error('ACCESS TOKEN ПРОСРОЧИЛСЯ 401')
         }
-        console.log('asasasdas')
-        //@ts-ignore
-        relations.post(data)
     }
 
     return (

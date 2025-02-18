@@ -1,59 +1,47 @@
 import { useSearchParams } from "react-router-dom";
 import { useUpdateParams } from "../../../hooks/useUpdateParams";
-import allGames from "../../../store/allGames";
 import { observer } from "mobx-react-lite";
-import { useCallback, useEffect, useMemo } from "react";
+import { useMemo, useState } from "react";
 import { genresInterface } from "../GameInterface";
 
 function Genres() {
     const genresJSON: genresInterface[] = require('./genres.json');
     const updateParams = useUpdateParams()
-    const [searchParams, setSearchParams] = useSearchParams()
+    const [searchParams] = useSearchParams()
+    const [value, setValue] = useState('')
 
-    const order = searchParams.get('order') || 'rating'
     const genre = searchParams.get('genre') || ''
-    const developer = searchParams.get('developer') || ''
-    const publisher = searchParams.get('publisher') || ''
-    const release_date = searchParams.get('release_date') || ''
-    const status = searchParams.get('status') || ''
-    const everything = {order, genre, developer, publisher, release_date, status}
-
-    // const genres = (searchParams.get('genre')).split(',')
-    // // console.log(genres)
-
-    // allGames.filter(genres)
-
-    useEffect(() => {
-        // console.log(developer, publisher, release_date)
-        allGames.filter(everything)
-    }, [genre, order])
     
     function genresParse() {
-        return genresJSON.map((e, i) => (
-            <li key={i}>
-                <label>
-                    <input checked={genre.split(',').includes(e.id.toString())} onChange={() => {
-                        const genreArray = genre ? genre.split(',') : []
-                        const isSelected = genreArray.includes(e.id.toString())
-
-                        const newGenres = isSelected 
-                            ? genreArray.filter(element_id => element_id != e.id.toString()) 
-                            : [...genreArray, e.id.toString()]
-                        updateParams("genre", newGenres.length ? newGenres.join(',') : '') }} type="checkbox" />
-                    {e.description}
-                </label>
-            </li>
-        ))
+        return genresJSON.map((e, i) => {
+            if (e.description.toLowerCase().includes(value)) {
+                return (
+                    <li key={i}>
+                        <label>
+                            <input checked={genre.split(',').includes(e.id.toString())} onChange={() => {
+                                const genreArray = genre ? genre.split(',') : []
+                                const isSelected = genreArray.includes(e.id.toString())
+                                const newGenres = isSelected 
+                                    ? genreArray.filter(element_id => element_id != e.id.toString()) 
+                                    : [...genreArray, e.id.toString()]
+                                updateParams("genre", newGenres.length ? newGenres.join(',') : '') }} type="checkbox" />
+                            {e.description}
+                        </label>
+                    </li>
+                )
+            }
+        })
     }
 
-    const genreParse = useMemo(() => genresParse(), [genre])
-    // console.log('genres')
+    const genreParse = useMemo(() => genresParse(), [genre, value])
+
     return (
     <>
     <h3>Жанры</h3>
-    <ul>
-        {genreParse}
-    </ul>
+        <input type="text" placeholder="Поиск по жанру..." onChange={(event) => setValue(event.target.value)}/>
+        <ul className="genreParse">
+            {genreParse}
+        </ul>
     </>
     )
 }

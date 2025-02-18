@@ -1,33 +1,25 @@
-import { memo, useCallback, useMemo } from "react"
+import { memo, useCallback, useMemo, useState } from "react"
 import { useUpdateParams } from "../hooks/useUpdateParams"
 
-interface paginationInterface {
-    totalCards: number
-    perPage: number
-    setCurrentPage: Function
-}
-
-function Pagination({totalCards, perPage, setCurrentPage}:paginationInterface):React.ReactNode {
+function Pagination({pagesCount} : any):React.ReactNode {
     const updateParams = useUpdateParams()
 
     const pages = useMemo(() => {
         const total = []
-        for (let i = 1; i <= Math.ceil(totalCards/perPage); i++) {
+        for (let i = 1; i <= pagesCount; i++) {
             total.push(i)
         }
         return total
-    }, [totalCards, perPage])
+    }, [pagesCount])
 
     const buttonFunc = useCallback((page: number) => {
-        setCurrentPage(page)
         updateParams("page", (page).toString())
-    }, [setCurrentPage])
+    }, [pagesCount, pages])
 
     const pagination = useMemo(() => {
-        console.log('pagination')
         return pages.map((e, i) => {
         if (i + 1 < 6) {
-            return <button key={i} onClick={() => buttonFunc(i + 1)}>{i + 1}</button>
+            return <button key={i} onClick={() => {buttonFunc(i + 1)}}>{i + 1}</button>
         }
         if (i == pages.length - 1) {
             return <button key={i} onClick={() => buttonFunc(i + 1)}>{i + 1}</button>
@@ -35,7 +27,7 @@ function Pagination({totalCards, perPage, setCurrentPage}:paginationInterface):R
         if (i == pages.length - 2) {
             return <button key={i}>...</button>
         }
-    })}, [totalCards]) 
+    })}, [pages]) 
 
     return (
         <div>

@@ -40,8 +40,16 @@ export interface commentsInterface{
 export interface relationInterface{
     id?: number,
     game: number,
+    name: string,
     status: string,
-    user_id: number
+    user_id: number,
+    capsule_image: string,
+    release_date?: string,
+    total_reviews?: number,
+    rating?: string,
+    grade: number,
+    gradeSite: number
+
 }
 
 export interface relationArrInterface{

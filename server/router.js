@@ -9,6 +9,7 @@ router.get('/users', UserController.get)
 router.put('/users/:id', UserController.update)
 router.delete('/users/:id', UserController.delete)
 router.get('/users/:nickname', UserController.getByNickname)
+// router.post('/uploadAvatar', UserController.uploadAvatar)
 
 router.get('/comments', CommentsController.get)
 router.get('/comments/:game', CommentsController.getByGame)
@@ -21,6 +22,7 @@ router.post('/relations', RelationsController.post)
 router.put('/relations/:id', RelationsController.update)
 router.delete('/relations/:id', RelationsController.delete)
 router.get('/relations/:user_id', RelationsController.getByUser)
+router.get('/grades', RelationsController.getGradeGames)
 
 router.post('/login', UserController.login)
 router.post('/registration', UserController.registration)
@@ -28,7 +30,9 @@ router.get('/logout', UserController.logout)
 router.post('/refresh', UserController.refresh)
 
 router.get('/game/:id', steamController.game)
+router.get('/gameDB/:id', steamController.gameDB)
 router.get('/allGamesAPI', steamController.WrapperPush)
+router.get('/getSearch', steamController.getSearch)
 // router.post('/refreshAllGames', steamController.getHun)
 // router.delete('/refreshAllGames', steamController.deleteAll)
 // router.get('/allGames', steamController.getAll)
@@ -36,5 +40,9 @@ router.get(`/appids`, steamController.appids)
 router.get('/getEverything', steamController.getEverything)
 router.get('/postAppids', steamController.postAppids)
 // router.get('/getByRating', steamController.getByRating)
+
+const {upload, fileController} = require('./controllers/file-controller.js')
+router.post('/uploadAvatar', upload.single('avatar'), fileController.UploadAvatar)
+
 
 module.exports = router

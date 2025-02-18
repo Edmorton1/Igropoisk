@@ -16,21 +16,33 @@ class steamController {
         const data = await response.json();
         res.send(data)
     }
+    async gameDB(req, res) {
+        const {id} = req.params
+        const response = await Model.getById(id);
+        res.send(response)
+    }
     async appids(req, res) {
         const games = (await Model.get('appids')).rows
         const total = games.map(e => e.appid)
-        console.log(total)
+        // console.log(total)
         res.json(total)
     }
     async getEverything(req, res) {
         try {
             const games = await Model.getFilter(req.query)
-            res.json(games)
+            // console.log(games)
+            res.json({games: games[0], pages: games[1]})
         } catch(e) {
             console.log('ОШИБКА В ПАРАМЕТРАХ ПЕРЕБРОС НА СТАНДАРТНЫЙ', e)
             const games = (await Model.getGamesFastNoReleaseDate('games')).rows
             res.json(games)
         }
+    }
+    async getSearch(req, res) {
+        const query = req.query.query
+        const response = await Model.getSearch(query)
+        console.log(query)
+        res.json(response)
     }
     async postAppids(req, res) {
         const response = await fetch(`https://raw.githubusercontent.com/jsnli/steamappidlist/refs/heads/master/data/games_appid.json`);
@@ -39,6 +51,7 @@ class steamController {
         const inDatabase = response2.rows.map(e => e.steam_id)
         const data_id = data.map(e => e.appid)
         const total = data_id.filter(e => !inDatabase.includes(e))
+        console.log(total)
         await Model.postEasy(total)
         res.json(total)
     }

@@ -20,6 +20,7 @@ CREATE TABLE relations(
     game INT NOT NULL,
     status relation_status NOT NULL,
     user_id INT NOT NULL,
+    ALTER TABLE relations ADD COLUMN grade INT CHECK (grade BETWEEN 1 AND 10),
 
     CONSTRAINT user_id_fk_relations FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );

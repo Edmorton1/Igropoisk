@@ -51,6 +51,7 @@ class Store implements IStore {
     }
     async logout() {
         await $api.get('/logout')
+        localStorage.removeItem('accessToken')
         console.log('ЛОГАУТ')
         this.user = null
     }
@@ -61,6 +62,8 @@ class Store implements IStore {
         console.log(user, tokens)
         if (user && tokens) {
             this.user = user
+            // $api.defaults.headers.common['Authorization'] = `Bearer ${tokens.accessToken}`
+            // console.log($api.defaults.headers.common.Authorization)
             await localStorage.setItem('accessToken', tokens.accessToken)
         }
     }
