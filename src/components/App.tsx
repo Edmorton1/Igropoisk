@@ -13,6 +13,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom"
 import axios from "axios"
 import Test from "./Test"
 import { Suspense } from "react"
+import DragDrop from "./pages/profile/DragDrop"
 
 export const Context = createContext<Store>(null)
 

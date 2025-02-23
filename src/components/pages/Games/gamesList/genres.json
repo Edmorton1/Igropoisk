@@ -25,6 +25,12 @@
     { "id": 71, "description": "Сексуальный контент" },
     { "id": 72, "description": "Нагота" },
     { "id": 73, "description": "Насилие" },
-    { "id": 74, "description": "Мясо" }
+    { "id": 74, "description": "Мясо" },
+    { "id": 80, "description": "Фильм"},
+    { "id": 81, "description": "Документальные"},
+    { "id": 82, "description": "Сериал"},
+    { "id": 83, "description": "Короткометражный фильм"},
+    { "id": 84, "description": "Обучающий фильм"},
+    { "id": 85, "description": "Панорамное видео"}
   ]
   

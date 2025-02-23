@@ -13,14 +13,6 @@ function Filter() {
     const order = searchParams.get('order') || ''
     const status = searchParams.get('status') || ''
 
-    const radioButtonCheck = (key: string, keyName: string, value: paramTypes) => {
-        return {
-            checked: key === value,
-            type: "radio",
-            onChange: () => updateParams(keyName, value),
-        };
-    };
-
     return (
         <section>
             <h3>Статус</h3>
@@ -31,8 +23,8 @@ function Filter() {
             <h3>Сортровка</h3>
                 <ul>
                     <li><label><input checked={order == "" || order == "rating"} onChange={() => {updateParams('order', 'rating')}} name="sorting" type="radio"/>По рейтингу</label></li>
-                    <li><label><input {...radioButtonCheck(order, 'order', 'popularity')} name="sorting" />По популярности</label></li>
-                    <li><label><input {...radioButtonCheck(order, 'order', 'release_date')} name="sorting" />По дате выхода</label></li>
+                    <li><label><input checked={order == "popularity"} type="radio" onChange={() => updateParams('order', 'popularity')} name="sorting" />По популярности</label></li>
+                    <li><label><input checked={order == "release_date"} type="radio" onChange={() => updateParams('order', 'release_date')} name="sorting" />По дате выхода</label></li>
                 </ul>
             <h3>Список</h3>
             <ul>
@@ -46,4 +38,4 @@ function Filter() {
     )
 }
 
-export default memo(Filter)
+export default Filter

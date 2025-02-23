@@ -3,7 +3,7 @@ header {
     height: 5vh;
     display: grid;
     grid-template-rows: 1fr;
-    grid-template-columns: 12% 1fr 60% 10%;
+    grid-template-columns: 12% 1fr 58% 12%;
     position: fixed;
     width: 100%;
     z-index: 1;
@@ -35,6 +35,17 @@ header {
         display: flex;
         align-self: center;
         justify-content: center;
+    }
+    .avatar-nickname {
+        display: flex;
+        justify-content: center;
+        align-self: center;
+
+        .avatar {
+            width: 42px;
+            height: 42px;
+            margin-right: 3px;
+        }
     }
 }
 

@@ -1,29 +1,66 @@
-import { useContext } from "react"
+import { use, useContext, useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { Context } from "../../App"
+import snackBarFunc from "../../hooks/snackBarFunc"
+import SnackBar from "../Snackbar"
+import "../../css/Registration.scss"
+import snackBarRegistrationStore from "../../store/portals/snackBarStore"
 
-function Registration():React.ReactNode {
+interface dataInterface {
+    nickname: string,
+    mail: string,
+    password: string,
+    password_repeat: string
+}
+
+function Registration() {
     const store = useContext(Context)
     const {register, handleSubmit} = useForm()
+    const [data, setData] = useState<{color: string, text: string}>()
 
-    function registration(data: any) {
-        store.registration(data)
-        console.log(data)
+    async function snackBarsAuth(data: dataInterface) {
+        let text = ''
+        let request_name = await (await fetch(`http://localhost:3000/api/check?nickname=${data.nickname}`)).json()
+        let request_mail = await (await fetch(`http://localhost:3000/api/check?mail=${data.mail}`)).json()
+        // console.log(request)
+        if (request_name == 'nickname занят') {
+            text = 'Никнейм уже занят попробуйте другой'
+        } else if (data.nickname.length < 2) {
+            text = 'Никнейм слишком короткий'
+        } else if (!data.mail.includes('@') || !data.mail.includes('.')) {
+            text = 'Введите почту'
+        } else if (request_mail == 'mail занят') {
+            text = 'Почта уже занята попробуйте другую'
+        } else if (data.password.length < 6) {
+            text = 'Пароль слишком короткий'
+        } else if (data.password != data.password_repeat) {
+            text = 'Пароли не совпадают'
+        }
+        if (data.password == data.password_repeat && text == '') {
+            store.registration(data)
+            return setData({color: "green", text: "Регистрация успешна"})
+        }
+        return setData({color: "red", text: text})
     }
 
     return (
-        <main>
-            <form onSubmit={handleSubmit(data => registration(data))}>
-                <p><strong>РЕГИСТРАЦИЯ</strong></p>
+        <>
+        {data && <SnackBar time={1500} color={data.color}>{data.text}</SnackBar>}
+        <main className="register-section">
+            <form onSubmit={handleSubmit( async (data: dataInterface) => {snackBarRegistrationStore.open(); await snackBarsAuth(data)})}>
+                <strong>РЕГИСТРАЦИЯ</strong>
                 <label>Никнейм</label>
-                <p><input {...register('nickname')} type="text" /></p>
+                <input {...register('nickname')} type="text" />
                 <label>Почта</label>
-                <p><input {...register('mail')} type="text" /></p>
+                <input {...register('mail')} type="text" />
                 <label>Пароль</label>
-                <p><input {...register('password')} type="text" /></p>
-                <p><button>Готово</button></p>
+                <input {...register('password')} type="password" />
+                <label>Повторите пароль</label>
+                <input {...register('password_repeat')} type="password" />
+                <button>Готово</button>
             </form>
         </main>
+        </>
     )
 }
 

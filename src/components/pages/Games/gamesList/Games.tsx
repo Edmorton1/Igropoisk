@@ -32,8 +32,10 @@ function Games(): React.ReactNode {
             <main className="game-main">
                 <div className="game-section">
                     <h1>Игры</h1>
-                    <p>На данной странице отображены Игры, отсортированные по {order}</p>
-                    {returnGames()}
+                    <p>На данной странице отображены Игры, отсортированные по {order == 'rating' ? 'рейтингу' : order == 'popularity' ? 'популярности' : order == 'release_date' ? 'дате выхода' : 'рейтингу'}</p>
+                    <section className="games">
+                        {returnGames()}
+                    </section>
                     <Pagination pagesCount={allGames.pages}/>
                 </div>
                 <Filter />
@@ -42,4 +44,4 @@ function Games(): React.ReactNode {
     )
 }
 
-export default memo(observer(Games))
+export default (observer(Games))

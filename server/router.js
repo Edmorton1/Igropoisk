@@ -9,6 +9,7 @@ router.get('/users', UserController.get)
 router.put('/users/:id', UserController.update)
 router.delete('/users/:id', UserController.delete)
 router.get('/users/:nickname', UserController.getByNickname)
+router.get('/check', UserController.checkInUsers)
 // router.post('/uploadAvatar', UserController.uploadAvatar)
 
 router.get('/comments', CommentsController.get)

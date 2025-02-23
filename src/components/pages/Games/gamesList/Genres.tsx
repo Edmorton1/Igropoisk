@@ -3,6 +3,8 @@ import { useUpdateParams } from "../../../hooks/useUpdateParams";
 import { observer } from "mobx-react-lite";
 import { useMemo, useState } from "react";
 import { genresInterface } from "../GameInterface";
+// select DISTINCT UNNEST(genres) from games
+// SELECT genres, steam_id FROM games WHERE 80 = any(genres)
 
 function Genres() {
     const genresJSON: genresInterface[] = require('./genres.json');
@@ -11,6 +13,8 @@ function Genres() {
     const [value, setValue] = useState('')
 
     const genre = searchParams.get('genre') || ''
+    const page = searchParams.get('page') || ''
+    const order = searchParams.get('order') || ''
     
     function genresParse() {
         return genresJSON.map((e, i) => {
@@ -33,7 +37,7 @@ function Genres() {
         })
     }
 
-    const genreParse = useMemo(() => genresParse(), [genre, value])
+    const genreParse = useMemo(() => genresParse(), [genre, value, page, order])
 
     return (
     <>

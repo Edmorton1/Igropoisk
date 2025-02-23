@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { useForm } from "react-hook-form"
 import { Context } from '../../App'
 import { Link } from "react-router-dom";
+import "../../css/Login.scss"
 
 function Login():React.ReactNode {
     const store = useContext(Context)
@@ -13,12 +14,12 @@ function Login():React.ReactNode {
     }
       
     return (
-        <main>
+        <main className="login-section">
             <form onSubmit={handleSubmit((data) => login(data))}>
-                <p><strong>Авторизация</strong></p>
-                <p><input {...register('mail')} type="text" placeholder="Почта" value='hui@gmail.com' /></p>
-                <p><input {...register('password')} type="text" placeholder="Пароль" value='123' /></p>
-                <p><button>Готово</button> <Link to="/registration">Зарегестрироваться</Link></p>
+                <strong>Авторизация</strong>
+                <input {...register('mail')} type="text" placeholder="Почта" value='hui@gmail.com' />
+                <input {...register('password')} type="text" placeholder="Пароль" value='123' />
+                <button>Готово</button> <span><Link to="/registration">Зарегестрироваться</Link> <Link to={`#`}>Забыли пароль?</Link></span>
             </form>
             <button onClick={() => store.refresh()}>REFRESH</button>
             <p></p>

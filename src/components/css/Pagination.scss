@@ -1,0 +1,21 @@
+$hei-wid: 4vh;
+
+.pagination {
+    display: flex;
+    justify-content: center;
+
+    button {
+        width: $hei-wid;
+        height: $hei-wid;
+        font-size: 14px;
+        text-align: center;
+        padding: 0;
+    
+        border: 1px solid black;
+        background-color: white;
+    }
+    input {
+        width: 8vh;
+        height: 3.4vh;
+    }
+}

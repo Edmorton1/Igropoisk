@@ -7,12 +7,13 @@
 // }
 const tokenService = require('../services/token-service.js')
 const UserService = require('../services/user-service.js')
+const Model = require('../services/model.js')
 const cookie = require('cookie')
 
 class UserController {
     async get(req, res) {
         try {
-            const users = await UserService.get()
+            const users = await UserService.get(req.query.user_id, req.query.nickname)
             res.json(users.rows)
         } catch(e) {
             console.log(e)
@@ -23,6 +24,18 @@ class UserController {
             const {nickname} = req.params
             const user = await UserService.getByNickname(nickname)
             res.json(user.rows)
+        } catch(e) {
+            console.log(e)
+        }
+    }
+    async checkInUsers(req, res) {
+        try {
+            const key = Object.keys(req.query)[0]
+            const value = req.query[key]
+            if (await Model.checkInUsers(value, key) == true) {
+                return res.json(`${key} занят`)
+            }
+            res.json('Свободно')
         } catch(e) {
             console.log(e)
         }

@@ -54,6 +54,9 @@ create table appids(
 	appid int pRIMARY KEY
 );
 
+ALTER TABLE users ADD COLUMN created_at
+	TEXT DEFAULT TO_CHAR(NOW(), 'DD-MM-YYYY');
+
 DROP TABLE users;
 DROP TABLE comment;
 DROP TABLE relations;

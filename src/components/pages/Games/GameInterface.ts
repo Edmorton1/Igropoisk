@@ -26,7 +26,12 @@ export interface userInterface {
     id?: number,
     nickname: string,
     mail: string,
-    password: string
+    password: string,
+    avatar: string,
+    created_at: string,
+    comments_count: number,
+    games_passed: number,
+    grade_count: number
 }
 
 export interface commentsInterface{

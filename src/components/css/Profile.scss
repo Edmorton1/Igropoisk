@@ -41,3 +41,14 @@ li {
         justify-content: center;
     }
 }
+
+.about-user {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 15px;
+
+    h1 {
+        margin: 0px;
+    }
+}

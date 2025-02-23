@@ -1,12 +1,12 @@
 import { useParams } from "react-router-dom"
 import relations from "../../../store/relations"
 import "../../../css/Game.scss"
-import useCheckAuth from "../../../hooks/useCheckAuth"
+import CheckAuthFunc from "../../../hooks/CheckAuthFunc"
 import SnackBar from "../../Snackbar"
 
 function Relatiions({user}: any) {
     const {id} = useParams()
-    const {checkAuth, showSnackBar} = useCheckAuth()
+    // const {checkAuth} = useCheckAuth()
 
     function createRelation(relation: string) {
         try {
@@ -30,8 +30,8 @@ function Relatiions({user}: any) {
 
     return (
         <>
-        {showSnackBar && <SnackBar />}
-        <select onChange={(event) => checkAuth(() => createRelation(event.target.value))}>
+        <SnackBar link='/registration' time={4000}>Для этого действия необходима авторизация</ SnackBar>
+        <select onChange={(event) => CheckAuthFunc(() => createRelation(event.target.value))}>
             <option value="passed">Пройдено</option>
             <option value="dropped">Брошено</option>
             <option value="planned">Запланированно</option>

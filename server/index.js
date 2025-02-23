@@ -7,6 +7,7 @@ const app = express()
 const compression = require('compression')
 const bodyParser = require('body-parser')
 const db = require('./db.js')
+const path = require('path')
 
 app.use(bodyParser.json({limit: "50mb"}))
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
@@ -25,6 +26,7 @@ const user = async (req, res, next) => {
         const id = JSON.parse(atob(accessToken)).id
         const total = (await db.query(`SELECT * FROM users WHERE id = $1`, [id])).rows[0]
         req.user = id
+        console.log(id)
     } catch {
         
     } finally {
@@ -32,6 +34,7 @@ const user = async (req, res, next) => {
     }
 }
 
+app.use('/avatars', express.static(path.resolve(__dirname, 'avatars')));
 app.use(user)
 
 app.use('/api', router)

@@ -20,8 +20,10 @@ main {
     background-color: #ffffff;
     min-height: 92vh;
     padding: 15px;
-    padding-bottom: 0px;
     padding-top: 5vh;
+    padding-bottom: 0;
+    margin-bottom: 0;
+    min-height: 95vh;
 }
 
 h1 {
@@ -67,3 +69,20 @@ li {
 ul {
     padding-left: 0px;
 }
+.avatar {
+    width: 64px;
+    height: 64px;
+}
+.avatar-large {
+    width: 256px;
+    height: 256px;
+}
+.border-dashed {
+    border-bottom: dashed #d1d1d1 1px;
+ }
+ .br-50 {
+    border-radius: 50%;
+ }
+ button {
+    cursor: pointer;
+ }

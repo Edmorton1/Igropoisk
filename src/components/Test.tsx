@@ -2,16 +2,19 @@ import { useState } from "react"
 import Modal from "./pages/Modal"
 import "./css/App.scss"
 import SnackBar from "./pages/Snackbar"
-import useCheckAuth from "./hooks/useCheckAuth"
+import CheckAuthFunc from "./hooks/CheckAuthFunc"
+import snackBarRegistrationStore from "./store/portals/snackBarStore"
 
 function Test() {
-    const {checkAuth, showSnackBar} = useCheckAuth()
+    // const {checkAuth} = useCheckAuth()
+    // snackBarRegistrationStore.open()
 
     return (
         <>
-            {showSnackBar && <SnackBar />}
+            {/* {showSnackBar && <SnackBar />} */}
+            <SnackBar color="red" time={2200} />
             <main>
-                <button onClick={() => checkAuth(() => console.log('asasdasd'))}>CHECK AUTH</button>
+                {/* <button onClick={() => checkAuth(() => console.log('asdas'))}>CHECK AUTH</button> */}
             </main>
         </>
     )

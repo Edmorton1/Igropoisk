@@ -2,7 +2,7 @@ import { memo } from "react";
 import "../css/Modal.scss"
 
 interface ModalInterface {
-    setModal: Function,
+    setModal?: Function,
     children?: any,
     setShowGameList?: Function
 }

@@ -10,9 +10,9 @@ const TokenService = require('./token-service.js')
 // }
 
 class UserService {
-    async get() {
+    async get(user_id, nickname) {
         try {
-            const users = await Model.get('users')
+            const users = await Model.getAllUserInf(user_id, nickname)
             return users
         } catch(e) {
             console.log(e)

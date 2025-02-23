@@ -14,6 +14,7 @@ function Header():React.ReactNode {
     const store = useContext(Context)
     const genresJSON: genresInterface = require('./games/gamesList/genres.json');
     const URL = `http://localhost:5000/games`
+    const URL_SERVER = `http://localhost:3000/avatars/`
 
     const [filgames, setFilgames] = useState<gameInAllInterface[]>([])
     const [value, setValue] = useState('')
@@ -78,7 +79,10 @@ function Header():React.ReactNode {
             <input type="text" placeholder="Поиск..." onChange={
                 async (event) => {searchGames(event.target.value)}
             } onClick={() => {filgames && setModal(true); setShowGameList(true)}} />
-            {user ? <Link to={user.nickname}>{user.nickname}</Link> : <Link to="/login">Вход</Link>}
+            <span className="avatar-nickname">
+                {user ? user.avatar && <Link to={user.nickname}><img className="avatar br-50" src={`http://localhost:3000/avatars/${user.avatar}`} /></Link> : ''}
+                {user ? <Link to={user.nickname}>{user.nickname}</Link> : <Link to="/login">Вход</Link>}
+            </span>
         </header>
         </>
     )

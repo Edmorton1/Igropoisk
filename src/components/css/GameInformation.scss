@@ -4,15 +4,18 @@
 
 .game-main {
     display: grid;
-    grid-template-columns: 1fr 16vw;
+    grid-template-columns: 1fr 14vw;
+    // padding-bottom: 2px;
+}
+
+.games {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    margin-right: 20px;
 }
 
 .gameCard {
-    width: 15vw;
-    display: inline-block;
-    margin-right: 10px;
-    margin-bottom: 10px;
-    
     .gameInfo {
         font-size: 13px;
         display: flex;

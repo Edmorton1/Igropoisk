@@ -19,13 +19,33 @@ class UserModel {
             console.log(e)
         }
     }
-    // async getGamesFastNoReleaseDate() {
-    //     try {
-    //         return await db.query(`select * from games WHERE release_date != 'Скоро выйдет' ORDER BY steam_id`)
-    //     } catch(e) {
-    //         console.log(e)
-    //     }
-    // }
+    async getAllUserInf(user_id, nickname) {
+        try {
+            return await db.query(`
+                SELECT users.id, nickname, mail, avatar, users.created_at, 
+                count(DISTINCT comments.id) as comments_count,
+                count(DISTINCT relations.id) FILTER (where relations.status = 'passed') as games_passed,
+                count(DISTINCT relations.id) FILTER (where grade is null) as grade_count
+                FROM users 
+                LEFT JOIN comments ON comments.user_id = users.id
+                LEFT JOIN relations ON relations.user_id = users.id
+                ${user_id ? `WHERE users.id = ${user_id}` : ``}
+                ${nickname ? `WHERE nickname = '${nickname}'` : ``}
+                GROUP BY users.id ORDER BY id DESC`)
+        } catch(e) {
+            console.log(e)
+        }
+    }
+    async checkInUsers(value, key) {
+        return (await db.query(`SELECT CASE WHEN EXISTS (SELECT 1 FROM users WHERE ${key} = '${value}') THEN TRUE ELSE FALSE END AS result`)).rows[0].result
+    }
+    async getGamesFastNoReleaseDate() {
+        try {
+            return await db.query(`select * from games WHERE release_date != 'Скоро выйдет' ORDER BY steam_id`)
+        } catch(e) {
+            console.log(e)
+        }
+    }
     async getGradeGames(id) {
         if (id) {
             return (await db.query(`SELECT game, ROUND(AVG(grade), 2) as grade FROM relations WHERE game = $1 GROUP BY game`, [id])).rows
@@ -48,12 +68,12 @@ class UserModel {
         orderTypes.includes(order) ? order : order = 'rating'
         order == 'rating' ? order = "total_reviews - total_negative" : order
         order == 'popularity' ? order = "total_reviews" : order
-        const perPage = 15
+        const perPage = 20
         // console.log(genre, order, developer, publisher, release_date, status)
             const developerSQL = developer ? `AND developers @> ARRAY['${developer}']` : ``
             const publisherSQL = publisher ? `AND publishers @> ARRAY['${publisher}']` : ``
             const release_dateSQL = release_date ? `AND release_date = '${release_date}'` : ``
-            const statusSQL = status == 'soon' ? `WHERE release_date = 'Скоро выйдет'` : `WHERE release_date !='Скоро выйдет'`
+            const statusSQL = status == 'soon' ? `WHERE release_date = 'Скоро выйдет' OR CAST(release_date AS INT) > 2025` : `WHERE release_date != 'Скоро выйдет' AND CAST(release_date AS INT) <= 2025`
             if (genre) {
                 const genreString = genre.split(',')
                 const genreSQL = genre ? `AND genres @> ARRAY[${genreString}]` : ``
@@ -71,7 +91,7 @@ class UserModel {
         return await db.query(`SELECT * FROM ${table} WHERE ${category} = $1 ORDER BY id DESC` + ``, [param])
     }
     async getWithNick(game) {
-        return await db.query(`SELECT comments.id, game, text, nickname, created_at FROM comments JOIN users ON comments.user_id = users.id WHERE game = ${game} ORDER BY id DESC`)
+        return await db.query(`SELECT comments.id, game, text, nickname, comments.created_at FROM comments JOIN users ON comments.user_id = users.id WHERE game = ${game} ORDER BY id DESC`)
     }
     async post(data, table) {
         try {
