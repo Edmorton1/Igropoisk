@@ -15,15 +15,17 @@ function Login():React.ReactNode {
       
     return (
         <main className="login-section">
+            <p>hui@gmail.com</p>
+            <p>123</p>
             <form onSubmit={handleSubmit((data) => login(data))}>
                 <strong>Авторизация</strong>
-                <input {...register('mail')} type="text" placeholder="Почта" value='hui@gmail.com' />
-                <input {...register('password')} type="text" placeholder="Пароль" value='123' />
+                <input {...register('mail')} type="text" placeholder="Почта" />
+                <input {...register('password')} type="text" placeholder="Пароль" />
                 <button>Готово</button> <span><Link to="/registration">Зарегестрироваться</Link> <Link to={`#`}>Забыли пароль?</Link></span>
             </form>
-            <button onClick={() => store.refresh()}>REFRESH</button>
+            {/* <button onClick={() => store.refresh()}>REFRESH</button>
             <p></p>
-            <button onClick={() => store.logout()}>LOGOUT</button>
+            <button onClick={() => store.logout()}>LOGOUT</button> */}
         </main>
     )
 }

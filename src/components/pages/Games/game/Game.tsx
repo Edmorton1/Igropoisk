@@ -4,7 +4,7 @@ import steam from "../../../store/steam"
 import { Context } from "../../../App"
 import { toJS } from "mobx"
 import comments from "../../../store/comments"
-import { gameInterface } from "../GameInterface"
+import { gameInterface, userInterface } from "../GameInterface"
 import { observer } from "mobx-react-lite"
 import Relatiions from "./Relations"
 import { Link } from "react-router-dom"
@@ -14,7 +14,7 @@ import Slider from "./Slider"
 
 function Game(): React.ReactNode {
     const store = useContext(Context)
-    const user = toJS(store.user)
+    const user: userInterface | null = toJS(store.user)
 
     const [load, setLoad] = useState(false)
     const [game, setGame] = useState<gameInterface>(null)

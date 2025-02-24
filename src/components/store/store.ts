@@ -1,5 +1,6 @@
 import $api from ".";
 import { makeAutoObservable } from "mobx";
+import { userInterface } from "../pages/games/GameInterface";
 
 interface tokensInterface {
     accessToken: string,
@@ -10,15 +11,6 @@ interface dataInterface {
     nickname?: string,
     mail: string,
     password: string
-}
-
-interface userInterface {
-    id: number,
-    nickname: string,
-    mail: string,
-    password: string,
-    avatar: string,
-    created_at: string
 }
 
 interface IStore {

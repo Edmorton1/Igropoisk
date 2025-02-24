@@ -12,7 +12,7 @@ const db = require('../db.js')
 class TokenService {
     async generateTokens(payload) {
         try {
-            const accessToken = jwt.sign(payload, process.env.ACCESS_PRIVAT_KEY, {expiresIn: '15m'})
+            const accessToken = jwt.sign(payload, process.env.ACCESS_PRIVAT_KEY, {expiresIn: '10s'})
             const refreshToken = jwt.sign(payload, process.env.REFRESH_PRIVAT_KEY, {expiresIn: '10d'})
             return {
                 accessToken: accessToken,

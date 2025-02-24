@@ -9,12 +9,11 @@ import allGames from "../store/allGames"
 import { gameInAllInterface, genresInterface } from "./games/GameInterface"
 import useDebounce from "../hooks/useDebounce"
 import { Navigate } from "react-router-dom"
+import { URL_CLIENT_GAMES, URL_PLACEHOLDER, URL_SERVER_AVATARS } from "../URLS"
 
 function Header():React.ReactNode {
     const store = useContext(Context)
     const genresJSON: genresInterface = require('./games/gamesList/genres.json');
-    const URL = `http://localhost:5000/games`
-    const URL_SERVER = `http://localhost:3000/avatars/`
 
     const [filgames, setFilgames] = useState<gameInAllInterface[]>([])
     const [value, setValue] = useState('')
@@ -41,16 +40,16 @@ function Header():React.ReactNode {
                 <img src={e.capsule_image} />
                 <span>
                     <p><Link onClick={() => HideModalSearch(false)} to={`http://localhost:5000/games/${e.steam_id}`}>{e.name}</Link></p>
-                    <p>Год выхода: <Link onClick={() => HideModalSearch(false)} to={`${URL}?release_date=${e.release_date}`}>{e.release_date}</Link></p>
+                    <p>Год выхода: <Link onClick={() => HideModalSearch(false)} to={`${URL_CLIENT_GAMES}?release_date=${e.release_date}`}>{e.release_date}</Link></p>
                     <p>Жанры: {e.genres.map(genre => {
                         //@ts-ignore
                         const foundGenre = genresJSON.find(g => g.id == genre)
                         return (
-                        <Link onClick={() => HideModalSearch(false)} to={`${URL}?genre=${foundGenre.id}`}>{foundGenre.description}, </Link>
+                        <Link onClick={() => HideModalSearch(false)} to={`${URL_CLIENT_GAMES}?genre=${foundGenre.id}`}>{foundGenre.description}, </Link>
                         )
                     })}</p>
-                    <p>Издатель: <Link onClick={() => HideModalSearch(false)} to={`${URL}?publisher=${e.publishers}`}>{e.publishers}</Link></p>
-                    <p>Разработчик: <Link onClick={() => HideModalSearch(false)} to={`${URL}?developer=${e.developers}`}>{e.developers}</Link></p>
+                    <p>Издатель: <Link onClick={() => HideModalSearch(false)} to={`${URL_CLIENT_GAMES}?publisher=${e.publishers}`}>{e.publishers}</Link></p>
+                    <p>Разработчик: <Link onClick={() => HideModalSearch(false)} to={`${URL_CLIENT_GAMES}?developer=${e.developers}`}>{e.developers}</Link></p>
                 </span>
             </div>
         ))
@@ -80,7 +79,7 @@ function Header():React.ReactNode {
                 async (event) => {searchGames(event.target.value)}
             } onClick={() => {filgames && setModal(true); setShowGameList(true)}} />
             <span className="avatar-nickname">
-                {user ? user.avatar && <Link to={user.nickname}><img className="avatar br-50" src={`http://localhost:3000/avatars/${user.avatar}`} /></Link> : ''}
+                {user && <Link to={user.nickname}><img className="avatar br-50" onError={e => e.currentTarget.src = URL_PLACEHOLDER} src={`${URL_SERVER_AVATARS}${user.avatar}`} /></Link>}
                 {user ? <Link to={user.nickname}>{user.nickname}</Link> : <Link to="/login">Вход</Link>}
             </span>
         </header>

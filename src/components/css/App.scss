@@ -8,6 +8,7 @@ body {
     margin: 0px;
     position: relative;
     background-color: #aaaaaa;
+    height: 100vh;
 }
 
 a {
@@ -18,7 +19,6 @@ main {
     margin-left: 15%;
     margin-right: 15%;
     background-color: #ffffff;
-    min-height: 92vh;
     padding: 15px;
     padding-top: 5vh;
     padding-bottom: 0;
@@ -85,4 +85,9 @@ ul {
  }
  button {
     cursor: pointer;
+ }
+ input[type="number"]::-webkit-inner-spin-button,
+ input[type="number"]::-webkit-outer-spin-button {
+     -webkit-appearance: none;
+     margin: 0;
  }

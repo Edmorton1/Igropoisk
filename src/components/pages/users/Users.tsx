@@ -1,9 +1,9 @@
 import { useState } from "react"
-import ava from "../../assets/user-placeholder.jpg"
 import { useUsers } from "../../hooks/useUsers"
 import { userInterface } from "../games/GameInterface"
 import "../../css/Users.scss"
 import { Link } from "react-router-dom"
+import { URL_PLACEHOLDER, URL_SERVER_AVATARS } from "../../URLS"
 
 interface dataInterface {
     isLoading: boolean,
@@ -12,13 +12,12 @@ interface dataInterface {
 
 function Main():React.ReactNode {
     const {isLoading, data}: dataInterface =  useUsers()
-    const URL = `http://localhost:3000/avatars/`
 
     function returnUsers() {
         return data.map((e, i) => (
-            <div className="user-card border-dashed">
+            <div key={i} className="user-card border-dashed">
                 <span className="left-section">
-                    <img className="avatar" src={e.avatar ? `${URL}${e.avatar}` : `../../assets/user-placeholder.jpg`} />
+                    <Link to={`/${e.nickname}`}><img className="avatar" onError={e => e.currentTarget.src = URL_PLACEHOLDER} src={`${URL_SERVER_AVATARS}${e.avatar}`} /></Link>
                     <div className="left-text">
                         <Link to={`/${e.nickname}`}>{e.nickname}</Link>
                         <span>На сайте с {e.created_at}</span>

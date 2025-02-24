@@ -91,7 +91,7 @@ class UserModel {
         return await db.query(`SELECT * FROM ${table} WHERE ${category} = $1 ORDER BY id DESC` + ``, [param])
     }
     async getWithNick(game) {
-        return await db.query(`SELECT comments.id, game, text, nickname, comments.created_at FROM comments JOIN users ON comments.user_id = users.id WHERE game = ${game} ORDER BY id DESC`)
+        return await db.query(`SELECT comments.id, game, text, nickname, avatar, comments.created_at FROM comments JOIN users ON comments.user_id = users.id WHERE game = ${game} ORDER BY id DESC`)
     }
     async post(data, table) {
         try {

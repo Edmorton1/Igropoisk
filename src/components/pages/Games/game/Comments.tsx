@@ -7,8 +7,23 @@ import "../../../css/Game.scss"
 import { useState } from "react"
 import { useParams } from "react-router-dom"
 import { observer } from "mobx-react-lite"
+import { userInterface } from "../GameInterface"
+import { URL_PLACEHOLDER, URL_SERVER_AVATARS } from "../../../URLS"
 
-function Comments({user}: any) {
+interface userProps {
+    user: userInterface | null
+}
+
+interface commentInterface {
+    id: number,
+    game: number,
+    text: string,
+    nickname: string,
+    avatar: string,
+    created_at: string,
+}
+
+function Comments({user}: userProps) {
     const [visibleComments, setVisibleComments] = useState(5)
     const {id} = useParams()
 
@@ -25,10 +40,10 @@ function Comments({user}: any) {
     const {register, handleSubmit} = useForm()
 
     function generateComments():React.ReactNode {
-        return comments.comments.slice(0, visibleComments).map((e, i) => (
+        return comments.comments.slice(0, visibleComments).map((e: commentInterface, i) => (
             <div key={i} className="comment">
                 <div className="com-head">
-                    <img src={ava} />
+                    <img onError={e => e.currentTarget.src = ava} src={`${URL_SERVER_AVATARS}${e.avatar}`} />
                     <div className="name-date">
                         <Link to={`/${e.nickname}`}>{e.nickname}</Link>
                         <span>{e.created_at}</span>

@@ -29,9 +29,9 @@ export interface userInterface {
     password: string,
     avatar: string,
     created_at: string,
-    comments_count: number,
-    games_passed: number,
-    grade_count: number
+    comments_count?: number,
+    games_passed?: number,
+    grade_count?: number
 }
 
 export interface commentsInterface{
@@ -52,7 +52,7 @@ export interface relationInterface{
     release_date?: string,
     total_reviews?: number,
     rating?: string,
-    grade: number,
+    grade: number | string | null,
     gradeSite: number
 
 }

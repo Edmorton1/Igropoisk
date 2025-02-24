@@ -23,6 +23,14 @@ class Relations {
         const data = response.body
         return data
     }
+    async gradeChange(grade: number | string, id: number) {
+        grade == 0 ? grade = null : Number(grade)
+        await axios.put(`http://localhost:3000/api/relations/${id}`,
+            {
+                "grade": grade
+            }
+        )
+    }
     async relationParse() {
         const relationsArray:relationArrInterface = {
             planned: [],

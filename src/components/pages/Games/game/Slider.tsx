@@ -1,5 +1,4 @@
 import { useState } from "react"
-import { gameInterface } from "../GameInterface"
 import "../../../css/Game.scss"
 import left from "../../../assets/left.png"
 import right from "../../../assets/right.png"

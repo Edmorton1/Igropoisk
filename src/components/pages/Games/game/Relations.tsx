@@ -12,6 +12,7 @@ function Relatiions({user}: any) {
         try {
             const accessToken = localStorage.getItem('accessToken')
             const payload = JSON.parse(atob(accessToken.split('.')[1]))
+            console.log(payload.exp * 1000 - Date.now())
             if ((payload.exp * 1000 - Date.now()) > 0) {
                 const data = {
                     game: id,
