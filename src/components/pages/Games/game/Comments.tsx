@@ -9,6 +9,7 @@ import { useParams } from "react-router-dom"
 import { observer } from "mobx-react-lite"
 import { userInterface } from "../GameInterface"
 import { URL_PLACEHOLDER, URL_SERVER_AVATARS } from "../../../URLS"
+import CheckAuthFunc from "../../../hooks/checkAuthFunc"
 
 interface userProps {
     user: userInterface | null
@@ -26,6 +27,7 @@ interface commentInterface {
 function Comments({user}: userProps) {
     const [visibleComments, setVisibleComments] = useState(5)
     const {id} = useParams()
+    const [snackbar, checkAuth] = CheckAuthFunc()
 
     function createComment(text: string) {
         console.log(text)
@@ -56,10 +58,11 @@ function Comments({user}: userProps) {
 
     return (
         <section>
+            {snackbar}
             <h2>Комментарии</h2>
                 {generateComments()}
                 {comments.comments.length > visibleComments && <button className="more" onClick={() => setVisibleComments(visibleComments + 5)}>Загрузить ещё комментарии</button>}
-                    {user && <form onSubmit={handleSubmit((data) => createComment(data.text))}>
+                    {user && <form onSubmit={handleSubmit((data) => checkAuth(() => createComment(data.text)))}>
                         <h3>Оставить комментарий</h3>
                         <textarea {...register('text')}></textarea>
                         <button>Написать</button>

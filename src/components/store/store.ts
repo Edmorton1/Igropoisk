@@ -61,6 +61,14 @@ class Store implements IStore {
             await localStorage.setItem('accessToken', tokens.accessToken)
         }
     }
+    async refreshAccessToken() {
+        const response = await $api.get<undefined>('/refreshAccess')
+        const accessToken = response.data
+        console.log(accessToken)
+        if (accessToken) {
+            await localStorage.setItem('accessToken', accessToken)
+        }
+    }
 }
 // ДОБАВИТЬ КНОПКУ С ПРОВЕРКОЙ НА ВАЛИДНОСТЬ ТОКЕН
 export default Store

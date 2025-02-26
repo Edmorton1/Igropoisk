@@ -11,6 +11,7 @@ function Pagination({pagesCount} : any):React.ReactNode {
 
     const order = searchParams.get('order') || ''
     const page = Number(searchParams.get('page')) || 1
+    const release_date = searchParams.get('release_date') || ''
 
     const pages = useMemo(() => {
         const total = []
@@ -42,7 +43,7 @@ function Pagination({pagesCount} : any):React.ReactNode {
         if (i == pages.length - 2) {
             return <button onClick={() => setShowInput(true)} key={i}>...</button>
         }
-    })}, [pages, pagesCount, order, page, showInput]) 
+    })}, [pages, pagesCount, order, page, showInput, release_date]) 
 
     return (
         <div className="pagination">

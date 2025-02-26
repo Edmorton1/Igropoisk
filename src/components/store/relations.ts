@@ -9,9 +9,10 @@ class Relations {
     constructor() {
         makeAutoObservable(this)
     }
-    async getByUser(user_id: string) {
+    async getByUser(user_id: string, game?: string) {
+        const game_url = game ? game : ''
         //@ts-ignore
-        this.relation = (await axios.get(`http://localhost:3000/api/relations/${user_id}`)).data
+        this.relation = (await axios.get(`http://localhost:3000/api/relations/${user_id}?game=${game_url}`)).data
     }
     async post(data: relationInterface) {
         await axios.post(`http://localhost:3000/api/relations/`, data)
@@ -20,16 +21,22 @@ class Relations {
     }
     async grade(game?: number | string) {
         const response = await fetch(`http://localhost:3000/api/grades?game=${game}`)
-        const data = response.body
+        const data = response.json()
         return data
     }
     async gradeChange(grade: number | string, id: number) {
         grade == 0 ? grade = null : Number(grade)
+        console.log(grade, id)
         await axios.put(`http://localhost:3000/api/relations/${id}`,
             {
                 "grade": grade
             }
         )
+    }
+    async relationGame(user_id: string, game?: string) {
+        const response = await fetch(`http://localhost:3000/api/relations/${user_id}?game=${game}`)
+        const data = response.json()
+        return data
     }
     async relationParse() {
         const relationsArray:relationArrInterface = {

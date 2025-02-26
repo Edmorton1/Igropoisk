@@ -29,6 +29,7 @@ router.post('/login', UserController.login)
 router.post('/registration', UserController.registration)
 router.get('/logout', UserController.logout)
 router.post('/refresh', UserController.refresh)
+router.get('/refreshAccess', UserController.refreshAccess)
 
 router.get('/game/:id', steamController.game)
 router.get('/gameDB/:id', steamController.gameDB)

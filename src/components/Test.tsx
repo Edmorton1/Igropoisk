@@ -2,7 +2,7 @@ import { useState } from "react"
 import Modal from "./pages/Modal"
 import "./css/App.scss"
 import SnackBar from "./pages/Snackbar"
-import CheckAuthFunc from "./hooks/CheckAuthFunc"
+// import CheckAuthFunc from "./hooks/checkAuthFunc"
 import snackBarRegistrationStore from "./store/portals/snackBarStore"
 
 function Test() {

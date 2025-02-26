@@ -11,6 +11,7 @@ import { URL_PLACEHOLDER, URL_SERVER_AVATARS } from "../../URLS"
 import { observer } from "mobx-react-lite"
 import { Context } from "../../App"
 import { toJS } from "mobx"
+import checkAuthFunc from "../../hooks/checkAuthFunc"
 
 function Profile():React.ReactNode {
     const [load, setLoad] = useState(false)
@@ -18,6 +19,7 @@ function Profile():React.ReactNode {
     const [relations, setRelations] = useState<relationArrInterface>(null)
     const [grade, setGrade] = useState(-1)
     const {nickname} = useParams()
+    const [SnackBar, checkAuth] = checkAuthFunc()
     // console.log(storeUser)
 
     useEffect(() => {
@@ -31,7 +33,7 @@ function Profile():React.ReactNode {
         }
 
         fetchData()
-    }, [])
+    }, [nickname])
 
     function limitCheck(value: string) {
         let total = Number(value)
@@ -45,13 +47,14 @@ function Profile():React.ReactNode {
     }
     
     function generateRelations(name: relationStatus): React.ReactNode {
+        // console.log('generate rel')
         return (
             <ol>{relations[name].map((e, i) => (
                 <li key={i} className="game">
                     <Link to={`/games/${e.game}`}><img src={e.capsule_image} className="image-game" /></Link>
                     <span className="head-inside">
                         <Link to={`/games/${e.game}`}><span>{e.name}</span></Link>
-                        <span onMouseEnter={() => setGrade(e.id)} onFocus={() => setGrade(e.id)} onBlur={() => setGrade(-1)}>
+                        <span onMouseEnter={() => checkAuth(() => setGrade(e.id), false)} onFocus={() => setGrade(e.id)} onBlur={() => setGrade(-1)}>
                             {grade == e.id ? 
                                         <input type="number" onChange={(event) => {event.target.value = limitCheck(event.target.value); relationStore.gradeChange(event.target.value, e.id); e.grade = event.target.value == '0' ? 'Нет оценки' : event.target.value}} /> 
                                         : e.grade ? e.grade : 'Нет оценки'}
@@ -75,7 +78,8 @@ function Profile():React.ReactNode {
 
     const store = useContext(Context)
     const storeToJS = toJS(useContext(Context)).user
-    console.log(storeToJS)
+    // console.log(storeToJS)
+    // console.log(toJS(relationStore.relation))
     
     const checkUser = () => {
         return storeToJS ? store && storeToJS.nickname == nickname : false
@@ -84,15 +88,16 @@ function Profile():React.ReactNode {
     if (load) {
         return (
             <>
+            {SnackBar}
             <DragDrop/>
-            <main>
+            <main style={{paddingBottom: "2vh"}}>
                 <div className="about-user">
                     <img onError={e => e.currentTarget.src = URL_PLACEHOLDER} className="avatar-large" src={`${URL_SERVER_AVATARS}${user.avatar}`}/>
-                    {checkUser() && <button onClick={() => dragDropStore.open()}>Загрузить аватурку</button>}
+                    {checkUser() && <button onClick={() => checkAuth(() => dragDropStore.open())}>Загрузить аватурку</button>}
                     <h1>{nickname}</h1>
                     <p>{`На сайте с ${user.created_at}, Комментариев: ${user.comments_count}, Отзывов: ${user.grade_count}`}</p>
                     <div>Запланировано: {relations.planned.length} / Играю: {relations.play.length} / Пройдено: {relations.passed.length} / Брошено: {relations.dropped.length} </div>
-                    {checkUser() && <button onClick={() => store.logout()}>Выйти</button>}
+                    {checkUser() && <button onClick={() => checkAuth(() => store.logout())}>Выйти</button>}
                 </div>
                 {/* <p>Список игр</p>
                 <input type="text" placeholder="Поиск по названию..." /> */}

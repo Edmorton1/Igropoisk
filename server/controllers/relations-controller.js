@@ -12,7 +12,9 @@ class RelationsController {
     async getByUser(req, res) {
         try {
             const {user_id} = req.params
-            const relation = await RelationService.getByUser(user_id)
+            const {game} = req.query
+            const relation = await RelationService.getByUser(user_id, game)
+            console.log(user_id)
             res.json(relation.rows)
         } catch(e) {
             console.log(e)

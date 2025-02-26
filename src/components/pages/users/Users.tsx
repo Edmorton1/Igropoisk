@@ -33,7 +33,7 @@ function Main():React.ReactNode {
     }
 
     return (
-        <main>
+        <main style={{paddingBottom: "2vh"}}>
             <div className="users-main">
                 <h1>Все пользователи сайта</h1>
                 {!isLoading && returnUsers()}

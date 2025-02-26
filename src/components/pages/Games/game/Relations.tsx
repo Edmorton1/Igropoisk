@@ -1,38 +1,37 @@
 import { useParams } from "react-router-dom"
 import relations from "../../../store/relations"
 import "../../../css/Game.scss"
-import CheckAuthFunc from "../../../hooks/CheckAuthFunc"
-import SnackBar from "../../Snackbar"
+//@ts-ignore
+import checkAuthFunc from "../../../hooks/checkAuthFunc"
+import { relationInterface, userInterface } from "../GameInterface"
+import { useState } from "react"
+// import SnackBar from "../../Snackbar"
 
-function Relatiions({user}: any) {
+interface propsInterface {
+    user: userInterface,
+    relation?: relationInterface
+}
+
+function Relatiions({user, relation}: propsInterface) {
     const {id} = useParams()
-    // const {checkAuth} = useCheckAuth()
+    const [SnackBar ,checkAuth] = checkAuthFunc()
+    const [select, setSelect] = useState(relation ? relation.status : 'passed')
+    // console.log(SnackBar, checkAuth)
 
     function createRelation(relation: string) {
-        try {
-            const accessToken = localStorage.getItem('accessToken')
-            const payload = JSON.parse(atob(accessToken.split('.')[1]))
-            console.log(payload.exp * 1000 - Date.now())
-            if ((payload.exp * 1000 - Date.now()) > 0) {
-                const data = {
-                    game: id,
-                    status: relation,
-                    user_id: user.id
-                }
-                //@ts-ignore
-                relations.post(data)
-            } else {
-                throw new Error('ACCESS TOKEN ПРОСРОЧИЛСЯ 401')
-            }
-        } catch(e) {
-            throw new Error('ACCESS TOKEN ПРОСРОЧИЛСЯ 401')
+        const data = {
+            game: id,
+            status: relation,
+            user_id: user.id
         }
+        //@ts-ignore
+        relations.post(data)
     }
 
     return (
         <>
-        <SnackBar link='/registration' time={4000}>Для этого действия необходима авторизация</ SnackBar>
-        <select onChange={(event) => CheckAuthFunc(() => createRelation(event.target.value))}>
+        {SnackBar}
+        <select value={select} onChange={(event) => checkAuth(() => {createRelation(event.target.value); setSelect(event.target.value)})}>
             <option value="passed">Пройдено</option>
             <option value="dropped">Брошено</option>
             <option value="planned">Запланированно</option>

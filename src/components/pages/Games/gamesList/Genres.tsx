@@ -15,13 +15,14 @@ function Genres() {
     const genre = searchParams.get('genre') || ''
     const page = searchParams.get('page') || ''
     const order = searchParams.get('order') || ''
+    const release_date = searchParams.get('release_date') || ''
     
     function genresParse() {
         return genresJSON.map((e, i) => {
             if (e.description.toLowerCase().includes(value)) {
                 return (
-                    <li key={i}>
-                        <label>
+                    <label key={i}>
+                        <li>
                             <input checked={genre.split(',').includes(e.id.toString())} onChange={() => {
                                 const genreArray = genre ? genre.split(',') : []
                                 const isSelected = genreArray.includes(e.id.toString())
@@ -30,14 +31,14 @@ function Genres() {
                                     : [...genreArray, e.id.toString()]
                                 updateParams("genre", newGenres.length ? newGenres.join(',') : '') }} type="checkbox" />
                             {e.description}
-                        </label>
-                    </li>
+                        </li>
+                    </label>
                 )
             }
         })
     }
 
-    const genreParse = useMemo(() => genresParse(), [genre, value, page, order])
+    const genreParse = useMemo(() => genresParse(), [genre, value, page, order, release_date])
 
     return (
     <>

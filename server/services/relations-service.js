@@ -9,9 +9,10 @@ class RelationService {
             console.log(e)
         }
     }
-    async getByUser(user_id) {
+    async getByUser(user_id, game) {
         try {
-            return await Model.getByCategory(user_id, 'user_id', 'relations')
+            const game_obj = ['game', game]
+            return await Model.getByCategory(user_id, 'user_id', 'relations', game_obj)
         } catch(e) {
             console.log(e)
         }

@@ -93,7 +93,7 @@ class UserController {
             const {nickname, mail, password} = data
             const userTokens = await UserService.registration(nickname, mail, password)
             console.log(userTokens)
-            await res.cookie("refreshToken", userTokens[1].refreshToken, {httpOnly: true, MaxAge: 24 * 60 * 60 * 1000}) // ТУТ ЕЩЁ НАДО БУДЕТ ПОСТАВИТЬ secure И maxAge
+            await res.cookie("refreshToken", userTokens[1].refreshToken, {httpOnly: true, MaxAge: 24 * 60 * 60 * 1000, secure: true}) // ТУТ ЕЩЁ НАДО БУДЕТ ПОСТАВИТЬ secure И maxAge
             res.json(userTokens)
         }  catch(e) {
             console.log(e)
@@ -122,6 +122,18 @@ class UserController {
             res.json([user, tokens])
         } catch(e) {
             console.log(e)
+        }
+    }
+    async refreshAccess(req, res) {
+
+        const {refreshToken} = await req.cookies
+
+        const verifyRefreshToken = await tokenService.verifyRefreshToken(refreshToken)
+        const user = await UserService.getByToken(verifyRefreshToken)
+
+        if (verifyRefreshToken) {
+            const {accessToken} = await tokenService.generateTokens({"id": user.id, "nickname": user.nickname})
+            return res.json(accessToken)
         }
     }
 }

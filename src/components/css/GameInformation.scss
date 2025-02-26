@@ -4,7 +4,7 @@
 
 .game-main {
     display: grid;
-    grid-template-columns: 1fr 14vw;
+    grid-template-columns: 1fr 15vw;
     // padding-bottom: 2px;
 }
 
@@ -30,6 +30,50 @@
 }
 
 .genreParse {
-    height: 39.8vh;
+    // height: 28.5vh;
     overflow: auto;
+    text-align: start;
+}
+
+.filter {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 90vh;
+    text-align: center;
+
+    ul {
+        display: flex;
+        flex-direction: column;
+        margin: 0px;
+    }
+    input[type = "radio"] {
+        display: none;
+    }
+    label {
+        cursor: pointer;
+    }
+    h3 {
+        margin-bottom: 8px;
+    }
+    p {
+        margin-top: 1px;
+        font-size: 12px;
+    }
+    input[type = "range"] {
+        margin-top: 0;
+    }
+    li:hover {
+        background-color: #f3f3f3;
+    }
+    li {
+        cursor: pointer;
+    }
+}
+.filter li:has(input:checked) {
+    background-color: #e9e9e9;
+}
+
+.filter input {
+    cursor: pointer;
 }

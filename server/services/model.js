@@ -9,7 +9,6 @@
 const db = require('../db.js')
 const bcrypt = require('bcrypt')
 const multer = require('multer')
-const upload = multer({dest: 'uploads/'})
 
 class UserModel {
     async get(table) {
@@ -62,6 +61,7 @@ class UserModel {
         const {genre, developer, publisher, release_date, status} = query
         let {page} = query
         page ? page : page = 1
+        page == 0 ? page = 1: page
         let {order} = query
         order ? order : order = 'rating'
         const orderTypes = ['popularity', 'rating', 'release_date']
@@ -87,9 +87,17 @@ class UserModel {
         const response =  (await db.query(`SELECT * FROM games ORDER BY steam_id`)).rows
         return (response.map(e => (e.steam_id)))
     }
-    async getByCategory(param, category, table) {
-        return await db.query(`SELECT * FROM ${table} WHERE ${category} = $1 ORDER BY id DESC` + ``, [param])
+    async getByCategory(param, category, table, secondParam) {
+        const [key, value] = secondParam
+        const add = key && value ? `AND ${key} = ${value}` : ''
+        return await db.query(`SELECT * FROM ${table} WHERE ${category} = $1 ${add} ORDER BY id DESC` + ``, [param])
     }
+    // async getRelation(user_id, game) {
+    //     if (game) {
+    //         return await db.query(`SELECT * FROM relations WHERE user_id = $1 AND game = $2 ORDER BY id DESC` + ``, [user_id, game])
+    //     }
+    //     return await db.query(`SELECT * FROM relations WHERE user_id = $1 ORDER BY id DESC` + ``, [user_id])
+    // }
     async getWithNick(game) {
         return await db.query(`SELECT comments.id, game, text, nickname, avatar, comments.created_at FROM comments JOIN users ON comments.user_id = users.id WHERE game = ${game} ORDER BY id DESC`)
     }
