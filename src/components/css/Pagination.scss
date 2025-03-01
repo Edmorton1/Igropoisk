@@ -1,8 +1,9 @@
-$hei-wid: 4vh;
+$hei-wid: 40px;
 
 .pagination {
     display: flex;
     justify-content: center;
+    margin-top: 15px;
 
     button {
         width: $hei-wid;

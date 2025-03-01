@@ -3,13 +3,14 @@ import { observer } from "mobx-react-lite"
 import logo from "../assets/logo.png"
 import { Link, useNavigate } from "react-router-dom"
 import Modal from "./Modal"
-import { useContext, useEffect, useMemo, useState } from "react"
+import { memo, useContext, useEffect, useMemo, useState } from "react"
 import { Context } from "../App"
 import allGames from "../store/allGames"
 import { gameInAllInterface, genresInterface } from "./games/GameInterface"
 import useDebounce from "../hooks/useDebounce"
 import { Navigate } from "react-router-dom"
 import { URL_CLIENT_GAMES, URL_PLACEHOLDER, URL_SERVER_AVATARS } from "../URLS"
+import logoshort from "../assets/logoshort.png"
 
 function Header():React.ReactNode {
     const store = useContext(Context)
@@ -69,22 +70,25 @@ function Header():React.ReactNode {
         }
         <header>
             <Link to="/games" className="img-wrapper">
-                <img src= {logo} />
+            <picture>
+                <source media="(max-width: 650px)" srcSet={logoshort} />
+                <img src={logo} />
+            </picture>
             </Link>
             <select onChange={(event) => goTo(event.target.value)}>
-                <option value="/games">Игры</option>
-                <option value="/users">Пользователи</option>
+                <option value="/games">GAMES</option>
+                <option value="/users">USERS</option>
             </select>
             <input type="text" placeholder="Поиск..." onChange={
                 async (event) => {searchGames(event.target.value)}
             } onClick={() => {filgames && setModal(true); setShowGameList(true)}} />
             <span className="avatar-nickname">
                 {user && <Link to={user.nickname}><img className="avatar br-50" onError={e => e.currentTarget.src = URL_PLACEHOLDER} src={`${URL_SERVER_AVATARS}${user.avatar}`} /></Link>}
-                {user ? <Link to={user.nickname}>{user.nickname}</Link> : <Link to="/login">Вход</Link>}
+                {user ? <Link to={user.nickname} className="avatar-nick">{user.nickname}</Link> : <Link to="/login">Вход</Link>}
             </span>
         </header>
         </>
     )
 }
 
-export default observer(Header)
+export default memo(observer(Header))

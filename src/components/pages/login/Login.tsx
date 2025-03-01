@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { memo, useContext } from "react";
 import { useForm } from "react-hook-form"
 import { Context } from '../../App'
 import { Link } from "react-router-dom";
@@ -20,8 +20,8 @@ function Login():React.ReactNode {
             <form onSubmit={handleSubmit((data) => login(data))}>
                 <strong>Авторизация</strong>
                 <input {...register('mail')} type="text" placeholder="Почта" />
-                <input {...register('password')} type="text" placeholder="Пароль" />
-                <button>Готово</button> <span><Link to="/registration">Зарегестрироваться</Link> <Link to={`#`}>Забыли пароль?</Link></span>
+                <input {...register('password')} type="password" placeholder="Пароль" />
+                <button>Готово</button> <span><Link to="/registration">Зарегестрироваться</Link></span>
             </form>
             {/* <button onClick={() => store.refresh()}>REFRESH</button>
             <p></p>
@@ -30,7 +30,7 @@ function Login():React.ReactNode {
     )
 }
 
-export default Login
+export default memo(Login)
 
 // <p><strong>ЛОГИНИЗАЦИЯ</strong></p>
 // <input {...register('mail')} type="text" placeholder="Почта" value='test@gmail.com' />

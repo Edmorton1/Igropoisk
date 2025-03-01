@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react"
+import { memo, useContext, useEffect, useState } from "react"
 import relationStore from "../../store/relations"
 import { useParams } from "react-router-dom"
 import axios from "axios"
@@ -90,14 +90,14 @@ function Profile():React.ReactNode {
             <>
             {SnackBar}
             <DragDrop/>
-            <main style={{paddingBottom: "2vh"}}>
+            <main className="profile-main">
                 <div className="about-user">
                     <img onError={e => e.currentTarget.src = URL_PLACEHOLDER} className="avatar-large" src={`${URL_SERVER_AVATARS}${user.avatar}`}/>
-                    {checkUser() && <button onClick={() => checkAuth(() => dragDropStore.open())}>Загрузить аватурку</button>}
+                    {checkUser() && <button className="button-stand br-n" onClick={() => checkAuth(() => dragDropStore.open())}>Загрузить аватурку</button>}
+                    {checkUser() && <button className="button-stand br-n" onClick={() => checkAuth(() => store.logout())}>Выйти</button>}
                     <h1>{nickname}</h1>
                     <p>{`На сайте с ${user.created_at}, Комментариев: ${user.comments_count}, Отзывов: ${user.grade_count}`}</p>
                     <div>Запланировано: {relations.planned.length} / Играю: {relations.play.length} / Пройдено: {relations.passed.length} / Брошено: {relations.dropped.length} </div>
-                    {checkUser() && <button onClick={() => checkAuth(() => store.logout())}>Выйти</button>}
                 </div>
                 {/* <p>Список игр</p>
                 <input type="text" placeholder="Поиск по названию..." /> */}
@@ -121,4 +121,4 @@ function Profile():React.ReactNode {
     }
 }
 
-export default observer(Profile)
+export default memo(observer(Profile))

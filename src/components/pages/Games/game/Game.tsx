@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react"
+import { memo, useContext, useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import steam from "../../../store/steam"
 import { Context } from "../../../App"
@@ -13,6 +13,7 @@ import Comments from "./Comments"
 import Slider from "./Slider"
 import Grades from "./Grades"
 import relations from "../../../store/relations"
+import { URL_CLIENT_GAMES } from "../../../URLS"
 
 function Game(): React.ReactNode {
     const store = useContext(Context)
@@ -20,6 +21,7 @@ function Game(): React.ReactNode {
 
     const [load, setLoad] = useState(false)
     const [game, setGame] = useState<gameInterface>(null)
+    const [description, setDescription] = useState(false)
     const [relation, setRelation] = useState<relationInterface>(null)
     const {id} = useParams()
     const [fullDescription, setFullDescription] = useState(false)
@@ -36,31 +38,31 @@ function Game(): React.ReactNode {
         }
         
         fetchData()
-    }, [])
+    }, [id])
 
     if (load) {
         return (
             <main style={{paddingBottom: "2vh"}}>
                 <h1><strong>{game.name}</strong></h1>
                 <section className="game-information">
-                    <div>
+                    <div className="game-left">
                         <img src={game.header_image} />
                         <Relatiions user={user} relation={relation} />
                         {relation && <Grades user={user} relation={relation} />}
                     </div>
-                    <div>
-                        <p>Дата релиза: {game.release_date.date}</p>
+                    <div className="game-right">
+                        <p>Дата релиза: <Link to={`${URL_CLIENT_GAMES}?release_date=${game.release_date.date.split(' ')[2]}`}>{game.release_date.date}</Link></p>
                         <p>Жанр: {game.genres.map((e, i) => <Link key={i} to={`/${e.description}`}>{e.description}, </Link>)}</p>
-                        <p>Категории: {game.categories.map((e, i) => <Link key={i} to={`/${e.description}`}>{e.description}, </Link>)}</p>
-                        <p>Разработчик: {...game.developers}</p>
-                        <p>Издатель: {...game.publishers}</p>
+                        <p>Категории: {game.categories.map((e, i) => <span key={i}>{e.description}, </span>)}</p>
+                        <p>Разработчик: {game.developers.map((e, i) => <Link key={i} to={`${URL_CLIENT_GAMES}?developer=${e}`}>{e}, </Link>)}</p>
+                        <p>Издатель: {game.publishers.map((e, i) => <Link key={i} to={`${URL_CLIENT_GAMES}?publisher=${e}`}>{e}, </Link>)}</p>
                         {game.metacritic && <p>Оценка на Metacritic: {game.metacritic.score}</p>}
-                        <p>Короткое описание: {game.short_description}</p>
+                        <p style={!description ? {cursor: "pointer"} : {}} onClick={() => setDescription(true)}>Короткое описание: {description ? game.short_description : game.short_description.split(' ').slice(0, 10).join(' ') + '...'}</p>
                         {/* <div dangerouslySetInnerHTML={{__html: game.detailed_description}} /> */}
-                        <button onClick={() => setFullDescription(!fullDescription)} className="more">Открыть полное описание</button>
-                        {fullDescription && <div dangerouslySetInnerHTML={{__html: game.detailed_description}} />}
                     </div>
                 </section>
+                <button onClick={() => setFullDescription(!fullDescription)} style={{marginTop: "10px"}} className="more">{!fullDescription ? `Открыть полное описание` : `Скрыть полное описание`}</button>
+                {fullDescription && <div className="full-description" dangerouslySetInnerHTML={{__html: game.detailed_description}} />}
                 <Slider game={game} />
                 <Comments user={user} />
             </main>
@@ -70,4 +72,4 @@ function Game(): React.ReactNode {
     }
 }
 
-export default observer(Game)
+export default memo(observer(Game))

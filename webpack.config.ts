@@ -12,7 +12,7 @@ interface EnvInterface {
 
 const config = (env: EnvInterface): webpack.Configuration => {
     const config: webpack.Configuration = {
-        mode: env.mode,
+        mode: 'development',
         entry: path.resolve(__dirname, 'src', 'index.tsx'),
         output: {
             path: path.resolve(__dirname, 'build'),
@@ -21,6 +21,7 @@ const config = (env: EnvInterface): webpack.Configuration => {
             publicPath: "/",
             clean: true,
         },
+        
         plugins: [
             new HtmlWebpackPlugin({
                 template: path.resolve(__dirname, 'public', 'index.html'),

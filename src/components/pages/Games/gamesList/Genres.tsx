@@ -1,7 +1,7 @@
 import { useSearchParams } from "react-router-dom";
 import { useUpdateParams } from "../../../hooks/useUpdateParams";
 import { observer } from "mobx-react-lite";
-import { useMemo, useState } from "react";
+import { memo, useMemo, useState } from "react";
 import { genresInterface } from "../GameInterface";
 // select DISTINCT UNNEST(genres) from games
 // SELECT genres, steam_id FROM games WHERE 80 = any(genres)
@@ -51,4 +51,4 @@ function Genres() {
     )
 }
 
-export default observer(Genres)
+export default memo(observer(Genres))

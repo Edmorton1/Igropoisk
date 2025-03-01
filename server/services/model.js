@@ -68,7 +68,7 @@ class UserModel {
         orderTypes.includes(order) ? order : order = 'rating'
         order == 'rating' ? order = "total_reviews - total_negative" : order
         order == 'popularity' ? order = "total_reviews" : order
-        const perPage = 20
+        const perPage = 48
         // console.log(genre, order, developer, publisher, release_date, status)
             const developerSQL = developer ? `AND developers @> ARRAY['${developer}']` : ``
             const publisherSQL = publisher ? `AND publishers @> ARRAY['${publisher}']` : ``

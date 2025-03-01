@@ -1,4 +1,4 @@
-import { useContext, createContext, useState, useEffect, lazy } from "react"
+import { useContext, createContext, useState, useEffect, lazy, memo } from "react"
 import { observer } from "mobx-react-lite"
 import Login from "./pages/login/Login"
 import Store from "./store/store"
@@ -14,6 +14,7 @@ import axios from "axios"
 import Test from "./Test"
 import { Suspense } from "react"
 import DragDrop from "./pages/profile/DragDrop"
+import ForFor from "./pages/errors/ForFor"
 
 export const Context = createContext<Store>(null)
 
@@ -37,6 +38,7 @@ function App() {
     const Game = lazy(() => import("./pages/games/game/Game"))
     const Profile = lazy(() => import("./pages/profile/Profile"))
     const Test = lazy(() => import("./Test"))
+    const Users = lazy(() => import("./pages/users/Users"))
     // const Header = lazy(() => import("./pages/Header"))
 
     if (load) {
@@ -51,9 +53,8 @@ function App() {
                         <Route path="games" element={<Games />} />
                         <Route path="games/:id" element={<Game />} />
                         <Route path="/:nickname" element={<Profile />}/>
-                        <Route path="/test" element={<Test />}/>
-                        <Route path="/users" element={<Users/>}></Route>
-                        <Route index element={<Navigate to="/games" replace />}/>
+                        <Route path="/test" element={<Test />} />
+                        <Route path="/users" element={<Users/>} errorElement={<ForFor />} />
                     </Routes>
                 </BrowserRouter>
             </Context.Provider>

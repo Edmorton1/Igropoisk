@@ -27,7 +27,7 @@ function Pagination({pagesCount} : any):React.ReactNode {
     }, 300)
 
     const pagination = useMemo(() => {
-        console.log(pages.length)
+        // console.log(pages.length)
         if (page > pages.length) updateParams('page', pages.length)
         return pages.map((e, i) => {
         const but = i + 1
@@ -52,4 +52,4 @@ function Pagination({pagesCount} : any):React.ReactNode {
     )
 }
 
-export default Pagination
+export default memo(Pagination)

@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { memo, useState } from "react"
 import { useUsers } from "../../hooks/useUsers"
 import { userInterface } from "../games/GameInterface"
 import "../../css/Users.scss"
@@ -36,11 +36,11 @@ function Main():React.ReactNode {
         <main style={{paddingBottom: "2vh"}}>
             <div className="users-main">
                 <h1>Все пользователи сайта</h1>
-                {!isLoading && returnUsers()}
+                {returnUsers()}
                 {/* <img src= {`http://localhost:3000/avatars/1739897836878-SEVEN.png`} /> */}
             </div>
         </main>
     )
 }
 
-export default Main
+export default memo(Main)

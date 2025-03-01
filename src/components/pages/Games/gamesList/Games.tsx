@@ -1,4 +1,4 @@
-import { memo } from "react"
+import { memo, useState } from "react"
 import { gameInAllInterface } from "../GameInterface"
 import "../../../css/GameInformation.scss"
 import { Link, useSearchParams  } from "react-router-dom"
@@ -9,6 +9,7 @@ import Filter from "./Filter"
 import { useGames } from "../../../hooks/useGames"
 
 function Games(): React.ReactNode {
+    // ДОБАВИТЬ СКРОЛЛ ВВЕРХ
     const [searchParams] = useSearchParams();
     const order = searchParams.get('order') || 'rating'
     const {isLoading} = useGames()
@@ -26,22 +27,21 @@ function Games(): React.ReactNode {
         ))
     }
 
-
     return (
         <>
             <main className="game-main">
                 <div className="game-section">
                     <h1>Игры</h1>
-                    <p>На данной странице отображены Игры, отсортированные по {order == 'rating' ? 'рейтингу' : order == 'popularity' ? 'популярности' : order == 'release_date' ? 'дате выхода' : 'рейтингу'}</p>
+                    <p>На этой странице отображены Игры, отсортированные по {order == 'rating' ? 'рейтингу' : order == 'popularity' ? 'популярности' : order == 'release_date' ? 'дате выхода' : 'рейтингу'}</p>
                     <section className="games">
                         {returnGames()}
                     </section>
                     <Pagination pagesCount={allGames.pages}/>
                 </div>
-                <Filter />
+                <Filter/>
             </main>
         </>
     )
 }
 
-export default (observer(Games))
+export default memo(observer(Games))

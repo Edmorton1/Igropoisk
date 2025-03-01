@@ -17,6 +17,17 @@ class Comments {
         console.log(data)
         await this.getByGame(String(data.game))
     }
+    async change(id: number, text: string, game: number) {
+        await axios.put(`http://localhost:3000/api/comments/${id}`, {
+            text: text
+        })
+        await this.getByGame(String(game))
+    }
+    async delete(id: number, game: number) {
+        console.log(id, game)
+        await axios.delete(`http://localhost:3000/api/comments/${id}`)
+        await this.getByGame(String(game))
+    }
 }
 
 export default new Comments()

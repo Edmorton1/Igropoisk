@@ -1,4 +1,4 @@
-import { use, useContext, useEffect, useState } from "react"
+import { memo, use, useContext, useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { Context } from "../../App"
 import snackBarFunc from "../../hooks/snackBarFunc"
@@ -64,4 +64,4 @@ function Registration() {
     )
 }
 
-export default Registration
+export default memo(Registration)

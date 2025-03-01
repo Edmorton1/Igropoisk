@@ -1,6 +1,6 @@
 @keyframes fadeInOut  {
     0% {
-        transform: translateY(-7vh);
+        transform: translateY(-10vh);
     }
     100% {
         transform: translateY(0vh);
@@ -22,17 +22,29 @@
     justify-content: center;
     align-items: center;
     position: fixed;
-    font-size: 30px;
+    font-size: 26px;
     top: 0;
     right: 0;
     background-color: #1A73E8;
     color: white;
-    margin-top: 2vh;
+    margin-top: 5vh;
     margin-right: 2vh;
-    width: 35vw;
-    height: 5vh;
+    width: 1000px;
+    height: auto;
+    min-height: 60px;
     z-index: 100;
     // animation: 
     //     fadeInOut 0.2s ease-in-out, 
     //     ending 0.2s linear 0.8s;
+}
+
+@media screen and (max-width: 1040px) {
+    .snackbar {
+        margin-top: 8vh;
+        width: 90%;
+        min-height: 50px;
+        height: auto;
+        font-size: 120%;
+        margin-right: 0px;
+    }
 }

@@ -1,4 +1,4 @@
-import React, { use, useEffect, useState } from "react"
+import React, { memo, use, useEffect, useState } from "react"
 import "../../../css/Grades.scss"
 import { relationInterface, userInterface } from "../GameInterface"
 import relationStore from "../../../store/relations"
@@ -16,20 +16,20 @@ function Grades({user, relation}: GradesInterface) {
     const [score, setScore] = useState(relation ? Number(relation.grade) -1 : -1)
     const [freeze, setFreeze] = useState(relation ? true : false)
     const [snackbar, checkAuth] = CheckAuthFunc()
-    console.log(currentStar, score, freeze)
+    // console.log(currentStar, score, freeze)
 
     function starsRender(): React.ReactNode {
+        console.log('stars')
         return stars.map((e, i) => (
             <span onMouseEnter={() => {setCurrentStar(i); setFreeze(false)}} onClick={() => checkAuth(() => {setScore(currentStar + 1); setFreeze(true); relationStore.gradeChange(currentStar + 1, relation.id)})} className={`${i <= currentStar ? freeze ? `star freeze` : `star current` : `star` }`} key={i}>★</span>
         ))
     }
-
     return (
         <>
-        {snackbar}
-        <div onMouseLeave={() => {setCurrentStar(score - 1); setFreeze(true)}}>{starsRender()}</div>
+            {snackbar}
+            <div onMouseLeave={() => {setCurrentStar(score - 1); setFreeze(true)}}>{starsRender()}</div>
         </>
     )
 }
 
-export default Grades
+export default memo(Grades)

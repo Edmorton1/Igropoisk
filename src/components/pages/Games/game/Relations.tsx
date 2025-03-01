@@ -4,7 +4,7 @@ import "../../../css/Game.scss"
 //@ts-ignore
 import checkAuthFunc from "../../../hooks/checkAuthFunc"
 import { relationInterface, userInterface } from "../GameInterface"
-import { useState } from "react"
+import { memo, useState } from "react"
 // import SnackBar from "../../Snackbar"
 
 interface propsInterface {
@@ -15,7 +15,7 @@ interface propsInterface {
 function Relatiions({user, relation}: propsInterface) {
     const {id} = useParams()
     const [SnackBar ,checkAuth] = checkAuthFunc()
-    const [select, setSelect] = useState(relation ? relation.status : 'passed')
+    const [select, setSelect] = useState(relation ? relation.status : '')
     // console.log(SnackBar, checkAuth)
 
     function createRelation(relation: string) {
@@ -27,11 +27,11 @@ function Relatiions({user, relation}: propsInterface) {
         //@ts-ignore
         relations.post(data)
     }
-
     return (
         <>
         {SnackBar}
-        <select value={select} onChange={(event) => checkAuth(() => {createRelation(event.target.value); setSelect(event.target.value)})}>
+        <select className={`select ${select}`} value={select} onChange={(event) => checkAuth(() => {createRelation(event.target.value); setSelect(event.target.value)})}>
+            <option value="" hidden>Добавить в список</option>
             <option value="passed">Пройдено</option>
             <option value="dropped">Брошено</option>
             <option value="planned">Запланированно</option>
@@ -41,4 +41,4 @@ function Relatiions({user, relation}: propsInterface) {
     )
 }
 
-export default Relatiions
+export default memo(Relatiions)

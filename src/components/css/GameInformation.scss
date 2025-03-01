@@ -1,79 +1,55 @@
 .game-section {
     display: inline-block;
+    width: 100%;
 }
 
 .game-main {
-    display: grid;
-    grid-template-columns: 1fr 15vw;
-    // padding-bottom: 2px;
+    display: flex;
+    // padding-bottom: 1vh;
 }
 
 .games {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 6px;
-    margin-right: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 3px;
+    width: 100%;
 }
 
 .gameCard {
+    display: flex;
+    flex-direction: column;
+    
     .gameInfo {
         font-size: 13px;
         display: flex;
         justify-content: space-between;
-        align-items: center;
         height: 20px;
     }
-
-    img {
-        width: 100%;
-    }
 }
 
-.genreParse {
-    // height: 28.5vh;
-    overflow: auto;
-    text-align: start;
-}
+// .games {
+//     display: flex;
+//     flex-wrap: wrap;
+//     gap: 3px;
+//     width: 100%;
+// }
 
-.filter {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 90vh;
-    text-align: center;
-
-    ul {
-        display: flex;
-        flex-direction: column;
-        margin: 0px;
-    }
-    input[type = "radio"] {
-        display: none;
-    }
-    label {
-        cursor: pointer;
-    }
-    h3 {
-        margin-bottom: 8px;
-    }
-    p {
-        margin-top: 1px;
-        font-size: 12px;
-    }
-    input[type = "range"] {
-        margin-top: 0;
-    }
-    li:hover {
-        background-color: #f3f3f3;
-    }
-    li {
-        cursor: pointer;
-    }
-}
-.filter li:has(input:checked) {
-    background-color: #e9e9e9;
-}
-
-.filter input {
-    cursor: pointer;
-}
+// .gameCard {
+//     display: flex;
+//     flex-direction: column;
+//     justify-content: space-between;
+//     // flex-grow: 1 1 0;
+//     // flex-basis: 200px;
+//     // flex: 1 1 0;
+//     flex-grow: 0;
+//     // flex-shrink: 5;
+//     width: 200px;
+//     // object-fit: cover;
+    
+//     .gameInfo {
+//         font-size: 13px;
+//         display: flex;
+//         justify-content: space-between;
+//         height: 20px;
+//     }
+// }

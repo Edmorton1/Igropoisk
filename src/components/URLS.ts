@@ -6,4 +6,3 @@ export const URL_SERVER_AVATARS = `${URL_SERVER}avatars/`
 export const URL_SERVER_API = `${URL_SERVER}api/`
 
 export const URL_PLACEHOLDER = `assets/user-placeholder.jpg`
-

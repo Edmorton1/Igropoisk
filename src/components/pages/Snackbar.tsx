@@ -3,7 +3,7 @@ import "../css/Snackbar.scss"
 import snackBarRegistrationStore from "../store/portals/snackBarStore"
 import { observer } from "mobx-react-lite"
 import ReactDOM from "react-dom";
-import { useEffect } from "react"
+import { memo, useEffect } from "react"
 
 interface propsInterface {
     children?: any,
@@ -29,4 +29,4 @@ function SnackBar({children, link, time, color}: propsInterface):React.ReactNode
     ) : null
 }
 
-export default observer(SnackBar)
+export default memo(observer(SnackBar))

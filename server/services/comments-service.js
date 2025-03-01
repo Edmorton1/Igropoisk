@@ -32,7 +32,8 @@ class UserService {
     }   
     async delete({ id }) {
         try {
-            return await Model.delete(id, 'comments')
+            console.log(id)
+            return await Model.delete('id', id, 'comments')
         } catch(e) {
             console.log(e)
         }

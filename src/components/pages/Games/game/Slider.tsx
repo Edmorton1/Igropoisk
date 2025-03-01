@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { memo, useState } from "react"
 import "../../../css/Slider.scss"
 import left from "../../../assets/left.png"
 import right from "../../../assets/right.png"
@@ -48,7 +48,7 @@ function Slider({game}: propsInterface) {
     return (
         <>
         {modal && <Modal setModal={setModal}><img src={screenshot} className="screenshot" /></Modal>}
-        <p>Скриншоты:</p>
+        <h3>Скриншоты:</h3>
         <div className="slider">
             <img src={right} className="slider-but right" onClick={() => transformHandler(-500)}/>
             <img src={left} className="slider-but left" onClick={() => transformHandler(500)}/>
@@ -62,4 +62,4 @@ function Slider({game}: propsInterface) {
     )
 }
 
-export default Slider
+export default memo(Slider)

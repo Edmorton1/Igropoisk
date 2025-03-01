@@ -29,3 +29,13 @@ $margin: 8px;
         justify-content: space-between;
     }
 }
+@media screen and (max-width: 500px) {
+    .left-section {
+        .left-text {
+            margin-left: 3px;
+        }
+    }
+    .users-main {
+        gap:  0;
+    }
+}

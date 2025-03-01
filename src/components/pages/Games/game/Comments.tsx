@@ -4,7 +4,7 @@ import "../../../css/comment.scss"
 import comments from "../../../store/comments"
 import { Link } from "react-router-dom"
 import "../../../css/Game.scss"
-import { useState } from "react"
+import { memo, useState } from "react"
 import { useParams } from "react-router-dom"
 import { observer } from "mobx-react-lite"
 import { userInterface } from "../GameInterface"
@@ -28,6 +28,8 @@ function Comments({user}: userProps) {
     const [visibleComments, setVisibleComments] = useState(5)
     const {id} = useParams()
     const [snackbar, checkAuth] = CheckAuthFunc()
+    const [comChange, setComChange] = useState(0)
+    const [text, setText] = useState<string>('')
 
     function createComment(text: string) {
         console.log(text)
@@ -51,13 +53,16 @@ function Comments({user}: userProps) {
                         <span>{e.created_at}</span>
                     </div>
                 </div>
-                <p>{e.text}</p>
+                {comChange == e.id ? <textarea style={{marginTop: "10px"}} value={text} onChange={(e) => setText(e.target.value)}></textarea> : <p>{e.text}</p>}
+                {comChange != e.id && <button onClick={() => {setComChange(e.id); setText(e.text)}}>Изменить</button>}
+                {comChange != e.id && <button onClick={() => comments.delete(e.id, e.game)}>Удалить</button>}
+                {comChange == e.id && <button className="button-stand" onClick={() => {comments.change(e.id, text, e.game); setComChange(0)}}>Изменить</button>}
             </div>
         ))
     }
 
     return (
-        <section>
+        <section className="comments">
             {snackbar}
             <h2>Комментарии</h2>
                 {generateComments()}
@@ -65,10 +70,10 @@ function Comments({user}: userProps) {
                     {user && <form onSubmit={handleSubmit((data) => checkAuth(() => createComment(data.text)))}>
                         <h3>Оставить комментарий</h3>
                         <textarea {...register('text')}></textarea>
-                        <button>Написать</button>
+                        <button className="button-stand">Написать</button>
                     </form>}
         </section>
     )
 }
 
-export default observer(Comments)
+export default memo(observer(Comments))

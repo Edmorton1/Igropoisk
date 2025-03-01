@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite"
 import Modal from "../Modal"
-import { useState } from "react"
+import { memo, useState } from "react"
 import dragDropStore from "../../store/portals/dragDropStore"
 import ReactDOM from "react-dom";
 import "../../css/DragDrop.scss"
@@ -87,4 +87,4 @@ function DragDrop() {
         ) : null
 }
 
-export default observer(DragDrop)
+export default memo(observer(DragDrop))
