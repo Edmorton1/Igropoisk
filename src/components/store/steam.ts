@@ -11,10 +11,6 @@ class Steam {
         console.log(game)
         return game.data
     }
-
-    // async allGames(data) {
-    //     const allGames = await $api.get(`/`)
-    // }
 }
 
 export default new Steam()

@@ -8,7 +8,6 @@ import { Context } from "../App"
 import allGames from "../store/allGames"
 import { gameInAllInterface, genresInterface } from "./games/GameInterface"
 import useDebounce from "../hooks/useDebounce"
-import { Navigate } from "react-router-dom"
 import { URL_CLIENT_GAMES, URL_PLACEHOLDER, URL_SERVER_AVATARS } from "../URLS"
 import logoshort from "../assets/logoshort.png"
 

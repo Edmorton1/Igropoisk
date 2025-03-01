@@ -56,7 +56,6 @@ function Slider({game}: propsInterface) {
                 (<img key={i} className="slider-img" style={{transform: `translateX(${transform}px)`}} 
                 src={e.path_thumbnail} onClick={() => {setScreenshot(e.path_full); setModal(true); setCurrentScreen(i)}} onKeyDown={(event) => 
                 {screenHandler(event.key) ;console.log(event.key)}} tabIndex={0} />))}
-            {/* <img src={right} className="slider-next" /> */}
         </div>
         </>
     )

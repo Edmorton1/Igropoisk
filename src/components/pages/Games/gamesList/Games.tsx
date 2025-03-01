@@ -1,4 +1,4 @@
-import { memo, useState } from "react"
+import { memo } from "react"
 import { gameInAllInterface } from "../GameInterface"
 import "../../../css/GameInformation.scss"
 import { Link, useSearchParams  } from "react-router-dom"
@@ -9,7 +9,6 @@ import Filter from "./Filter"
 import { useGames } from "../../../hooks/useGames"
 
 function Games(): React.ReactNode {
-    // ДОБАВИТЬ СКРОЛЛ ВВЕРХ
     const [searchParams] = useSearchParams();
     const order = searchParams.get('order') || 'rating'
     const {isLoading} = useGames()

@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useMemo, useState } from "react"
+import { memo, useEffect, useMemo, useState } from "react"
 import { useUpdateParams } from "../hooks/useUpdateParams"
 import { useSearchParams } from "react-router-dom"
 import "../css/Pagination.scss"
@@ -6,7 +6,7 @@ import useDebounce from "../hooks/useDebounce"
 
 function Pagination({pagesCount} : any):React.ReactNode {
     const updateParams = useUpdateParams()
-    const [searchParams, setSearchParams] = useSearchParams()
+    const [searchParams] = useSearchParams()
     const [showInput, setShowInput] = useState(false)
 
     const order = searchParams.get('order') || ''
@@ -34,15 +34,11 @@ function Pagination({pagesCount} : any):React.ReactNode {
     }, [pages, page])
 
     const pagination = useMemo(() => {
-        // console.log(pages.length)
         return pages.map((e, i) => {
         const but = i + 1
         if (but == 1 || but == pages.length || but == page || (4 > page - but && page - but > 0) || (4 > but- page && but - page > 0)) {
             return <button className="button-page" style={(i + 1) == page ? {backgroundColor: "#1A73E8", color: "white"} : {}} key={i} onClick={() => {updateParams("page", (i + 1).toString()); setShowInput(false)}}>{i + 1}</button>
         }
-        // if (i == pages.length - 1) {
-        //     return <button key={i} onClick={() => updateParams("page", (i + 1).toString())}>{i + 1}</button>
-        // }
         if (i == pages.length - 2 && showInput) {
             return <input type="number" onChange={(event) => inputPage(event.target.value)} />
         }

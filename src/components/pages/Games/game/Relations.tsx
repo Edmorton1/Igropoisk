@@ -1,11 +1,9 @@
 import { useParams } from "react-router-dom"
 import relations from "../../../store/relations"
 import "../../../css/Game.scss"
-//@ts-ignore
 import checkAuthFunc from "../../../hooks/checkAuthFunc"
 import { relationInterface, userInterface } from "../GameInterface"
 import { memo, useState } from "react"
-// import SnackBar from "../../Snackbar"
 
 interface propsInterface {
     user: userInterface,
@@ -16,15 +14,13 @@ function Relatiions({user, relation}: propsInterface) {
     const {id} = useParams()
     const [SnackBar ,checkAuth] = checkAuthFunc()
     const [select, setSelect] = useState(relation ? relation.status : '')
-    // console.log(SnackBar, checkAuth)
 
     function createRelation(relation: string) {
         const data = {
-            game: id,
+            game: Number(id),
             status: relation,
             user_id: user.id
         }
-        //@ts-ignore
         relations.post(data)
     }
     return (

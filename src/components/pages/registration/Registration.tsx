@@ -1,7 +1,6 @@
-import { memo, use, useContext, useEffect, useState } from "react"
+import { memo, useContext, useState } from "react"
 import { useForm } from "react-hook-form"
 import { Context } from "../../App"
-import snackBarFunc from "../../hooks/snackBarFunc"
 import SnackBar from "../Snackbar"
 import "../../css/Registration.scss"
 import snackBarRegistrationStore from "../../store/portals/snackBarStore"
@@ -22,7 +21,6 @@ function Registration() {
         let text = ''
         let request_name = await (await fetch(`http://localhost:3000/api/check?nickname=${data.nickname}`)).json()
         let request_mail = await (await fetch(`http://localhost:3000/api/check?mail=${data.mail}`)).json()
-        // console.log(request)
         if (request_name == 'nickname занят') {
             text = 'Никнейм уже занят попробуйте другой'
         } else if (data.nickname.length < 2) {

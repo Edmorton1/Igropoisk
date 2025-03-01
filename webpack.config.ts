@@ -12,7 +12,7 @@ interface EnvInterface {
 
 const config = (env: EnvInterface): webpack.Configuration => {
     const config: webpack.Configuration = {
-        mode: 'development',
+        mode: 'production',
         entry: path.resolve(__dirname, 'src', 'index.tsx'),
         output: {
             path: path.resolve(__dirname, 'build'),

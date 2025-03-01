@@ -1,8 +1,7 @@
-import React, { memo, use, useEffect, useState } from "react"
+import React, { memo, useState } from "react"
 import "../../../css/Grades.scss"
 import { relationInterface, userInterface } from "../GameInterface"
 import relationStore from "../../../store/relations"
-import { toJS } from "mobx"
 import CheckAuthFunc from "../../../hooks/checkAuthFunc"
 
 interface GradesInterface {
@@ -16,7 +15,6 @@ function Grades({user, relation}: GradesInterface) {
     const [score, setScore] = useState(relation ? Number(relation.grade) -1 : -1)
     const [freeze, setFreeze] = useState(relation ? true : false)
     const [snackbar, checkAuth] = CheckAuthFunc()
-    // console.log(currentStar, score, freeze)
 
     function starsRender(): React.ReactNode {
         console.log('stars')

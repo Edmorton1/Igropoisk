@@ -7,7 +7,7 @@ import "../../css/Profile.scss"
 import { Link } from "react-router-dom"
 import dragDropStore from "../../store/portals/dragDropStore"
 import DragDrop from "./DragDrop"
-import { URL_PLACEHOLDER, URL_SERVER_AVATARS } from "../../URLS"
+import { URL_SERVER_AVATARS } from "../../URLS"
 import { observer } from "mobx-react-lite"
 import { Context } from "../../App"
 import { toJS } from "mobx"
@@ -57,7 +57,6 @@ function Profile():React.ReactNode {
     }
     
     function generateRelations(name: relationStatus): React.ReactNode {
-        // console.log('generate rel')
         return (
             <ol>{relations[name].map((e, i) => (
                 <li key={i} className="game">
@@ -77,7 +76,6 @@ function Profile():React.ReactNode {
             ))}</ol>
         )
     }
-    // dragDropStore.open()
     const headerSection =
     <span className="head-section">
         <span>Название</span>
@@ -88,8 +86,6 @@ function Profile():React.ReactNode {
 
     const store = useContext(Context)
     const storeToJS = toJS(useContext(Context)).user
-    // console.log(storeToJS)
-    // console.log(toJS(relationStore.relation))
     
     const checkUser = () => {
         return storeToJS ? store && storeToJS.nickname == nickname : false
@@ -109,8 +105,6 @@ function Profile():React.ReactNode {
                     <p>{`На сайте с ${user.created_at}, Комментариев: ${user.comments_count}, Отзывов: ${user.grade_count}`}</p>
                     <div>Запланировано: {relations.planned.length} / Играю: {relations.play.length} / Пройдено: {relations.passed.length} / Брошено: {relations.dropped.length} </div>
                 </div>
-                {/* <p>Список игр</p>
-                <input type="text" placeholder="Поиск по названию..." /> */}
                 <p className="border-dashed">Запланировано</p>
                 {headerSection}
                 {generateRelations('planned')}

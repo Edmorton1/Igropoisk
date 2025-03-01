@@ -8,7 +8,6 @@ interface ModalInterface {
 }
 
 function Modal({setModal, children, setShowGameList}: ModalInterface):React.ReactNode {
-    // console.log('МОДАЛ')
     return (
         <>
         <div className="modal" onClick={() => {setModal(false); setShowGameList && setShowGameList(false)}}>

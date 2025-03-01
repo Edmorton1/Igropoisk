@@ -37,7 +37,6 @@ function Main():React.ReactNode {
             <div className="users-main">
                 <h1>Все пользователи сайта</h1>
                 {!isLoading && returnUsers()}
-                {/* <img src= {`http://localhost:3000/avatars/1739897836878-SEVEN.png`} /> */}
             </div>
         </main>
     )

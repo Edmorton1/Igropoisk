@@ -1,19 +1,10 @@
-import { useContext, createContext, useState, useEffect, lazy, memo } from "react"
+import { createContext, useState, useEffect, lazy } from "react"
 import { observer } from "mobx-react-lite"
-import Login from "./pages/login/Login"
 import Store from "./store/store"
-import Registration from "./pages/registration/Registration"
-import Users from "./pages/users/Users"
-import Games from "./pages/games/gamesList/Games"
-import Game from "./pages/games/game/Game"
-import Profile from "./pages/profile/Profile"
 import "./css/App.scss"
 import Header from "./pages/Header"
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom"
-import axios from "axios"
-import Test from "./Test"
 import { Suspense } from "react"
-import DragDrop from "./pages/profile/DragDrop"
 import ForFor from "./pages/errors/ForFor"
 import ErrorBoundary from "./pages/errors/ErrorBoundary"
 
@@ -22,7 +13,6 @@ export const Context = createContext<Store>(null)
 function App() {
     const [store] = useState(new Store());
     const [load, setLoad] = useState(false)
-    const [games, setGames] = useState(null)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -38,12 +28,11 @@ function App() {
     const Games = lazy(() => import("./pages/games/gamesList/Games"))
     const Game = lazy(() => import("./pages/games/game/Game"))
     const Profile = lazy(() => import("./pages/profile/Profile"))
-    const Test = lazy(() => import("./Test"))
+    // const Test = lazy(() => import("./Test"))
     const Users = lazy(() => import("./pages/users/Users"))
-    // const Header = lazy(() => import("./pages/Header"))
     if (load) {
         return(
-            <Suspense fallback={<main style={{backgroundColor: "red"}}>Загрузка приложения...</main>}>
+            <Suspense fallback={<main style={{backgroundColor: "white"}}>Загрузка приложения...</main>}>
             <Context.Provider value={store}>
                 <BrowserRouter>
                     <Header />
@@ -65,7 +54,7 @@ function App() {
             </Suspense>
         )
     } return(
-        <main style={{ backgroundColor: "green"}}>АШФЬАГШАЫОПГРОВАЫГПОВАРПОЛ</main>
+        <main style={{ backgroundColor: "white"}}>Загрузка приложения...</main>
     )
 }
 

@@ -8,7 +8,7 @@ import { memo, useState } from "react"
 import { useParams } from "react-router-dom"
 import { observer } from "mobx-react-lite"
 import { userInterface } from "../GameInterface"
-import { URL_PLACEHOLDER, URL_SERVER_AVATARS } from "../../../URLS"
+import { URL_SERVER_AVATARS } from "../../../URLS"
 import CheckAuthFunc from "../../../hooks/checkAuthFunc"
 
 interface userProps {
@@ -34,11 +34,10 @@ function Comments({user}: userProps) {
     function createComment(text: string) {
         console.log(text)
         const data = {
-            game: id,
+            game: Number(id),
             text: text,
             user_id: user.id,
         }
-        //@ts-ignore
         comments.post(data)
     }
     const {register, handleSubmit} = useForm()

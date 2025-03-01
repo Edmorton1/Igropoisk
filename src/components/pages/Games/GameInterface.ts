@@ -38,23 +38,22 @@ export interface commentsInterface{
     id?: number,
     game: number,
     text: string,
-    nickname: string,
+    nickname?: string,
     created_at?: string
 }
 
 export interface relationInterface{
     id?: number,
     game: number,
-    name: string,
+    name?: string,
     status: string,
     user_id: number,
-    capsule_image: string,
+    capsule_image?: string,
     release_date?: string,
     total_reviews?: number,
     rating?: string,
-    grade: number | string | null,
-    gradeSite: number
-
+    grade?: number | string | null,
+    gradeSite?: number
 }
 
 export interface relationArrInterface{

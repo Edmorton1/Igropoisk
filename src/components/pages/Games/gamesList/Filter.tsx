@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useState } from "react"
+import { memo, useState } from "react"
 import "../../../css/GameInformation.scss"
 import { useSearchParams  } from "react-router-dom"
 import { useUpdateParams } from "../../../hooks/useUpdateParams"

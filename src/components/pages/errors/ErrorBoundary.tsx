@@ -1,6 +1,4 @@
-import { error } from "console";
 import { Component, ErrorInfo, ReactNode, useState } from "react";
-import { useLocation } from "react-router-dom";
 import ForFor from "./ForFor";
 
 class ErrorBoundary extends Component {
