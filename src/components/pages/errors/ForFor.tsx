@@ -1,12 +1,12 @@
-import { useRouteError } from "react-router-dom"
+import "../../css/ErrorBoundary.scss"
+import { Link } from "react-router-dom"
 
 function ForFor() {
-    const error = useRouteError() as {status? : number, statusText?: string}
-
     return (
-        <main>
-            <h1>{error.status}</h1>
-            <h2>{error.statusText || ''}</h2>
+        <main className="error-boundary">
+            <div>
+                Похоже, что данной страницы не существует, <Link to={`/games`}>перейти на главную</Link>
+            </div>
         </main>
     )
 }

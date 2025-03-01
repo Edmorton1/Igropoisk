@@ -17,7 +17,6 @@ function Header():React.ReactNode {
     const genresJSON: genresInterface = require('./games/gamesList/genres.json');
 
     const [filgames, setFilgames] = useState<gameInAllInterface[]>([])
-    const [value, setValue] = useState('')
     const [modal, setModal] = useState(false)
     const [showGameList, setShowGameList] = useState(false)
     const user = useMemo(() => store.user, [store.user])
@@ -42,11 +41,11 @@ function Header():React.ReactNode {
                 <span>
                     <p><Link onClick={() => HideModalSearch(false)} to={`http://localhost:5000/games/${e.steam_id}`}>{e.name}</Link></p>
                     <p>Год выхода: <Link onClick={() => HideModalSearch(false)} to={`${URL_CLIENT_GAMES}?release_date=${e.release_date}`}>{e.release_date}</Link></p>
-                    <p>Жанры: {e.genres.map(genre => {
+                    <p>Жанры: {e.genres.map((genre, index) => {
                         //@ts-ignore
                         const foundGenre = genresJSON.find(g => g.id == genre)
                         return (
-                        <Link onClick={() => HideModalSearch(false)} to={`${URL_CLIENT_GAMES}?genre=${foundGenre.id}`}>{foundGenre.description}, </Link>
+                        <Link key={index} onClick={() => HideModalSearch(false)} to={`${URL_CLIENT_GAMES}?genre=${foundGenre.id}`}>{foundGenre.description}, </Link>
                         )
                     })}</p>
                     <p>Издатель: <Link onClick={() => HideModalSearch(false)} to={`${URL_CLIENT_GAMES}?publisher=${e.publishers}`}>{e.publishers}</Link></p>
@@ -57,7 +56,7 @@ function Header():React.ReactNode {
     }
 
     const searchGames = useDebounce(async (value: any) => {
-        setValue(value); setFilgames((await allGames.search(value)).slice(0, 100))
+        setFilgames((await allGames.search(value)).slice(0, 100))
     }, 500)
 
     return (
@@ -83,8 +82,8 @@ function Header():React.ReactNode {
                 async (event) => {searchGames(event.target.value)}
             } onClick={() => {filgames && setModal(true); setShowGameList(true)}} />
             <span className="avatar-nickname">
-                {user && <Link to={user.nickname}><img className="avatar br-50" onError={e => e.currentTarget.src = URL_PLACEHOLDER} src={`${URL_SERVER_AVATARS}${user.avatar}`} /></Link>}
-                {user ? <Link to={user.nickname} className="avatar-nick">{user.nickname}</Link> : <Link to="/login">Вход</Link>}
+                {user && <Link to={`/users/${user.nickname}`}><img className="avatar br-50" onError={e => e.currentTarget.src = URL_PLACEHOLDER} src={`${URL_SERVER_AVATARS}${user.avatar}`} /></Link>}
+                {user ? <Link to={`/users/${user.nickname}`} className="avatar-nick">{user.nickname}</Link> : <Link to="/login">Вход</Link>}
             </span>
         </header>
         </>

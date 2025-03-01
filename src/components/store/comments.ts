@@ -1,4 +1,4 @@
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, runInAction } from "mobx";
 import axios from "axios";
 import { commentsInterface } from "../pages/games/GameInterface";
 
@@ -8,8 +8,11 @@ class Comments {
         makeAutoObservable(this)
     }
     async getByGame(game: string) {
-        //@ts-ignore
-        this.comments = (await axios.get(`http://localhost:3000/api/comments/${game}`)).data
+        const response = (await axios.get(`http://localhost:3000/api/comments/${game}`)).data
+        runInAction(() => {
+            //@ts-ignore
+            this.comments = response
+        })
     }
 
     async post(data: commentsInterface) {

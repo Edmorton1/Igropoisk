@@ -1,4 +1,4 @@
-import { memo, useCallback, useMemo, useState } from "react"
+import { memo, useCallback, useEffect, useMemo, useState } from "react"
 import { useUpdateParams } from "../hooks/useUpdateParams"
 import { useSearchParams } from "react-router-dom"
 import "../css/Pagination.scss"
@@ -26,9 +26,15 @@ function Pagination({pagesCount} : any):React.ReactNode {
         console.log(val)
     }, 300)
 
+    useEffect(() => {
+        window.scrollTo(0,0)
+        if (page > pages.length) {
+            updateParams('page', pages.length)
+        }
+    }, [pages, page])
+
     const pagination = useMemo(() => {
         // console.log(pages.length)
-        if (page > pages.length) updateParams('page', pages.length)
         return pages.map((e, i) => {
         const but = i + 1
         if (but == 1 || but == pages.length || but == page || (4 > page - but && page - but > 0) || (4 > but- page && but - page > 0)) {

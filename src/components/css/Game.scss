@@ -73,6 +73,9 @@ textarea {
 .game-left {
     display: flex;
     flex-direction: column;
+    img {
+        object-fit: contain;
+    }
 }
 .game-right {
     display: flex;
@@ -94,7 +97,7 @@ textarea {
         margin: 8px;
     }
     .select {
-        height: 50px;
+        height: 30px;
         font-size: 20px;
         display: flex;
         appearance: none;

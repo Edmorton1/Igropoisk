@@ -47,9 +47,9 @@ function Comments({user}: userProps) {
         return comments.comments.slice(0, visibleComments).map((e: commentInterface, i) => (
             <div key={i} className="comment">
                 <div className="com-head">
-                    <img onError={e => e.currentTarget.src = ava} src={`${URL_SERVER_AVATARS}${e.avatar}`} />
+                    <Link to={`/users/${e.nickname}`}><img onError={e => e.currentTarget.src = ava} src={`${URL_SERVER_AVATARS}${e.avatar}`} /></Link>
                     <div className="name-date">
-                        <Link to={`/${e.nickname}`}>{e.nickname}</Link>
+                        <Link to={`/users/${e.nickname}`}>{e.nickname}</Link>
                         <span>{e.created_at}</span>
                     </div>
                 </div>

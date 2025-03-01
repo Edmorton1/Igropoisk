@@ -1,5 +1,5 @@
 import $api from ".";
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, runInAction } from "mobx";
 import { userInterface } from "../pages/games/GameInterface";
 
 interface tokensInterface {
@@ -33,21 +33,21 @@ class Store implements IStore {
         const response = await $api.post<undefined>('/registration', data)
         const [user, tokens]: [userInterface, tokensInterface] = response.data
         localStorage.setItem('accessToken', tokens.accessToken)
-        this.user = user
+        runInAction(() => this.user = user)
         console.log('РЕГИСТРАТИОН')
     }
     async login(data: dataInterface) {
         const response = await $api.post<undefined>('/login', data)
         const [user, tokens]: [userInterface, tokensInterface] = response.data
         localStorage.setItem('accessToken', tokens.accessToken)
-        this.user = user
+        runInAction(() => this.user = user)
         console.log(this.user)
     }
     async logout() {
         await $api.get('/logout')
         localStorage.removeItem('accessToken')
         console.log('ЛОГАУТ')
-        this.user = null
+        runInAction((): void => this.user = null)
     }
     async refresh() {
         const accessToken = await localStorage.getItem('accessToken')
@@ -55,7 +55,7 @@ class Store implements IStore {
         const [user, tokens]: [userInterface, tokensInterface] = response.data
         console.log(user, tokens)
         if (user && tokens) {
-            this.user = user
+            runInAction(() => this.user = user)
             // $api.defaults.headers.common['Authorization'] = `Bearer ${tokens.accessToken}`
             // console.log($api.defaults.headers.common.Authorization)
             await localStorage.setItem('accessToken', tokens.accessToken)

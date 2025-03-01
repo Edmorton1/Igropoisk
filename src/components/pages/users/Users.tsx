@@ -17,9 +17,9 @@ function Main():React.ReactNode {
         return data.map((e, i) => (
             <div key={i} className="user-card border-dashed">
                 <span className="left-section">
-                    <Link to={`/${e.nickname}`}><img className="avatar" onError={e => e.currentTarget.src = URL_PLACEHOLDER} src={`${URL_SERVER_AVATARS}${e.avatar}`} /></Link>
+                    <Link to={`/users/${e.nickname}`}><img className="avatar" onError={e => e.currentTarget.src = URL_PLACEHOLDER} src={`${URL_SERVER_AVATARS}${e.avatar}`} /></Link>
                     <div className="left-text">
-                        <Link to={`/${e.nickname}`}>{e.nickname}</Link>
+                        <Link to={`/users/${e.nickname}`}>{e.nickname}</Link>
                         <span>На сайте с {e.created_at}</span>
                     </div>
                 </span>
@@ -36,7 +36,7 @@ function Main():React.ReactNode {
         <main style={{paddingBottom: "2vh"}}>
             <div className="users-main">
                 <h1>Все пользователи сайта</h1>
-                {returnUsers()}
+                {!isLoading && returnUsers()}
                 {/* <img src= {`http://localhost:3000/avatars/1739897836878-SEVEN.png`} /> */}
             </div>
         </main>

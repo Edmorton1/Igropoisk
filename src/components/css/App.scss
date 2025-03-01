@@ -23,6 +23,9 @@ main {
     max-width: 1550px;
     width: 100%;
 }
+body {
+    background-color: red; // Любые стили, если есть скролл
+}
 .search-game {
     top: $header-height;
 }

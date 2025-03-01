@@ -1,4 +1,4 @@
-import { memo, useContext } from "react";
+import { memo, useContext, useState } from "react";
 import { useForm } from "react-hook-form"
 import { Context } from '../../App'
 import { Link } from "react-router-dom";
@@ -7,16 +7,19 @@ import "../../css/Login.scss"
 function Login():React.ReactNode {
     const store = useContext(Context)
     const {register, handleSubmit} = useForm();
+    const [hasError, setHasError] = useState(false)
 
     function login(data: any) {
         console.log(data)
         store.login(data)
     }
+
+    if (hasError) {
+        throw new Error('asdasdasd')
+    }
       
     return (
         <main className="login-section">
-            <p>hui@gmail.com</p>
-            <p>123</p>
             <form onSubmit={handleSubmit((data) => login(data))}>
                 <strong>Авторизация</strong>
                 <input {...register('mail')} type="text" placeholder="Почта" />

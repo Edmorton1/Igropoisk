@@ -15,6 +15,7 @@ import Test from "./Test"
 import { Suspense } from "react"
 import DragDrop from "./pages/profile/DragDrop"
 import ForFor from "./pages/errors/ForFor"
+import ErrorBoundary from "./pages/errors/ErrorBoundary"
 
 export const Context = createContext<Store>(null)
 
@@ -40,22 +41,25 @@ function App() {
     const Test = lazy(() => import("./Test"))
     const Users = lazy(() => import("./pages/users/Users"))
     // const Header = lazy(() => import("./pages/Header"))
-
     if (load) {
         return(
             <Suspense fallback={<main style={{backgroundColor: "red"}}>Загрузка приложения...</main>}>
             <Context.Provider value={store}>
                 <BrowserRouter>
                     <Header />
-                    <Routes>
-                        <Route path="login" element={<Login />} />
-                        <Route path="registration" element={<Registration />} />
-                        <Route path="games" element={<Games />} />
-                        <Route path="games/:id" element={<Game />} />
-                        <Route path="/:nickname" element={<Profile />}/>
-                        <Route path="/test" element={<Test />} />
-                        <Route path="/users" element={<Users/>} errorElement={<ForFor />} />
-                    </Routes>
+                    <ErrorBoundary>
+                        <Routes>
+                            <Route path="/login" element={<Login />} />
+                            <Route path="/registration" element={<Registration />} />
+                            <Route path="/games" element={<Games />} />
+                            <Route path="/games/:id" element={<Game />} />
+                            <Route path="/users/:nickname" element={<Profile />}/>
+                            {/* <Route path="/test" element={<Test />} /> */}
+                            <Route path="/users" element={<Users/>} />
+                            <Route index element={<Navigate to={`/games`} />}/>
+                            <Route path="*" element={<ForFor />}/>
+                        </Routes>
+                    </ErrorBoundary>
                 </BrowserRouter>
             </Context.Provider>
             </Suspense>

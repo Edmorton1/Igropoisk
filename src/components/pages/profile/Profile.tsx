@@ -11,6 +11,7 @@ import { URL_PLACEHOLDER, URL_SERVER_AVATARS } from "../../URLS"
 import { observer } from "mobx-react-lite"
 import { Context } from "../../App"
 import { toJS } from "mobx"
+import ava from "../../assets/user-placeholder.jpg"
 import checkAuthFunc from "../../hooks/checkAuthFunc"
 
 function Profile():React.ReactNode {
@@ -20,20 +21,29 @@ function Profile():React.ReactNode {
     const [grade, setGrade] = useState(-1)
     const {nickname} = useParams()
     const [SnackBar, checkAuth] = checkAuthFunc()
+    const [err, setErr] = useState(false)
     // console.log(storeUser)
 
     useEffect(() => {
         async function fetchData() {
-            //@ts-ignore
-            const data = (await axios.get(`http://localhost:3000/api/users?nickname=${nickname}`)).data[0]
-            await relationStore.getByUser(data.id)
-            setUser(data)
-            setRelations(await relationStore.relationParse())
-            setLoad(true)
+            try {
+                //@ts-ignore
+                const data = (await axios.get(`http://localhost:3000/api/users?nickname=${nickname}`)).data[0]
+                await relationStore.getByUser(data.id)
+                setUser(data)
+                setRelations(await relationStore.relationParse())
+                setLoad(true)
+            } catch {
+                setErr(true)
+            }
         }
 
         fetchData()
     }, [nickname])
+
+    if (err) {
+        throw new Error('asasdsad')
+    }
 
     function limitCheck(value: string) {
         let total = Number(value)
@@ -92,7 +102,7 @@ function Profile():React.ReactNode {
             <DragDrop/>
             <main className="profile-main">
                 <div className="about-user">
-                    <img onError={e => e.currentTarget.src = URL_PLACEHOLDER} className="avatar-large" src={`${URL_SERVER_AVATARS}${user.avatar}`}/>
+                    <img onError={e => e.currentTarget.src = ava} className="avatar-large" src={`${URL_SERVER_AVATARS}${user.avatar}`}/>
                     {checkUser() && <button className="button-stand br-n" onClick={() => checkAuth(() => dragDropStore.open())}>Загрузить аватурку</button>}
                     {checkUser() && <button className="button-stand br-n" onClick={() => checkAuth(() => store.logout())}>Выйти</button>}
                     <h1>{nickname}</h1>
