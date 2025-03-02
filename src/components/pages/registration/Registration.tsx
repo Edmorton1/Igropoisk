@@ -29,7 +29,7 @@ function Registration() {
             text = 'Введите почту'
         } else if (request_mail == 'mail занят') {
             text = 'Почта уже занята попробуйте другую'
-        } else if (data.password.length < 6) {
+        } else if (data.password.length < 5) {
             text = 'Пароль слишком короткий'
         } else if (data.password != data.password_repeat) {
             text = 'Пароли не совпадают'

@@ -88,9 +88,17 @@ class UserModel {
         return (response.map(e => (e.steam_id)))
     }
     async getByCategory(param, category, table, secondParam) {
-        const [key, value] = secondParam
-        const add = key && value ? `AND ${key} = ${value}` : ''
-        return await db.query(`SELECT * FROM ${table} WHERE ${category} = $1 ${add} ORDER BY id DESC` + ``, [param])
+        let result;
+        if (secondParam) {
+            const [key, value] = secondParam
+            const add = key && value ? `AND ${key} = ${value}` : ''
+            result = await db.query(`SELECT * FROM ${table} WHERE ${category} = $1 ${add} ORDER BY id DESC` + ``, [param])
+        }
+        else {
+            result = await db.query(`SELECT * FROM ${table} WHERE ${category} = $1 ORDER BY id DESC` + ``, [param])
+        }
+        const total = result.rows.map(({password, ...rest}) => rest)
+        return total
     }
     // async getRelation(user_id, game) {
     //     if (game) {
@@ -99,7 +107,7 @@ class UserModel {
     //     return await db.query(`SELECT * FROM relations WHERE user_id = $1 ORDER BY id DESC` + ``, [user_id])
     // }
     async getWithNick(game) {
-        return await db.query(`SELECT comments.id, game, text, nickname, avatar, comments.created_at FROM comments JOIN users ON comments.user_id = users.id WHERE game = ${game} ORDER BY id DESC`)
+        return await db.query(`SELECT comments.id, game, text, nickname, user_id, avatar, comments.created_at FROM comments JOIN users ON comments.user_id = users.id WHERE game = ${game} ORDER BY id DESC`)
     }
     async post(data, table) {
         try {

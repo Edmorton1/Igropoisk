@@ -15,6 +15,7 @@ class UserController {
         try {
             const users = await UserService.get(req.query.user_id, req.query.nickname)
             res.json(users.rows)
+            console.log(req.user)
         } catch(e) {
             console.log(e)
         }
@@ -23,7 +24,7 @@ class UserController {
         try {
             const {nickname} = req.params
             const user = await UserService.getByNickname(nickname)
-            res.json(user.rows)
+            res.json(user)
         } catch(e) {
             console.log(e)
         }

@@ -14,9 +14,9 @@ const upload = multer({storage})
 
 class FileController {
     async UploadAvatar(req, res) {
-        // console.log(req.user, req.file)
+        console.log(req.user, req.file)
         const fileName = req.file.filename.substring(0, 255)
-        const oldFilename = ((await model.getByCategory(req.user, 'id', 'users')).rows[0]).avatar
+        const oldFilename = ((await model.getByCategory(req.user, 'id', 'users'))).avatar
         const oldFilePath = path.join(__dirname, `../avatars/${oldFilename}`)
         fs.unlink(oldFilePath, (err) => console.log(err))
         // console.log(req.file)

@@ -44,7 +44,8 @@ class ErrorBoundary extends Component {
     render() {
         //@ts-ignore
         if (this.state.hasError) {
-            return <ForFor />
+            //@ts-ignore
+            return <ForFor>{this.state.error.message}</ForFor>
         }
         //@ts-ignore
         return this.props.children

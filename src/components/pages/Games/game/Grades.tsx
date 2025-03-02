@@ -19,7 +19,7 @@ function Grades({user, relation}: GradesInterface) {
     function starsRender(): React.ReactNode {
         console.log('stars')
         return stars.map((e, i) => (
-            <span onMouseEnter={() => {setCurrentStar(i); setFreeze(false)}} onClick={() => checkAuth(() => {setScore(currentStar + 1); setFreeze(true); relationStore.gradeChange(currentStar + 1, relation.id)})} className={`${i <= currentStar ? freeze ? `star freeze` : `star current` : `star` }`} key={i}>★</span>
+            <span onMouseEnter={() => {setCurrentStar(i); setFreeze(false)}} onClick={() => checkAuth(() => {setScore(currentStar + 1); setFreeze(true); relationStore.gradeChange(currentStar + 1, relation.id, relation.user_id)})} className={`${i <= currentStar ? freeze ? `star freeze` : `star current` : `star` }`} key={i}>★</span>
         ))
     }
     return (

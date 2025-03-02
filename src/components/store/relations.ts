@@ -2,6 +2,7 @@ import { makeAutoObservable } from "mobx";
 import axios from "axios";
 import { relationInterface, relationArrInterface, gameInAllInterface } from "../pages/games/GameInterface";
 import { toJS } from "mobx";
+import $api from ".";
 
 class Relations {
     relation: relationInterface[] = null;
@@ -15,8 +16,8 @@ class Relations {
         this.relation = (await axios.get(`http://localhost:3000/api/relations/${user_id}?game=${game_url}`)).data
     }
     async post(data: relationInterface) {
-        await axios.post(`http://localhost:3000/api/relations/`, data)
         console.log(data)
+        await $api.post(`http://localhost:3000/api/relations/`, data)
         await this.getByUser(String(data.user_id))
     }
     async grade(game?: number | string) {
@@ -24,18 +25,20 @@ class Relations {
         const data = response.json()
         return data
     }
-    async gradeChange(grade: number | string, id: number) {
+    async gradeChange(grade: number | string, id: number, user_id: number) {
         grade == 0 ? grade = null : Number(grade)
         console.log(grade, id)
-        await axios.put(`http://localhost:3000/api/relations/${id}`,
+        await $api.put(`http://localhost:3000/api/relations/${id}`,
             {
-                "grade": grade
+                "grade": grade,
+                "user_id": user_id
             }
         )
     }
     async relationGame(user_id: string, game?: string) {
         const response = await fetch(`http://localhost:3000/api/relations/${user_id}?game=${game}`)
-        const data = response.json()
+        const data = await response.json()
+        console.log(data)
         return data
     }
     async relationParse() {

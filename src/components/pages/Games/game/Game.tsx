@@ -14,6 +14,7 @@ import Slider from "./Slider"
 import Grades from "./Grades"
 import relations from "../../../store/relations"
 import { URL_CLIENT_GAMES } from "../../../URLS"
+import useError from "../../../hooks/useError"
 
 function Game(): React.ReactNode {
     const store = useContext(Context)
@@ -25,6 +26,8 @@ function Game(): React.ReactNode {
     const [relation, setRelation] = useState<relationInterface>(null)
     const {id} = useParams()
     const [fullDescription, setFullDescription] = useState(false)
+    const [err, checkErr] = useError()
+    // console.log(err, checkErr)
 
     useEffect(() => {
         async function fetchData() {
@@ -39,6 +42,10 @@ function Game(): React.ReactNode {
         
         fetchData()
     }, [id])
+
+    if (err) {
+        throw new Error('Ошибка: Steam API не отвечает')
+    }
 
     if (load) {
         return (

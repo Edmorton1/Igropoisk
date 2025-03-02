@@ -26,7 +26,7 @@ const user = async (req, res, next) => {
         const id = JSON.parse(atob(accessToken)).id
         const total = (await db.query(`SELECT * FROM users WHERE id = $1`, [id])).rows[0]
         req.user = id
-        // console.log(id)
+        console.log(`${id}, МИДЛВЕЙР`)
     } catch {
         
     } finally {

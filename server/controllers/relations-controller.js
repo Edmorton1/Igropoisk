@@ -15,7 +15,7 @@ class RelationsController {
             const {game} = req.query
             const relation = await RelationService.getByUser(user_id, game)
             console.log(user_id)
-            res.json(relation.rows)
+            res.json(relation)
         } catch(e) {
             console.log(e)
         }

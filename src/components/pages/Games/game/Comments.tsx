@@ -20,6 +20,7 @@ interface commentInterface {
     game: number,
     text: string,
     nickname: string,
+    user_id: number,
     avatar: string,
     created_at: string,
 }
@@ -52,10 +53,10 @@ function Comments({user}: userProps) {
                         <span>{e.created_at}</span>
                     </div>
                 </div>
-                {comChange == e.id ? <textarea style={{marginTop: "10px"}} value={text} onChange={(e) => setText(e.target.value)}></textarea> : <p>{e.text}</p>}
-                {comChange != e.id && <button onClick={() => {setComChange(e.id); setText(e.text)}}>Изменить</button>}
-                {comChange != e.id && <button onClick={() => comments.delete(e.id, e.game)}>Удалить</button>}
-                {comChange == e.id && <button className="button-stand" onClick={() => {comments.change(e.id, text, e.game); setComChange(0)}}>Изменить</button>}
+                {comChange == e.id && user.id == e.user_id ? <textarea style={{marginTop: "10px"}} value={text} onChange={(e) => setText(e.target.value)}></textarea> : <p>{e.text}</p>}
+                {comChange != e.id && user.id == e.user_id && <button onClick={() => {setComChange(e.id); setText(e.text)}}>Изменить</button>}
+                {comChange != e.id && user.id == e.user_id && <button onClick={() => comments.delete(e.id, e.game)}>Удалить</button>}
+                {comChange == e.id && user.id == e.user_id && <button className="button-stand" onClick={() => {comments.change(e.id, text, e.game, e.user_id); setComChange(0)}}>Изменить</button>}
             </div>
         ))
     }

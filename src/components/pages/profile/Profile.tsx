@@ -13,6 +13,7 @@ import { Context } from "../../App"
 import { toJS } from "mobx"
 import ava from "../../assets/user-placeholder.jpg"
 import checkAuthFunc from "../../hooks/checkAuthFunc"
+import useError from "../../hooks/useError"
 
 function Profile():React.ReactNode {
     const [load, setLoad] = useState(false)
@@ -21,28 +22,25 @@ function Profile():React.ReactNode {
     const [grade, setGrade] = useState(-1)
     const {nickname} = useParams()
     const [SnackBar, checkAuth] = checkAuthFunc()
-    const [err, setErr] = useState(false)
+    const [err, checkErr] = useError()
+    // const [err, setErr] = useState(false)
     // console.log(storeUser)
 
     useEffect(() => {
         async function fetchData() {
-            try {
-                //@ts-ignore
-                const data = (await axios.get(`http://localhost:3000/api/users?nickname=${nickname}`)).data[0]
-                await relationStore.getByUser(data.id)
-                setUser(data)
-                setRelations(await relationStore.relationParse())
-                setLoad(true)
-            } catch {
-                setErr(true)
-            }
+            //@ts-ignore
+            const data = (await axios.get(`http://localhost:3000/api/users?nickname=${nickname}`)).data[0]
+            await relationStore.getByUser(data.id)
+            setUser(data)
+            setRelations(await relationStore.relationParse())
+            setLoad(true)
         }
 
-        fetchData()
+        checkErr(() => fetchData())
     }, [nickname])
 
     if (err) {
-        throw new Error('asasdsad')
+        throw new Error('Ошибка: Пользователя не существует')
     }
 
     function limitCheck(value: string) {
@@ -65,7 +63,7 @@ function Profile():React.ReactNode {
                         <Link to={`/games/${e.game}`}><span>{e.name}</span></Link>
                         <span onMouseEnter={() => checkAuth(() => setGrade(e.id), false)} onFocus={() => setGrade(e.id)} onBlur={() => setGrade(-1)}>
                             {grade == e.id ? 
-                                        <input type="number" onChange={(event) => {event.target.value = limitCheck(event.target.value); relationStore.gradeChange(event.target.value, e.id); e.grade = event.target.value == '0' ? 'Нет оценки' : event.target.value}} /> 
+                                        <input type="number" onChange={(event) => {event.target.value = limitCheck(event.target.value); relationStore.gradeChange(event.target.value, e.id, e.user_id); e.grade = event.target.value == '0' ? 'Нет оценки' : event.target.value}} /> 
                                         : e.grade ? e.grade : 'Нет оценки'}
                         </span>
                         <span>{e.gradeSite ? e.gradeSite : 'Нет отзывов'}</span>

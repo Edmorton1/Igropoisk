@@ -1,7 +1,11 @@
 import path from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import webpack, {Configuration} from 'webpack';
-import {Configuration as DevServerConfiguration} from 'webpack-dev-server';
+import webpack from 'webpack';
+import MiniCssExtractPlugin from "mini-css-extract-plugin"
+import { Configuration } from 'webpack';
+import { Configuration as DevServerConfiguration } from 'webpack-dev-server';
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+
 
 type Mode = "production" | "development";
 
@@ -11,22 +15,25 @@ interface EnvInterface {
 }
 
 const config = (env: EnvInterface): webpack.Configuration => {
+    const isDev = env.mode == 'development'
+    const isProd = env.mode == 'production'
+
     const config: webpack.Configuration = {
-        mode: 'production',
+        mode: env.mode,
         entry: path.resolve(__dirname, 'src', 'index.tsx'),
         output: {
             path: path.resolve(__dirname, 'build'),
-            filename: '[name].js',
+            filename: '[name].[contenthash].js',
+            chunkFilename: '[name].[contenthash].js',
             assetModuleFilename: 'assets/[name][ext]',
             publicPath: "/",
             clean: true,
         },
-        
         plugins: [
             new HtmlWebpackPlugin({
                 template: path.resolve(__dirname, 'public', 'index.html'),
             }),
-            new webpack.ProgressPlugin()
+            new webpack.ProgressPlugin(),
         ],
         module: {
             rules: [
@@ -37,7 +44,7 @@ const config = (env: EnvInterface): webpack.Configuration => {
                 {
                     test: /\.s[ac]ss$/i,
                     use: [
-                      "style-loader",
+                      isProd ? MiniCssExtractPlugin.loader : "style-loader",
                       "css-loader",
                       "sass-loader",
                     ],
@@ -53,15 +60,27 @@ const config = (env: EnvInterface): webpack.Configuration => {
             extensions: ['.tsx', '.ts', '.js'],
         },
         devServer: {
-            historyApiFallback: {
-                index: "/index.html", // Указывает, что при 404 возвращаем index.html
-            },
+            historyApiFallback: true,
             static: path.resolve(__dirname, "public"), // Раздаем файлы из public
             hot: true,
             port: env.port,
             open: true,
-        }
+        } as DevServerConfiguration,
+        optimization: {
+            splitChunks: {
+            chunks: 'all'
+            },
+          },
     };
+    if (isProd) {
+        config.plugins.push(new MiniCssExtractPlugin({
+            filename: `css/[name].[contenthash:8].css`,
+            chunkFilename: 'css/[name].[contenthash:8].css'
+        }))
+        // config.plugins.push(new BundleAnalyzerPlugin({
+        //     analyzerPort: 8889,
+        // }))
+    }
 
     return config;
 };

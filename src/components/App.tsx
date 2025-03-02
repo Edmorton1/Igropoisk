@@ -1,12 +1,12 @@
-import { createContext, useState, useEffect, lazy } from "react"
+import { createContext, useState, useEffect } from "react"
 import { observer } from "mobx-react-lite"
 import Store from "./store/store"
-import "./css/App.scss"
+import  "./css/App.scss"
 import Header from "./pages/Header"
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom"
 import { Suspense } from "react"
-import ForFor from "./pages/errors/ForFor"
 import ErrorBoundary from "./pages/errors/ErrorBoundary"
+import { Login, Registration, Games, Game, Profile, Users, ForFor } from "./lazyImports";
 
 export const Context = createContext<Store>(null)
 
@@ -23,13 +23,7 @@ function App() {
         fetchData();
     }, [])
 
-    const Login = lazy(() => import("./pages/login/Login"))
-    const Registration = lazy(() => import("./pages/registration/Registration"))
-    const Games = lazy(() => import("./pages/games/gamesList/Games"))
-    const Game = lazy(() => import("./pages/games/game/Game"))
-    const Profile = lazy(() => import("./pages/profile/Profile"))
-    // const Test = lazy(() => import("./Test"))
-    const Users = lazy(() => import("./pages/users/Users"))
+
     if (load) {
         return(
             <Suspense fallback={<main style={{backgroundColor: "white"}}>Загрузка приложения...</main>}>
