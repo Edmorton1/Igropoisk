@@ -20,6 +20,7 @@ function Profile():React.ReactNode {
     const [user, setUser] = useState<userInterface>(null)
     const [relations, setRelations] = useState<relationArrInterface>(null)
     const [grade, setGrade] = useState(-1)
+    console.log(grade)
     const {nickname} = useParams()
     const [SnackBar, checkAuth] = checkAuthFunc()
     const [err, checkErr] = useError()

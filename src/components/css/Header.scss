@@ -3,19 +3,18 @@
         display: none;
     }
 }
-
 header {
     background: #343434;
     display: grid;
     grid-template-rows: 1fr;
-    grid-template-columns: minmax(50px, 300px) minmax(50px, 200px) 1fr minmax(30px, 220px);
+    grid-template-columns: minmax(50px, 300px) minmax(50px, 200px) 1fr minmax(30px, 220px) minmax(30px, 70px);
     position: fixed;
     width: 100%;
     z-index: 3;
 // 685
     select {
         border: none;
-        background-color: #454545;
+        background-color: rgb(63, 63, 63);
         color: white;
         text-align: center;
         // transition: 0.3s;
@@ -23,7 +22,7 @@ header {
     }
     select:focus {
         border: none;
-        background: #656565;
+        background: rgb(58, 58, 58);
         outline: none;
     }
     .img-wrapper {
@@ -72,6 +71,9 @@ header {
     z-index: 2;
     font-size: 15px;
     overflow: auto;
+    * {
+        color: black;
+    }
 
     img {
         height: 90px;

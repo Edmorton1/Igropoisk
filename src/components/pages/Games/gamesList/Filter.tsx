@@ -33,7 +33,7 @@ function Filter() {
                     <label><li><input checked={order == "release_date"} type="radio" onChange={() => updateParams('order', 'release_date')} name="sorting" />По дате выхода</li></label>
                 </ul>
             <h3>Год выхода</h3>
-            <input value={range} className="input-range" type="range" min={0} max={years.length -1} onChange={(event) => {updateParams('release_date', years[Number(event.target.value)]); setRange(Number(event.target.value))}} disabled={status == "soon"} />
+            <input value={range} type="range" min={0} max={years.length -1} onChange={(event) => {updateParams('release_date', years[Number(event.target.value)]); setRange(Number(event.target.value))}} disabled={status == "soon"} />
             <p style={{height:"28px"}}>{release_date != '' ? `Показывать только игры вышедшие в ${release_date} году` : `Показывать все игры`}</p>
             <button className="button-stand br-n" onClick={() => {updateParams('release_date', ''); setRange(years.length -1)}}>Сбросить год</button>
             <button className="button-stand br-n" onClick={() => {setSearchParams({}); setRange(years.length -1)}} >Сбросить всё</button>

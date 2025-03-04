@@ -1,6 +1,8 @@
 $font-head: 15px;
 $image: 100px;
 
+// @use "App.scss";
+
 .image-game {
     transition: 1s ease-in;
     width: $image;
@@ -9,7 +11,7 @@ $image: 100px;
     display: flex;
     align-items: center;
     margin-bottom: 5px;
-    background-color: #f1f1f1;
+    background-color: var(--secondary-color);
 }
 li {
     padding: none;

@@ -1,4 +1,4 @@
-import { memo } from "react"
+import { memo, useState } from "react"
 import { gameInAllInterface } from "../GameInterface"
 import "../../../css/GameInformation.scss"
 import { Link, useSearchParams  } from "react-router-dom"
@@ -12,11 +12,12 @@ function Games(): React.ReactNode {
     const [searchParams] = useSearchParams();
     const order = searchParams.get('order') || 'rating'
     const {isLoading} = useGames()
+    // const [hover, setHover] = useState(false)
 
     function returnGames():React.ReactNode {
         return allGames.games.
             map((e: gameInAllInterface, i) => (
-            <Link to={`/games/${e.steam_id}`} key={i} className="gameCard" style={isLoading ? {opacity: "0.5"} : {}}>
+            <Link to={`/games/${e.steam_id}`} key={i} className={`gameCard`} style={isLoading ? {opacity: "0.5"} : {}}>
                 <img src={e.header_image} />
                 <div className="gameInfo">
                     <span>{e.name}</span>

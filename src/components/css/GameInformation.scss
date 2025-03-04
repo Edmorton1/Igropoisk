@@ -10,14 +10,15 @@
 
 .games {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 3px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 5px;
     width: 100%;
 }
 
 .gameCard {
     display: flex;
     flex-direction: column;
+    transition: all 0.3s ease-in-out;
     
     .gameInfo {
         font-size: 13px;
@@ -25,6 +26,10 @@
         justify-content: space-between;
         height: 20px;
     }
+}
+.gameCard:hover {
+    transform: scale(120%);
+    transition: 0.3s ease-in-out all;
 }
 
 // .games {

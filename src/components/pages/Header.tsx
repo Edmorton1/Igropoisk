@@ -18,11 +18,18 @@ function Header():React.ReactNode {
     const [filgames, setFilgames] = useState<gameInAllInterface[]>([])
     const [modal, setModal] = useState(false)
     const [showGameList, setShowGameList] = useState(false)
+    const [theme, setTheme] = useState(localStorage.getItem('theme') != 'dark' ? false : true)
     const user = useMemo(() => store.user, [store.user])
     const navigate = useNavigate()
     useEffect(() => {
         allGames.search('')
     }, [])
+    console.log(localStorage.getItem('theme'))
+    if (!theme) {
+        document.body.className="light"
+    } else {
+        document.body.className="dark"
+    }
 
     function goTo(link: string) {
         navigate(link)
@@ -68,10 +75,10 @@ function Header():React.ReactNode {
         }
         <header>
             <Link to="/games" className="img-wrapper">
-            <picture>
-                <source media="(max-width: 650px)" srcSet={logoshort} />
-                <img src={logo} />
-            </picture>
+                <picture>
+                    <source media="(max-width: 650px)" srcSet={logoshort} />
+                    <img src={logo} />
+                </picture>
             </Link>
             <select onChange={(event) => goTo(event.target.value)}>
                 <option value="/games">GAMES</option>
@@ -84,6 +91,7 @@ function Header():React.ReactNode {
                 {user && <Link to={`/users/${user.nickname}`}><img className="avatar br-50" onError={e => e.currentTarget.src = URL_PLACEHOLDER} src={`${URL_SERVER_AVATARS}${user.avatar}`} /></Link>}
                 {user ? <Link to={`/users/${user.nickname}`} className="avatar-nick">{user.nickname}</Link> : <Link to="/login">Вход</Link>}
             </span>
+            <button onClick={() => {setTheme(!theme); localStorage.setItem('theme', !theme ? 'dark' : 'light')}} className="theme">{theme ? 'Тёмный' : 'Светлый'}</button>
         </header>
         </>
     )

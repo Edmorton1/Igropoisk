@@ -21,11 +21,11 @@
     justify-content: flex-start;
     text-align: center;
     margin-left: 10px;
-    background-color: white;
     transition: 0.35s ease-out;
     min-width: 235px;
 
     ul {
+        background-color: var(--secondary-color);
         display: flex;
         flex-direction: column;
         margin: 0px;
@@ -47,14 +47,14 @@
         margin-top: 0;
     }
     li:hover {
-        background-color: #f3f3f3;
+        background-color: var(--li-hover);
     }
     li {
         cursor: pointer;
     }
 }
 .filter li:has(input:checked) {
-    background-color: #e9e9e9;
+    background-color: var(--li);
 }
 
 .filter input {

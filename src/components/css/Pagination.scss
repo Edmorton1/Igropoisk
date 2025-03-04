@@ -13,10 +13,14 @@ $hei-wid: 40px;
         padding: 0;
     
         border: 1px solid black;
-        background-color: white;
+        // background-color: var(--standart);
     }
     input {
         width: 8vh;
         height: 3.4vh;
+    }
+    .active {
+        background-color: var(--standart);
+        color: white;
     }
 }
