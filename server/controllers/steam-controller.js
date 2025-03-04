@@ -1,4 +1,6 @@
-const Model = require("../services/model");
+const Model = require("../models/model");
+const CrudModel = require('../models/crud-model.js')
+const GamesModel = require('../models/games-model')
 const fs = require('fs')
 const path = require('path')
 
@@ -22,32 +24,32 @@ class steamController {
         res.send(response)
     }
     async appids(req, res) {
-        const games = (await Model.get('appids')).rows
+        const games = (await CrudModel.get('appids')).rows
         const total = games.map(e => e.appid)
         // console.log(total)
         res.json(total)
     }
     async getEverything(req, res) {
         try {
-            const games = await Model.getFilter(req.query)
+            const games = await GamesModel.getFilter(req.query)
             // console.log(games)
             res.json({games: games[0], pages: games[1]})
         } catch(e) {
             console.log('ОШИБКА В ПАРАМЕТРАХ ПЕРЕБРОС НА СТАНДАРТНЫЙ', e)
-            const games = (await Model.getGamesFastNoReleaseDate('games')).rows
+            const games = (await GamesModel.getGamesFastNoReleaseDate('games')).rows
             res.json(games)
         }
     }
     async getSearch(req, res) {
         const query = req.query.query
-        const response = await Model.getSearch(query)
+        const response = await GamesModel.getSearch(query)
         console.log(query)
         res.json(response)
     }
     async postAppids(req, res) {
         const response = await fetch(`https://raw.githubusercontent.com/jsnli/steamappidlist/refs/heads/master/data/games_appid.json`);
         const data = await response.json();
-        const response2 = await Model.get('games')
+        const response2 = await CrudModel.get('games')
         const inDatabase = response2.rows.map(e => e.steam_id)
         const data_id = data.map(e => e.appid)
         const total = data_id.filter(e => !inDatabase.includes(e))

@@ -1,9 +1,10 @@
-const Model = require('./model.js')
+const Model = require('../models/model.js')
+const CrudModel = require('../models/crud-model.js')
 
 class RelationService {
     async get() {
         try {
-            const relation = await Model.get('relations')
+            const relation = await CrudModel.get('relations')
             return relation
         } catch(e) {
             console.log(e)
@@ -23,25 +24,25 @@ class RelationService {
     async post(data) {
         try {
             const {game, status, user_id} = data
-            const get = ((await Model.get('relations')).rows).filter(e => (e.game == game && e.user_id == user_id))[0]
+            const get = ((await CrudModel.get('relations')).rows).filter(e => (e.game == game && e.user_id == user_id))[0]
             if (get != undefined) {
-                return await Model.update(get.id, data, 'relations')
+                return await CrudModel.update(get.id, data, 'relations')
             }
-            return await Model.post(data, 'relations')
+            return await CrudModel.post(data, 'relations')
         } catch(e) {
             console.log(e)
         }
     }
     async update({ id }, data) {
         try {
-            return await Model.update(id, data, 'relations')
+            return await CrudModel.update(id, data, 'relations')
         } catch(e) {
             console.log(e)
         }
     }   
     async delete({ id }) {
         try {
-            return await Model.delete(id, 'relations')
+            return await CrudModel.delete(id, 'relations')
         } catch(e) {
             console.log(e)
         }

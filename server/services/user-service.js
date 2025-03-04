@@ -1,5 +1,7 @@
-const Model = require('./model.js')
+const Model = require('../models/model.js')
+const CrudModel = require('../models/crud-model.js')
 const TokenService = require('./token-service.js')
+const UserModel = require('../models/user-model.js')
 
 // async () {
 //     try {
@@ -12,7 +14,7 @@ const TokenService = require('./token-service.js')
 class UserService {
     async get(user_id, nickname) {
         try {
-            const users = await Model.getAllUserInf(user_id, nickname)
+            const users = await UserModel.getAllUserInf(user_id, nickname)
             return users
         } catch(e) {
             console.log(e)
@@ -27,21 +29,21 @@ class UserService {
     }
     async post(data) {
         try {
-            return await Model.post(data, 'users')
+            return await CrudModel.post(data, 'users')
         } catch(e) {
             console.log(e)
         }
     }
     async update({ id }, data) {
         try {
-            return await Model.update(id, data, 'users')
+            return await CrudModel.update(id, data, 'users')
         } catch(e) {
             console.log(e)
         }
     }   
     async delete({ id }) {
         try {
-            return await Model.delete('id', id, 'users')
+            return await CrudModel.delete('id', id, 'users')
         } catch(e) {
             console.log(e)
         }
@@ -55,7 +57,7 @@ class UserService {
     }
     async login(mail, password) {
         try {
-            const user = await Model.login(mail, password)
+            const user = await UserModel.login(mail, password)
             const tokens = await this.createSaveTokens(user.id, user.nickname)
             return [user, tokens]
         }  catch(e) {
@@ -64,7 +66,7 @@ class UserService {
     }
     async logout({ refreshToken }) {
         try {
-            await Model.delete('token', refreshToken, 'tokens')
+            await CrudModel.delete('token', refreshToken, 'tokens')
             console.log(refreshToken)
         }  catch(e) {
             console.log(e)
@@ -73,7 +75,7 @@ class UserService {
 
     async registration(nickname, mail, password) {
         try {
-            const user = await Model.registration(nickname, mail, password)
+            const user = await UserModel.registration(nickname, mail, password)
             const tokens = await this.createSaveTokens(user.id, user.nickname)
             return [user, tokens]
         }  catch(e) {
@@ -82,7 +84,7 @@ class UserService {
     }
     async getByToken(refreshToken) {
         try {
-            return await Model.getByToken(refreshToken)
+            return await UserModel.getByToken(refreshToken)
         } catch(e) {
             console.log(e)
         }

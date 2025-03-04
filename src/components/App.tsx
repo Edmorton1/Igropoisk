@@ -6,7 +6,7 @@ import Header from "./pages/Header"
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom"
 import { Suspense } from "react"
 import ErrorBoundary from "./pages/errors/ErrorBoundary"
-import { Login, Registration, Games, Game, Profile, Users, ForFor } from "./lazyImports";
+import { Login, Registration, Games, Game, Profile, Users, ForFor, Test } from "./lazyImports";
 
 export const Context = createContext<Store>(null)
 
@@ -37,7 +37,7 @@ function App() {
                             <Route path="/games" element={<Games />} />
                             <Route path="/games/:id" element={<Game />} />
                             <Route path="/users/:nickname" element={<Profile />}/>
-                            {/* <Route path="/test" element={<Test />} /> */}
+                            <Route path="/test" element={<Test />} />
                             <Route path="/users" element={<Users/>} />
                             <Route index element={<Navigate to={`/games`} />}/>
                             <Route path="*" element={<ForFor />}/>

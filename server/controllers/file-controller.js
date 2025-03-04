@@ -1,5 +1,6 @@
 const multer = require("multer")
-const model = require("../services/model")
+const Model = require("../models/model")
+const CrudModel = require('../models/crud-model.js')
 const path = require('path')
 const fs = require('fs')
 
@@ -16,11 +17,11 @@ class FileController {
     async UploadAvatar(req, res) {
         console.log(req.user, req.file)
         const fileName = req.file.filename.substring(0, 255)
-        const oldFilename = ((await model.getByCategory(req.user, 'id', 'users'))).avatar
+        const oldFilename = ((await Model.getByCategory(req.user, 'id', 'users'))).avatar
         const oldFilePath = path.join(__dirname, `../avatars/${oldFilename}`)
         fs.unlink(oldFilePath, (err) => console.log(err))
         // console.log(req.file)
-        const request = await model.update(req.user, {avatar: fileName}, 'users')
+        const request = await CrudModel.update(req.user, {avatar: fileName}, 'users')
         // console.log(request)
         res.json(req.file.filename)
     }

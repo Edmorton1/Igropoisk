@@ -1,20 +1,13 @@
-import { useState } from "react"
-import Modal from "./pages/Modal"
-import "./css/App.scss"
-import SnackBar from "./pages/Snackbar"
-// import CheckAuthFunc from "./hooks/checkAuthFunc"
-import snackBarRegistrationStore from "./store/portals/snackBarStore"
+import sum from "../tests/sum"
 
 function Test() {
-    // const {checkAuth} = useCheckAuth()
-    // snackBarRegistrationStore.open()
+    // console.log(sum())
+    sum()
 
     return (
         <>
-            {/* {showSnackBar && <SnackBar />} */}
-            <SnackBar color="red" time={2200} />
             <main>
-                {/* <button onClick={() => checkAuth(() => console.log('asdas'))}>CHECK AUTH</button> */}
+
             </main>
         </>
     )

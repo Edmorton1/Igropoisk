@@ -7,7 +7,8 @@
 // }
 const tokenService = require('../services/token-service.js')
 const UserService = require('../services/user-service.js')
-const Model = require('../services/model.js')
+const UserModel = require('../models/user-model.js')
+const Model = require('../models/model.js')
 const cookie = require('cookie')
 
 class UserController {
@@ -33,7 +34,7 @@ class UserController {
         try {
             const key = Object.keys(req.query)[0]
             const value = req.query[key]
-            if (await Model.checkInUsers(value, key) == true) {
+            if (await UserModel.checkInUsers(value, key) == true) {
                 return res.json(`${key} занят`)
             }
             res.json('Свободно')
