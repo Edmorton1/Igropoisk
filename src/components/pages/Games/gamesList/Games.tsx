@@ -5,8 +5,8 @@ import { Link, useSearchParams  } from "react-router-dom"
 import allGames from "../../../store/allGames"
 import { observer } from "mobx-react-lite"
 import Pagination from "../../Pagination"
-import Filter from "./Filter"
 import { useGames } from "../../../hooks/useGames"
+import Filter from "./Filter"
 
 function Games(): React.ReactNode {
     const [searchParams] = useSearchParams();
