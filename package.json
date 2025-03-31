@@ -4,14 +4,14 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "node --max-old-space-size=4096 ./node_modules/webpack/bin/webpack.js --env mode=production",
+    "build": "webpack --env mode=production",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "build:dev": "webpack --env mode=development",
     "build:prod": "webpack --env mode=production",
-    "start": "node server/index.js",
+    "start": "webpack serve --env mode=production port=5000",
     "start:prod": "webpack serve --env mode=production port=5000",
-    "dev": "nodemon server/index.js",
+    "dev": "node server/index.js",
     "test": "jest"
   },
   "keywords": [],
