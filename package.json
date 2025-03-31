@@ -9,7 +9,7 @@
     "deploy": "gh-pages -d build",
     "build:dev": "webpack --env mode=development",
     "build:prod": "webpack --env mode=production",
-    "start": "webpack serve --env mode=production port=5000",
+    "start": "node server/index.js",
     "start:prod": "webpack serve --env mode=production port=5000",
     "dev": "nodemon server/index.js",
     "test": "jest"
