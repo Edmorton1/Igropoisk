@@ -74,7 +74,7 @@ class UserController {
         try {
             const {mail, password} = req.body
             const userTokens =  await UserService.login(mail, password)
-            res.cookie("refreshToken", userTokens[1].refreshToken, {httpOnly: true, MaxAge: 24 * 60 * 60 * 1000}) // ТУТ ЕЩЁ НАДО БУДЕТ ПОСТАВИТЬ secure И maxAge
+            res.cookie("refreshToken", userTokens[1].refreshToken, {httpOnly: true, secure: true, MaxAge: 24 * 60 * 60 * 1000}) // ТУТ ЕЩЁ НАДО БУДЕТ ПОСТАВИТЬ secure И maxAge
             res.json(userTokens)
         } catch(e) {
             console.log(e)

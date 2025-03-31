@@ -38,14 +38,14 @@ function Genres() {
         })
     }
 
-    const genreParse = useMemo(() => genresParse(), [genre, value, page, order, release_date])
+    const genreParseMemo = useMemo(() => genresParse(), [genre, value, page, order, release_date])
 
     return (
     <>
     <h3>Жанры</h3>
         <input type="text" placeholder="Поиск по жанру..." onChange={(event) => setValue(event.target.value)}/>
         <ul className="genreParse">
-            {genreParse}
+            {genreParseMemo}
         </ul>
     </>
     )

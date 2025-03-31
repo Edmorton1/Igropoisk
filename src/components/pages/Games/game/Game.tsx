@@ -1,4 +1,4 @@
-import { memo, useContext, useEffect, useState } from "react"
+import { memo, useContext, useEffect, useMemo, useState } from "react"
 import { useParams } from "react-router-dom"
 import steam from "../../../store/steam"
 import { Context } from "../../../App"
@@ -47,6 +47,18 @@ function Game(): React.ReactNode {
         throw new Error('Ошибка: Steam API не отвечает')
     }
 
+    const moreButton = useMemo(() => 
+        <button onClick={() => setFullDescription(!fullDescription)} style={{marginTop: "10px"}} className="more">{!fullDescription ? `Открыть полное описание` : `Скрыть полное описание`}</button>
+    , [fullDescription])
+
+    const gradesMemo = useMemo(() => 
+        <Grades user={user} relation={relation} />
+    , [relation])
+
+    const relationsMemo = useMemo(() => 
+        <Relatiions user={user} relation={relation} />
+    , [relation])
+
     if (load) {
         return (
             <main style={{paddingBottom: "2vh"}}>
@@ -54,8 +66,8 @@ function Game(): React.ReactNode {
                 <section className="game-information">
                     <div className="game-left">
                         <img src={game.header_image} />
-                        <Relatiions user={user} relation={relation} />
-                        {relation && <Grades user={user} relation={relation} />}
+                        {relationsMemo}
+                        {relation && gradesMemo}
                     </div>
                     <div className="game-right">
                         <p>Дата релиза: <Link to={`${URL_CLIENT_GAMES}?release_date=${game.release_date.date.split(' ')[2]}`}>{game.release_date.date}</Link></p>
@@ -68,7 +80,7 @@ function Game(): React.ReactNode {
                         {/* <div dangerouslySetInnerHTML={{__html: game.detailed_description}} /> */}
                     </div>
                 </section>
-                <button onClick={() => setFullDescription(!fullDescription)} style={{marginTop: "10px"}} className="more">{!fullDescription ? `Открыть полное описание` : `Скрыть полное описание`}</button>
+                {moreButton}
                 {fullDescription && <div className="full-description" dangerouslySetInnerHTML={{__html: game.detailed_description}} />}
                 <Slider game={game} />
                 <Comments user={user} />

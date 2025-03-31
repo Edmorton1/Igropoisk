@@ -24,7 +24,7 @@ function Header():React.ReactNode {
     useEffect(() => {
         allGames.search('')
     }, [])
-    console.log(localStorage.getItem('theme'))
+    // console.log(localStorage.getItem('theme'))
     if (!theme) {
         document.body.className="light"
     } else {
@@ -60,10 +60,23 @@ function Header():React.ReactNode {
             </div>
         ))
     }
+    function themeHandle() {
+        setTheme(!theme); localStorage.setItem('theme', !theme ? 'dark' : 'light')
+    }
+
+    const ButtonTheme = useMemo(() => 
+        <button onClick={() => themeHandle()} className="theme">{theme ? 'Тёмный' : 'Светлый'}</button>
+    , [theme])
 
     const searchGames = useDebounce(async (value: any) => {
         setFilgames((await allGames.search(value)).slice(0, 100))
     }, 500)
+
+    const SearchBar = useMemo(() => 
+        <input type="text" placeholder="Поиск..." onChange={
+            async (event) => {searchGames(event.target.value)}
+        } onClick={() => {filgames && setModal(true); setShowGameList(true)}} />
+    , [filgames,modal, showGameList])
 
     return (
         <>
@@ -84,14 +97,12 @@ function Header():React.ReactNode {
                 <option value="/games">GAMES</option>
                 <option value="/users">USERS</option>
             </select>
-            <input type="text" placeholder="Поиск..." onChange={
-                async (event) => {searchGames(event.target.value)}
-            } onClick={() => {filgames && setModal(true); setShowGameList(true)}} />
+            {SearchBar}
             <span className="avatar-nickname">
                 {user && <Link to={`/users/${user.nickname}`}><img className="avatar br-50" onError={e => e.currentTarget.src = URL_PLACEHOLDER} src={`${URL_SERVER_AVATARS}${user.avatar}`} /></Link>}
                 {user ? <Link to={`/users/${user.nickname}`} className="avatar-nick">{user.nickname}</Link> : <Link to="/login">Вход</Link>}
             </span>
-            <button onClick={() => {setTheme(!theme); localStorage.setItem('theme', !theme ? 'dark' : 'light')}} className="theme">{theme ? 'Тёмный' : 'Светлый'}</button>
+            {ButtonTheme}
         </header>
         </>
     )

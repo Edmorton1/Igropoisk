@@ -23,6 +23,7 @@
     margin-left: 10px;
     transition: 0.35s ease-out;
     min-width: 235px;
+    background-color: var(--bg-main);
 
     ul {
         background-color: var(--secondary-color);
@@ -54,7 +55,7 @@
     }
 }
 .filter li:has(input:checked) {
-    background-color: var(--li);
+    background-color: var(--secondary-color-selected);
 }
 
 .filter input {

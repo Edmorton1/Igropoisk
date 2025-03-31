@@ -1,4 +1,4 @@
-import { memo, useState } from "react"
+import { memo, useMemo, useState } from "react"
 import "../../../css/GameInformation.scss"
 import { useSearchParams  } from "react-router-dom"
 import { useUpdateParams } from "../../../hooks/useUpdateParams"
@@ -17,15 +17,19 @@ function Filter() {
     const release_date = Number(searchParams.get('release_date')) || ''
     const [range, setRange] = useState(release_date ? years.findIndex(e => e == release_date) : years.length -1)
 
+    const statusMemo = useMemo(() => (
+            <ul>
+                <label><li><input onChange={() => {updateParams('status', 'soon')}} type="radio" name="status" checked={status == "soon"}/>Скоро выйдет</li></label>
+                <label><li><input onChange={() => {updateParams('status', 'released')}} type="radio" name="status" checked={status != "soon"} />Вышло</li></label>
+            </ul>
+    ), [status])
+
     return (
         <>
         <button className={`but-fil ${swipe ? 'but-swipe' : 'but-noswipe'}`} onClick={() => {setSwipe(!swipe)}}>Меню</button>
         <section className={`filter ${swipe ? 'swipe' : 'noswipe'}`}>
             <h3>Статус</h3>
-            <ul>
-                <label><li><input onChange={() => {updateParams('status', 'soon')}} type="radio" name="status" checked={status == "soon"}/>Скоро выйдет</li></label>
-                <label><li><input onChange={() => {updateParams('status', 'released')}} type="radio" name="status" checked={status != "soon"} />Вышло</li></label>
-            </ul>
+                {statusMemo}
             <h3>Сортровка</h3>
                 <ul>
                     <label><li><input checked={order == "" || order == "rating"} onChange={() => {updateParams('order', 'rating')}} name="sorting" type="radio"/>По рейтингу</li></label>

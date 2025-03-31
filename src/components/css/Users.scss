@@ -29,10 +29,10 @@ $margin: 8px;
         justify-content: space-between;
     }
 
-    a {
+    .avatar-link {
         transition: all 0.3s ease-in-out;
     }
-    a:hover {
+    .avatar-link:hover {
         transform: scale(120%);
         transition: all 0.3s ease-in-out;
     }

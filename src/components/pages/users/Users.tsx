@@ -17,7 +17,7 @@ function Main():React.ReactNode {
         return data.map((e, i) => (
             <div key={i} className="user-card border-dashed">
                 <span className="left-section">
-                    <Link to={`/users/${e.nickname}`}><img className="avatar" onError={e => e.currentTarget.src = URL_PLACEHOLDER} src={`${URL_SERVER_AVATARS}${e.avatar}`} /></Link>
+                    <Link className="avatar-link" to={`/users/${e.nickname}`}><img className="avatar" onError={e => e.currentTarget.src = URL_PLACEHOLDER} src={`${URL_SERVER_AVATARS}${e.avatar}`} /></Link>
                     <div className="left-text">
                         <Link to={`/users/${e.nickname}`}>{e.nickname}</Link>
                         <span>На сайте с {e.created_at}</span>

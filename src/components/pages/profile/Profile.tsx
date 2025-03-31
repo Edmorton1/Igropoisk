@@ -1,4 +1,4 @@
-import { memo, useContext, useEffect, useState } from "react"
+import { memo, useContext, useEffect, useMemo, useState } from "react"
 import relationStore from "../../store/relations"
 import { useParams } from "react-router-dom"
 import axios from "axios"
@@ -54,7 +54,7 @@ function Profile():React.ReactNode {
             return String(total)
         }
     }
-    
+
     function generateRelations(name: relationStatus): React.ReactNode {
         return (
             <ol>{relations[name].map((e, i) => (
