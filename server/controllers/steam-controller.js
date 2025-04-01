@@ -160,7 +160,7 @@ class steamController {
         try {
             let slice = Number(fs.readFileSync(filePath, 'utf-8'))
             const modificator = 25
-            const response = await fetch(`http://localhost:3000/api/appids`)
+            const response = await fetch(`${process.env.BACKEND_SERVER}/api/appids`)
             const games = await response.json()
             console.log(`СЛАЙС ДО ПЕРВОГО ВЫЗОВА ${slice} / ${games.length}`)
             await steamController.pushTo(games, slice, modificator)
@@ -202,7 +202,7 @@ class steamController {
         try {
             let slice = Number(fs.readFileSync(filePath, 'utf-8'))
             const modificator = 25
-            const response = await fetch(`http://localhost:3000/api/appids`)
+            const response = await fetch(`${process.env.BACKEND_SERVER}/api/appids`)
             const games = await response.json()
             console.log(`СЛАЙС ДО ПЕРВОГО ВЫЗОВА ${slice} / ${games.length}`)
             await steamController.updateTo(games, slice, modificator)
