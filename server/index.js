@@ -9,14 +9,14 @@ const bodyParser = require('body-parser')
 const db = require('./db.js')
 const path = require('path')
 
-app.options('*', cors());  // Это решает проблему с preflight запросами
+// app.options('*', cors());  // Это решает проблему с preflight запросами
 app.use(bodyParser.json({limit: "50mb"}))
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 
 app.use(compression())
 app.use(express.json())
 app.use(cors({
-    origin: '*',
+    origin: ['https://igropoisk.up.railway.app/', 'http://localhost:5000/'],
     credentials: true
 }))
 app.use(cookieParser())
