@@ -15,7 +15,7 @@ const path = require('path')
 // app.use(compression())
 // app.use(express.json())
 app.use(cors({
-    origin: process.env.FRONTEND_CLIENT,
+    origin: "*",
     credentials: true
 }))
 // app.use(cookieParser())
