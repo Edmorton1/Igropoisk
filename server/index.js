@@ -9,16 +9,16 @@ const bodyParser = require('body-parser')
 const db = require('./db.js')
 const path = require('path')
 
-// app.use(bodyParser.json({limit: "50mb"}))
-// app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
+app.use(bodyParser.json({limit: "50mb"}))
+app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 
-// app.use(compression())
-// app.use(express.json())
+app.use(compression())
+app.use(express.json())
 app.use(cors({
     origin: '*',
     credentials: true
 }))
-// app.use(cookieParser())
+app.use(cookieParser())
 
 // const user = async (req, res, next) => {
 //     try {
