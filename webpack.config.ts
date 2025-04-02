@@ -22,7 +22,7 @@ const config = (env: EnvInterface): webpack.Configuration => {
         mode: env.mode,
         entry: path.resolve(__dirname, 'src', 'index.tsx'),
         output: {
-            path: path.resolve(__dirname, 'build'),
+            path: path.resolve(__dirname, 'dist'),
             filename: '[name].[contenthash].js',
             chunkFilename: '[name].[contenthash].js',
             assetModuleFilename: 'assets/[name][ext]',
