@@ -7,7 +7,7 @@ import "../../css/Profile.scss"
 import { Link } from "react-router-dom"
 import dragDropStore from "../../store/portals/dragDropStore"
 import DragDrop from "./DragDrop"
-import { URL_SERVER_AVATARS } from "../../URLS"
+import { URL_SERVER_API, URL_SERVER_AVATARS } from "../../URLS"
 import { observer } from "mobx-react-lite"
 import { Context } from "../../App"
 import { toJS } from "mobx"
@@ -30,7 +30,7 @@ function Profile():React.ReactNode {
     useEffect(() => {
         async function fetchData() {
             //@ts-ignore
-            const data = (await axios.get(`http://localhost:3000/api/users?nickname=${nickname}`)).data[0]
+            const data = (await axios.get(`${URL_SERVER_API}users?nickname=${nickname}`)).data[0]
             await relationStore.getByUser(data.id)
             setUser(data)
             setRelations(await relationStore.relationParse())

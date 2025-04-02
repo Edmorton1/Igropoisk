@@ -1,6 +1,7 @@
 import { useQuery } from "react-query"
 import allGames from "../store/allGames"
 import { useLocation } from "react-router-dom"
+import { URL_SERVER_API } from "../URLS"
 
 interface dataInterface {
     games: [],
@@ -8,7 +9,7 @@ interface dataInterface {
 }
 
 const fetchGames = async (order?: string, genre?: any, developer?: string, publisher?: string, release_date?: string, status?: string, page?: string) => {
-    const response = await fetch(`http://localhost:3000/api/getEverything?genre=${genre}&order=${order}&developer=${developer}&publisher=${publisher}&release_date=${release_date}&status=${status}&page=${page}`)
+    const response = await fetch(`${URL_SERVER_API}getEverything?genre=${genre}&order=${order}&developer=${developer}&publisher=${publisher}&release_date=${release_date}&status=${status}&page=${page}`)
     return response.json()
 }
 

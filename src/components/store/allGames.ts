@@ -1,5 +1,6 @@
 import { makeAutoObservable, runInAction, toJS } from "mobx";
 import { allGameType } from "../pages/games/GameInterface";
+import { URL_SERVER_API } from "../URLS";
 
 export type paramTypes = 'release_date' | 'popularity' | 'rating'
 
@@ -20,7 +21,7 @@ class allGames {
 
     async search(value: string) {
         // console.log('СЁРЧ')
-        const response = await fetch(`http://localhost:3000/api/getSearch?query=${value}`)
+        const response = await fetch(`${URL_SERVER_API}getSearch?query=${value}`)
         const gamesArray: any = await response.json()
         return gamesArray
     }

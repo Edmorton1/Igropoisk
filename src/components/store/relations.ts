@@ -3,6 +3,7 @@ import axios from "axios";
 import { relationInterface, relationArrInterface, gameInAllInterface } from "../pages/games/GameInterface";
 import { toJS } from "mobx";
 import $api from ".";
+import { URL_SERVER_API } from "../URLS";
 
 class Relations {
     relation: relationInterface[] = null;
@@ -13,7 +14,7 @@ class Relations {
     async getByUser(user_id: string, game?: string) {
         const game_url = game ? game : ''
         //@ts-ignore
-        this.relation = (await axios.get(`http://localhost:3000/api/relations/${user_id}?game=${game_url}`)).data
+        this.relation = (await axios.get(`${URL_SERVER_API}relations/${user_id}?game=${game_url}`)).data
     }
     async post(data: relationInterface) {
         console.log(data)
@@ -21,14 +22,14 @@ class Relations {
         await this.getByUser(String(data.user_id))
     }
     async grade(game?: number | string) {
-        const response = await fetch(`http://localhost:3000/api/grades?game=${game}`)
+        const response = await fetch(`${URL_SERVER_API}grades?game=${game}`)
         const data = response.json()
         return data
     }
     async gradeChange(grade: number | string, id: number, user_id: number) {
         grade == 0 ? grade = null : Number(grade)
         console.log(grade, id)
-        await $api.put(`http://localhost:3000/api/relations/${id}`,
+        await $api.put(`${URL_SERVER_API}relations/${id}`,
             {
                 "grade": grade,
                 "user_id": user_id
@@ -36,7 +37,7 @@ class Relations {
         )
     }
     async relationGame(user_id: string, game?: string) {
-        const response = await fetch(`http://localhost:3000/api/relations/${user_id}?game=${game}`)
+        const response = await fetch(`${URL_SERVER_API}relations/${user_id}?game=${game}`)
         const data = await response.json()
         console.log(data)
         return data

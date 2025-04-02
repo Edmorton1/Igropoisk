@@ -5,13 +5,14 @@ import dragDropStore from "../../store/portals/dragDropStore"
 import ReactDOM from "react-dom";
 import "../../css/DragDrop.scss"
 import $api from "../../store";
+import { URL_SERVER_API } from "../../URLS";
 
 function DragDrop() {
     const [drag, setDrag] = useState(false)
     const formates = ['jpg', 'jpeg', 'png', 'webp']
 
     function postAvatar(file: any) {
-        $api.post(`http://localhost:3000/api/uploadAvatar`, {
+        $api.post(`${URL_SERVER_API}uploadAvatar`, {
             avatar: file
         }, {headers: {
             'Content-Type': 'multipart/form-data'

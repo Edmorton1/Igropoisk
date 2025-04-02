@@ -4,6 +4,7 @@ import { Context } from "../../App"
 import SnackBar from "../Snackbar"
 import "../../css/Registration.scss"
 import snackBarRegistrationStore from "../../store/portals/snackBarStore"
+import { URL_SERVER_API } from "../../URLS"
 
 interface dataInterface {
     nickname: string,
@@ -19,8 +20,8 @@ function Registration() {
 
     async function snackBarsAuth(data: dataInterface) {
         let text = ''
-        let request_name = await (await fetch(`http://localhost:3000/api/check?nickname=${data.nickname}`)).json()
-        let request_mail = await (await fetch(`http://localhost:3000/api/check?mail=${data.mail}`)).json()
+        let request_name = await (await fetch(`${URL_SERVER_API}check?nickname=${data.nickname}`)).json()
+        let request_mail = await (await fetch(`${URL_SERVER_API}check?mail=${data.mail}`)).json()
         if (request_name == 'nickname занят') {
             text = 'Никнейм уже занят попробуйте другой'
         } else if (data.nickname.length < 2) {

@@ -45,7 +45,7 @@ function Header():React.ReactNode {
             <div key={i}>
                 <img src={e.capsule_image} />
                 <span>
-                    <p><Link onClick={() => HideModalSearch(false)} to={`http://localhost:5000/games/${e.steam_id}`}>{e.name}</Link></p>
+                    <p><Link onClick={() => HideModalSearch(false)} to={`${URL_CLIENT_GAMES}${e.steam_id}`}>{e.name}</Link></p>
                     <p>Год выхода: <Link onClick={() => HideModalSearch(false)} to={`${URL_CLIENT_GAMES}?release_date=${e.release_date}`}>{e.release_date}</Link></p>
                     <p>Жанры: {e.genres.map((genre, index) => {
                         //@ts-ignore
