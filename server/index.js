@@ -20,24 +20,24 @@ app.use(cors({
 }))
 app.use(cookieParser())
 
-// const user = async (req, res, next) => {
-//     try {
-//         const accessToken = req.header("Authorization").split(' ')[1].split('.')[1]
-//         const id = JSON.parse(atob(accessToken)).id
-//         const total = (await db.query(`SELECT * FROM users WHERE id = $1`, [id])).rows[0]
-//         req.user = id
-//         console.log(`${id}, МИДЛВЕЙР`)
-//     } catch {
+const user = async (req, res, next) => {
+    try {
+        const accessToken = req.header("Authorization").split(' ')[1].split('.')[1]
+        const id = JSON.parse(atob(accessToken)).id
+        const total = (await db.query(`SELECT * FROM users WHERE id = $1`, [id])).rows[0]
+        req.user = id
+        console.log(`${id}, МИДЛВЕЙР`)
+    } catch {
         
-//     } finally {
-//         next()
-//     }
-// }
+    } finally {
+        next()
+    }
+}
 
-// app.use('/avatars', express.static(path.resolve(__dirname, 'avatars')));
-// app.use(user)
+app.use('/avatars', express.static(path.resolve(__dirname, 'avatars')));
+app.use(user)
 
-// app.use('/api', router)
+app.use('/api', router)
 
 app.get('/', (req, res) => {
     res.json('asdasdasdasd')
