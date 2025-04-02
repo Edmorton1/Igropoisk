@@ -1,8 +1,9 @@
 import axios from "axios";
+import { URL_SERVER_API } from "../URLS";
 
 const $api = axios.create({
     withCredentials: true,
-    baseURL: `https://igropoisk.up.railway.app/api`
+    baseURL: `${URL_SERVER_API}`
 })
 
 $api.interceptors.request.use((config => {

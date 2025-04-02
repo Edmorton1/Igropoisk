@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 app.use(compression())
 app.use(express.json())
 app.use(cors({
-    origin: ['https://igropoisk.up.railway.app/', 'http://localhost:5000/'],
+    origin: ['https://igropoisk.up.railway.app', 'http://localhost:5000'],
     credentials: true
 }))
 app.use(cookieParser())

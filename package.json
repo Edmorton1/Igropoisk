@@ -10,6 +10,7 @@
     "build:dev": "webpack --env mode=development",
     "build:prod": "webpack --env mode=production",
     "start": "node client.js",
+    "dev:test": "nodemon server/index.js",
     "start:test": "webpack serve --env mode=production port=5000",
     "start:prod": "webpack serve --env mode=production port=5000",
     "dev": "node server/index.js",
