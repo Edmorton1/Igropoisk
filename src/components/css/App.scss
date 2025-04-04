@@ -5,21 +5,26 @@ $header-height: 5vh;
 :root {
     --standart: #1A73E8;
     // --standart: #9d19da;
-    --bg-color: linear-gradient(200deg, rgba(0,172,255,1) 25%, rgba(127,129,250,1) 50%, rgba(255,86,246,1) 75%);
+    // --bg-color: linear-gradient(200deg, rgba(0,172,255,1) 25%, rgba(127,129,250,1) 50%, rgba(255,86,246,1) 75%);
+    --bg-color: rgb(71, 71, 71);
     --bg-main: white;
-    --secondary-color-selected: black;
+    --secondary-color-selected: rgb(204, 204, 204);
     --color: black;
     --secondary-color: #e7e7e7;
     --li: #e9e9e9;
     --li-hover: #f3f3f3; 
+    --filter-color: rgb(230, 230, 230);
 }
 
 .dark {
+    --bg-color: rgb(54, 54, 54);
     --bg-main: rgb(71, 71, 71);
     --color: rgb(255, 255, 255);
+    --secondary-color-selected: rgb(48, 48, 48);
     --secondary-color: rgb(63, 63, 63);
     --li: rgb(58, 58, 58);
-    --li-hover: rgb(49, 49, 49); 
+    --li-hover: rgb(49, 49, 49);
+    --filter-color: rgb(63, 63, 63);
 }
 
 header {
@@ -47,6 +52,7 @@ main {
     min-height: 95vh;
     max-width: 1550px;
     width: 100%;
+    padding-bottom: 30px;
 }
 .search-game {
     top: $header-height;
@@ -125,6 +131,9 @@ ul {
  }
  .br-50 {
     border-radius: 50%;
+ }
+ button {
+    cursor: pointer;
  }
  .button-stand {
     cursor: pointer;

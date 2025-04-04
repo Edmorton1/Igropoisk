@@ -1,0 +1,1 @@
+(self.webpackChunkslot_machine=self.webpackChunkslot_machine||[]).push([[931],{6931:(e,n,a)=>{a.r(n),a.d(n,{default:()=>r});var t=a(4848),n=a(9553),s=a.n(n);let r=function(){return s()(),(0,t.jsx)(t.Fragment,{children:(0,t.jsx)("main",{})})}},9553:(e,n,a)=>{let t=a(59).URL_SERVER_API;e.exports=async function(){var e=await(await fetch(t+"/users")).json();return e}}}]);

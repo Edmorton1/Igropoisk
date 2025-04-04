@@ -2,7 +2,8 @@ const Model = require("../models/model");
 const CrudModel = require('../models/crud-model.js')
 const GamesModel = require('../models/games-model')
 const fs = require('fs')
-const path = require('path')
+const path = require('path');
+const gamesModel = require("../models/games-model");
 
 const filePath = path.join(__dirname, 'slice.txt')
 
@@ -57,7 +58,6 @@ class steamController {
         await Model.postEasy(total)
         res.json(total)
     }
-
 
 
 
@@ -177,24 +177,28 @@ class steamController {
     static async updateTo(list, spice, modificator) {
         try {
             const gameClean = await Promise.all(list.slice(spice, spice + modificator).map(async (id) => {
+                // console.log(list, spice, modificator, id)
                 try {
                     const gameResponse = await fetch(`https://store.steampowered.com/api/appdetails?appids=${id}&l=russian`);
                     const gameData = await gameResponse.json();
                     const game = gameData[`${id}`].data
+                    // console.log(game)
                     return {
                         steam_id: id,
                         capsule_image: game.capsule_image,
                         header_image: game.header_image
                     };
                 } catch(err) {
-                    throw new Error(`XXXXXXXX__ID__XXXXXXXXXXX ЕБУЧИЙ API ВЫДАЛ НУЛ НА ${id} ${err}`)
+                    // throw new Error(`API ВЫДАЛ НУЛ НА ${id} ${err}`)
+                    console.log(`API ВЫДАЛ НУЛ НА ${id} ${err}`)
                 }
         }))
         const validateData = await (await Promise.all(gameClean)).filter(e => e != null)
         console.log(`validateData УСПЕШНО ${validateData.length}`)
         await Model.updateArray(validateData)
         } catch(e) {
-            throw new Error('СУПЕР АХУЕТЬ ОШИБКА В VALIDATE DATA')
+            console.log(e)
+            throw new Error('СУПЕР ОШИБКА В VALIDATE DATA')
         }
     }
     static async updateToDB() {
@@ -230,6 +234,14 @@ class steamController {
         } catch {
             console.log('ПЕРЕЗАПУСК ЧЕРЕЗ 2 МИНУТ')
             setTimeout(() => {steamController.pushToDB(), 120000})
+        }
+    }
+    async UpdatePush() {
+        try {
+            await steamController.updateToDB();
+        } catch {
+            console.log('ПЕРЕЗАПУСК ЧЕРЕЗ 2 МИНУТ')
+            setTimeout(() => {steamController.updateTo(), 120000})
         }
     }
 }

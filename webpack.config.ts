@@ -2,9 +2,8 @@ import path from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import webpack from 'webpack';
 import MiniCssExtractPlugin from "mini-css-extract-plugin"
-import { Configuration } from 'webpack';
 import { Configuration as DevServerConfiguration } from 'webpack-dev-server';
-import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+import TerserPlugin from "terser-webpack-plugin"
 
 
 type Mode = "production" | "development";
@@ -70,6 +69,17 @@ const config = (env: EnvInterface): webpack.Configuration => {
             splitChunks: {
             chunks: 'all'
             },
+            minimize: true,
+            minimizer: [
+                new TerserPlugin({
+                    minify: TerserPlugin.uglifyJsMinify,
+                    terserOptions: {
+                        compress: {
+                            drop_console: true
+                        }
+                    }
+                })
+            ]
           },
     };
     if (isProd) {
